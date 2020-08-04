@@ -1,0 +1,78 @@
+import React, { Component } from 'react';
+import {
+  HashRouter as Router,
+  Route,
+  Redirect,
+  Switch,
+} from 'react-router-dom';
+
+import { connect } from 'react-redux';
+
+import Nav from '../Nav/Nav';
+import Footer from '../Footer/Footer';
+
+import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
+
+import AboutPage from '../AboutPage/AboutPage';
+import UserPage from '../UserPage/UserPage';
+import InfoPage from '../InfoPage/InfoPage';
+import TasksPage from '../TasksPage/TasksPage';
+import RemindersPage from '../RemindersPage/RemindersPage';
+import IdeasPage from '../IdeasPage/IdeasPage';
+import MemoriesPage from '../MemoriesPage/MemoriesPage';
+import StatisticsPage from '../StatisticsPage/StatisticsPage';
+import ImageUpload from '../ImageUpload/ImageUpload';
+import TasksTable from '../TasksTable/TasksTable';
+// import RemindersTable from '../RemindersTable/RemindersTable';
+// import IdeasTable from '../IdeasTable/IdeasTable';
+// import MemoriesTable from '../MemoriesTable/MemoriesTable';
+// import TasksForm from '../TasksForm/TasksForm';
+// import RemindersForm from '../RemindersForm/RemindersForm';
+// import IdeasForm from '../IdeasForm/IdeasForm';
+// import MemoriesForm from '../MemoriesForm/MemoriesForm';
+
+import './App.css';
+
+class App extends Component {
+  componentDidMount() {
+    this.props.dispatch({ type: 'FETCH_USER' });
+  }
+
+  render() {
+    return (
+      <Router>
+        <div>
+          <Nav />
+          <Switch>
+            {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
+            <Redirect exact from="/" to="/home" />
+            {/* Visiting localhost:3000/about will show the about page.
+            This is a route anyone can see, no login necessary */}
+            <Route exact path="/about" component={AboutPage} />
+            {/* For protected routes, the view could show one of several things on the same route.
+            Visiting localhost:3000/home will show the UserPage if the user is logged in.
+            If the user is not logged in, the ProtectedRoute will show the 'Login' or 'Register' page.
+            Even though it seems like they are different pages, the user is always on localhost:3000/home */}
+            <ProtectedRoute exact path="/home" component={UserPage} />
+            {/* This works the same as the other protected route, except that if the user is logged in,
+            they will see the info page instead. */}
+            <ProtectedRoute exact path="/info" component={InfoPage} />
+            {/* If none of the other routes matched, we will show a 404. */}
+            <Route exact path="/tasks" component={TasksPage} />
+            <Route exact path="/taskstable" component={TasksTable} />
+            <Route exact path="/reminders" component={RemindersPage} />
+            <Route exact path="/ideas" component={IdeasPage} />
+            <Route exact path="/memories" component={MemoriesPage} />
+            <Route exact path="/statistics" component={StatisticsPage} />
+            <Route render={() => <h1>404</h1>} />
+          </Switch>
+          <ImageUpload />
+          <TasksTable />
+          <Footer />
+        </div>
+      </Router>
+    );
+  }
+}
+
+export default connect()(App);
