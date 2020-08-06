@@ -5,19 +5,16 @@ const { query } = require('../modules/pool');
 const {
   rejectUnauthenticated,
 } = require('../modules/authentication-middleware');
+
 const router = express.Router();
 require('dotenv').config();
 
 // return all favorite images
 
+// // This route *should* READ an idea for the logged in user
 // MAKE SURE TO IMPLEMENT THIS WITH ALL ROUTES
 router.get('/', rejectUnauthenticated, (req, res) => {
-  // const displayQuery = `SELECT * FROM movies ORDER BY title ASC;`;
-  // const displayQuery = `SELECT name, description, category, link, img_url, favorited, date
-  // FROM ideas;`
-  const displayQuery = `SELECT * FROM ideas;`;
-  // `SELECT * FROM "secret" WHERE
-  // ${req.user.id} ;`;
+  const displayQuery = `SELECT * FROM ideas WHERE user_id=${req.user.id} ;`;
   console.log(`req.user.id:`, req.user.id);
 
   //Pool is our connection to the database
@@ -34,47 +31,25 @@ router.get('/', rejectUnauthenticated, (req, res) => {
     });
 });
 
-// return all selected movies images
-// router.get('/detail/:id', (req, res) => {
-//   const queryText = 'SELECT * FROM movies WHERE id=$1;';
+//WORK ON THIS
+// This route *should* UPDATE an idea for the logged in user
+router.delete('/:id', rejectUnauthenticated, (req, res) => {
+  const queryValues = [req.user.id, req.params.id];
+  pool
+    .query(
+      `DELETE FROM "item" WHERE $1 = item.user_id AND item.id = $2`,
+      queryValues
+    )
+    .then((results) => res.sendStatus(200))
+    .catch((err) => {
+      console.log('error deleting item: ', err);
+      res.sendStatus(500);
+    });
+});
 
-//   pool
-//     .query(queryText, [req.params.id])
-//     .then((response) => {
-//       // console.log('Sending response:', response.rows);
-//       res.send(response.rows);
-//     })
-//     .catch((err) => {
-//       console.log('Error completing SELECT movie query', err);
-//       res.sendStatus(500);
-//     });
-// });
-
-// // update given favorite with a category id
-// router.put('/', async (req, res) => {
-//   //we want to see information
-//   // console.log('In Edit Put');
-//   // console.log('req.body', req.body);
-
-//   const client = Number(req.body.value);
-//   const id = req.body.id;
-//   console.log(category_id);
-//   console.log(id);
-
-//   let queryString = `UPDATE * FROM movies WHERE id=$1;`;
-//   pool
-//     .query(queryString, [category_id, id])
-//     .then((response) => {
-//       console.log('Response from db', response);
-//       res.sendStatus(201);
-//     })
-//     .catch((err) => {
-//       console.log('Error from db', err);
-//       res.sendStatus(500);
-//     });
-// });
-
-router.put('/', (req, res) => {
+//WORK ON THIS
+// This route *should* UPDATE an idea for the logged in user
+router.put('/:id', rejectUnauthenticated, (req, res) => {
   console.log('req.body is', req.body);
   const queryText = `UPDATE ideas SET title=$1, description=$2 WHERE id=$3;`;
   const queryValues = [req.body.title, req.body.description, req.body.id];
@@ -90,29 +65,25 @@ router.put('/', (req, res) => {
     });
 });
 
-// save the user's changes to movie title and description
-// router.post('/', async (req, res) => {
-//   const client = await pool.connect();
-//   try {
-//     const { title, description, movie_id } = req.body;
-//     await client.query('BEGIN');
+// WORK ON THIS
+// This route *should* CREATE a idea for the logged in user
+router.post('/', rejectUnauthenticated, (req, res) => {
+  console.log('req.body', req.body);
+  console.log('req.user', req.user);
 
-//     await client.query(
-//       `UPDATE movies
-//         SET title = $1,
-//             description = $2
-//         WHERE id = $3;`,
-//       [title, description, movie_id]
-//     );
-//     await client.query('COMMIT');
-//     res.sendStatus(201);
-//   } catch (error) {
-//     await client.query('ROLLBACK');
-//     console.log('Error POST /api/order', error);
-//     res.sendStatus(500);
-//   } finally {
-//     client.release();
-//   }
-// });
+  const queryValues = [req.body.description, req.body.image_url, req.user.id];
+  // Pool Query to insert an entry into the table
+  pool
+    .query(
+      `INSERT INTO "ideas" ("name","description", "image_url", "user_id")
+              VALUES ( $1, $2, $3 )`,
+      queryValues
+    )
+    .then((results) => res.sendStatus(201))
+    .catch((err) => {
+      console.log('Error adding new item:', err);
+      res.sendStatus(500);
+    });
+});
 
 module.exports = router;

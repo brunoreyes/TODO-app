@@ -4,14 +4,6 @@ import LogOutButton from '../LogOutButton/LogOutButton';
 import './Nav.css';
 // import NavBar from '../NavBar/NavBar.js';
 import { Link } from 'react-router-dom';
-import {
-  Paper,
-  AppBar,
-  Tabs,
-  Tab,
-  Typography,
-  Button,
-} from '@material-ui/core/';
 const Nav = (props) => (
   // <Paper elevation={2}>
   <div className="nav">

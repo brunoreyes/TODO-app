@@ -2,79 +2,261 @@ import MaterialTable from 'material-table';
 import { forwardRef } from 'react';
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
+import ImageUpload from '../ImageUpload/ImageUpload';
+import './IdeasPage.css';
 import {
-  Grid,
-  // , Slide, Typography
+  withStyles,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Paper,
+  FormControl,
+  Input,
+  InputLabel,
+  FormHelperText,
 } from '@material-ui/core';
-// import MovieListItem from '../MovieListItem/MovieListItem';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
+import StarIcon from '@material-ui/icons/Star';
+
+// BASIC CONVERTED MATERIAL UI TABLE
+// classes.tableHead, table, anything is just talking about styles
+// that are manipulated here
+const styles = (theme) => ({
+  root: {
+    width: '80%',
+    marginTop: theme.spacing.unit * 3,
+    overflowX: 'auto',
+    margin: 'auto',
+    'border-radius': '10px',
+  },
+  tableHead: {
+    'background-color': '#161616',
+  },
+  table: {
+    minWidth: 700,
+  },
+  tableHeadCell: {
+    'font-size': '15px',
+    'font-family': 'Montserrat',
+    // 'font-weight': 'bold',
+    color: 'white',
+    'padding-top': '13px',
+    'padding-bottom': '13px',
+    'padding-left': '20px',
+  },
+  tableCell: {
+    'font-family': 'Montserrat',
+    'font-size': '13px',
+    'text-transform': 'capitalize',
+    'padding-left': '20px',
+    'padding-top': '10px',
+    'padding-bottom': '10px',
+  },
+  tableCellDescription: {
+    'font-family': 'Montserrat',
+    'font-size': '13px',
+    'padding-left': '20px',
+  },
+  materialIcon: {
+    'font-size': '20px',
+    'padding-top': '10px',
+    'padding-bottom': '10px',
+    'padding-left': '0px',
+    'padding-right': '20px',
+  },
+});
 
 class IdeasPage extends Component {
   componentDidMount() {
     // use component did mount to dispatch an action to request the SearchList from the API
     this.props.dispatch({ type: 'FETCH_IDEAS' });
   }
+
   render() {
+    const { classes } = this.props;
     return (
       <div>
-        {/* <Grid direction="row" justify="flex-start" alignItems="flex-start"> */}
-        {/* mapping each item within the array and them calling them searchItem */}
+        {/* THE FORM */}
+        <FormControl className={classes.formControl}>
+          <InputLabel htmlFor="component-helper">Name</InputLabel>
+          <Input
+            id="component-helper"
+            // value={this.state.name}
+            // onChange={this.handleChange}
+            aria-describedby="component-helper-text"
+          />
+          <FormHelperText id="component-helper-text">
+            Some important helper text
+          </FormHelperText>
+        </FormControl>
+        <FormControl className={classes.formControl}>
+          <InputLabel htmlFor="component-helper">Name</InputLabel>
+          <Input
+            id="component-helper"
+            // value={this.state.name}
+            // onChange={this.handleChange}
+            aria-describedby="component-helper-text"
+          />
+          <FormHelperText id="component-helper-text">
+            Some important helper text
+          </FormHelperText>
+        </FormControl>
+        <FormControl className={classes.formControl}>
+          <InputLabel htmlFor="component-helper">Name</InputLabel>
+          <Input
+            id="component-helper"
+            // value={this.state.name}
+            // onChange={this.handleChange}
+            aria-describedby="component-helper-text"
+          />
+          <FormHelperText id="component-helper-text">
+            Some important helper text
+          </FormHelperText>
+        </FormControl>
+        <FormControl className={classes.formControl}>
+          <InputLabel htmlFor="component-helper">Name</InputLabel>
+          <Input
+            id="component-helper"
+            // value={this.state.name}
+            // onChange={this.handleChange}
+            aria-describedby="component-helper-text"
+          />
+          <FormHelperText id="component-helper-text">
+            Some important helper text
+          </FormHelperText>
+        </FormControl>
 
-        {/* we use the conditional render to see if results are displayed, if they aren't before
-          the server is up we send a please wait message */}
-
-        <section>
-          <h2>To-Do List</h2>
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">Task</th>
-                <th scope="col">Notes</th>
-                <th scope="col">Duration</th>
-                <th scope="col">Status</th>
-                <th scope="col"></th>
-              </tr>
-            </thead>
-            <tbody id="viewTasks">
+        {/* THE TABLE */}
+        <div className="tableContainer"></div>
+        <Paper className={classes.root}>
+          <Table className={classes.table}>
+            <TableHead className={classes.tableHead}>
+              <TableRow className={classes.tableHead}>
+                <TableCell className={classes.tableHeadCell}>Name</TableCell>
+                <TableCell className={classes.tableHeadCell} align="left">
+                  Description
+                </TableCell>
+                <TableCell className={classes.tableHeadCell} align="left">
+                  Link
+                </TableCell>
+                <TableCell className={classes.tableHeadCell} align="left">
+                  Image
+                </TableCell>
+                <TableCell className={classes.tableHeadCell} align="left">
+                  Category
+                </TableCell>
+                <TableCell className={classes.tableHeadCell} align="left">
+                  Favorited
+                </TableCell>
+                <TableCell className={classes.tableHeadCell} align="left">
+                  Date
+                </TableCell>
+                <TableCell></TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
               {this.props.ideas === []
                 ? 'please wait..'
                 : this.props.ideas.map((ideas, index) => (
-                    <tr className="tableRow" key={index}>
-                      <p>{JSON.stringify(index)}</p>
-                      <td>{ideas.name}</td>
-                      <p>{JSON.stringify(ideas.name)}</p>
-                      <td>{ideas.name}</td>
-                      <td>{ideas.name}</td>
-                      <td>{ideas.name}</td>
-                      <td>{ideas.name}</td>
-                      <td>{ideas.name}</td>
-                      <td>{ideas.name}</td>
-                      <td>{ideas.name}</td>
-                      <td>{ideas.name}</td>
-                      <td>
-                        <button className="deleteButton">Delete</button>
-                      </td>
-                    </tr>
+                    <TableRow key={index}>
+                      <TableCell className={classes.tableCell}>
+                        {ideas.name}
+                      </TableCell>
+                      <TableCell
+                        className={classes.tableCellDescription}
+                        align="left"
+                      >
+                        {ideas.description}
+                      </TableCell>
+                      <TableCell className={classes.tableCell} align="left">
+                        {ideas.link}
+                      </TableCell>
+                      <TableCell className={classes.tableCell} align="left">
+                        <img
+                          src={ideas.image_url}
+                          // onClick={this.clickhandler}
+                        ></img>
+                      </TableCell>
+                      <TableCell className={classes.tableCell} align="left">
+                        {ideas.category}
+                      </TableCell>
+                      <TableCell className={classes.tableCell} align="left">
+                        {JSON.stringify(ideas.favorited)}
+                        {ideas.favorited}
+                      </TableCell>
+                      <TableCell className={classes.tableCell} align="left">
+                        {ideas.date.split('T')[0]}
+                      </TableCell>
+                      {/* Star is for favorite */}
+                      <StarIcon className={classes.materialIcon}></StarIcon>
+                      <EditIcon className={classes.materialIcon}></EditIcon>
+                      <DeleteIcon className={classes.materialIcon}></DeleteIcon>
+                      {/* <p>{JSON.stringify(index)}</p>
+                      <p>{JSON.stringify(ideas.name)}</p> */}
+                    </TableRow>
                   ))}
-            </tbody>
-          </table>
-        </section>
-        {/* </Grid> */}
+            </TableBody>
+          </Table>
+        </Paper>
       </div>
     );
   }
 }
 
-// const mapStateToProps = (reduxState) => ({
-//   reduxState,
-// });
 const mapStateToProps = (state) => ({
   ideas: state.ideas,
 });
 
-export default connect(mapStateToProps)(IdeasPage);
+export default withStyles(styles)(connect(mapStateToProps)(IdeasPage));
 
-// BASIC MATERIAL UI TABLE
+//Code from my html table used in SQL todo list
+//   <div>
 
+//         <section>
+//           <h2>To-Do List</h2>
+//           <table class="table">
+//             <thead>
+//               <tr>
+//                 <th scope="col">Task</th>
+//                 <th scope="col">Notes</th>
+//                 <th scope="col">Duration</th>
+//                 <th scope="col">Status</th>
+//                 <th scope="col"></th>
+//               </tr>
+//             </thead>
+//             <tbody id="viewTasks">
+//               {this.props.ideas === []
+//                 ? 'please wait..'
+//                 : this.props.ideas.map((ideas, index) => (
+//                     <tr className="tableRow" key={index}>
+//                       {/* <p>{JSON.stringify(index)}</p> */}
+//                       <td>{ideas.name}</td>
+//                       {/* <p>{JSON.stringify(ideas.name)}</p> */}
+//                       <td>{ideas.name}</td>
+//                       <td>{ideas.name}</td>
+//                       <td>{ideas.name}</td>
+//                       <td>{ideas.name}</td>
+//                       <td>{ideas.name}</td>
+//                       <td>{ideas.name}</td>
+//                       <td>{ideas.name}</td>
+//                       <td>{ideas.name}</td>
+//                       <td>
+//                         <button className="deleteButton">Delete</button>
+//                       </td>
+//                     </tr>
+//                   ))}
+//             </tbody>
+//           </table>
+//         </section>
+//         {/* </Grid> */}
+//       </div>
+//     );
+//   }
+
+// EDIT DELETE CREATE SEARCH MATERIAL UI COMPLEX TABLE
 // import {
 //   AddBox,
 //   ArrowDownward,
@@ -93,93 +275,6 @@ export default connect(mapStateToProps)(IdeasPage);
 //   ViewColumn,
 //   Grade,
 // } from '@material-ui/icons/';
-
-// import ImageUpload from '../ImageUpload/ImageUpload';
-// import {
-//   withStyles,
-//   Table,
-//   TableBody,
-//   TableCell,
-//   TableHead,
-//   TableRow,
-//   Paper,
-// } from '@material-ui/core';
-
-// const styles = (theme) => ({
-//   root: {
-//     width: '100%',
-//     marginTop: theme.spacing.unit * 3,
-//     overflowX: 'auto',
-//   },
-//   table: {
-//     minWidth: 700,
-//   },
-// });
-
-// let id = 0;
-// function createData(name, calories, fat, carbs, protein) {
-//   id += 1;
-//   return { id, name, calories, fat, carbs, protein };
-// }
-
-// // const rows = [
-// //   createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-// //   createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-// //   createData('Eclair', 262, 16.0, 24, 6.0),
-// //   createData('Cupcake', 305, 3.7, 67, 4.3),
-// //   createData('Gingerbread', 356, 16.0, 49, 3.9),
-// // ];
-
-// const row = (x, i, header) => (
-//     <TableRow key={row.id}>
-//               <TableCell component="th" scope="row">
-//                 {row.name}
-//               </TableCell>
-//               <TableCell align="right">{row.calories}</TableCell>
-//               <TableCell align="right">{row.fat}</TableCell>
-//               <TableCell align="right">{row.carbs}</TableCell>
-//               <TableCell align="right">{row.protein}</TableCell>
-//             </TableRow>
-// );
-
-// function SimpleTable(props) {
-//   const { classes } = props;
-
-//   return (
-//     <Paper className={classes.root}>
-//       <Table className={classes.table}>
-//         <TableHead>
-//           <TableRow>
-//             <TableCell>Dessert (100g serving)</TableCell>
-//             <TableCell align="right">Calories</TableCell>
-//             <TableCell align="right">Fat (g)</TableCell>
-//             <TableCell align="right">Carbs (g)</TableCell>
-//             <TableCell align="right">Protein (g)</TableCell>
-//           </TableRow>
-//         </TableHead>
-//         <TableBody>
-//           {rows.map((row) => (
-
-//           ))}
-//         </TableBody>
-//       </Table>
-//     </Paper>
-//   );
-// }
-
-// SimpleTable.propTypes = {
-//   classes: PropTypes.object.isRequired,
-// };
-
-// export default withStyles(styles)(SimpleTable);
-
-// const mapStateToProps = (reduxState) => ({
-//   reduxState,
-// });
-
-// export default connect(mapStateToProps)(Ideas);
-
-// EDIT DELETE CREATE SEARCH MATERIAL UI COMPLEX TABLE
 
 // const can be utilized outside of class
 // const tableIcons = {
