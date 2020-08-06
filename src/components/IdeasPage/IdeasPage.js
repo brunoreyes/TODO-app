@@ -2,6 +2,79 @@ import MaterialTable from 'material-table';
 import { forwardRef } from 'react';
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
+import {
+  Grid,
+  // , Slide, Typography
+} from '@material-ui/core';
+// import MovieListItem from '../MovieListItem/MovieListItem';
+
+class IdeasPage extends Component {
+  componentDidMount() {
+    // use component did mount to dispatch an action to request the SearchList from the API
+    this.props.dispatch({ type: 'FETCH_IDEAS' });
+  }
+  render() {
+    return (
+      <div>
+        {/* <Grid direction="row" justify="flex-start" alignItems="flex-start"> */}
+        {/* mapping each item within the array and them calling them searchItem */}
+
+        {/* we use the conditional render to see if results are displayed, if they aren't before
+          the server is up we send a please wait message */}
+
+        <section>
+          <h2>To-Do List</h2>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Task</th>
+                <th scope="col">Notes</th>
+                <th scope="col">Duration</th>
+                <th scope="col">Status</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody id="viewTasks">
+              {this.props.ideas === []
+                ? 'please wait..'
+                : this.props.ideas.map((ideas, index) => (
+                    <tr className="tableRow" key={index}>
+                      <p>{JSON.stringify(index)}</p>
+                      <td>{ideas.name}</td>
+                      <p>{JSON.stringify(ideas.name)}</p>
+                      <td>{ideas.name}</td>
+                      <td>{ideas.name}</td>
+                      <td>{ideas.name}</td>
+                      <td>{ideas.name}</td>
+                      <td>{ideas.name}</td>
+                      <td>{ideas.name}</td>
+                      <td>{ideas.name}</td>
+                      <td>{ideas.name}</td>
+                      <td>
+                        <button className="deleteButton">Delete</button>
+                      </td>
+                    </tr>
+                  ))}
+            </tbody>
+          </table>
+        </section>
+        {/* </Grid> */}
+      </div>
+    );
+  }
+}
+
+// const mapStateToProps = (reduxState) => ({
+//   reduxState,
+// });
+const mapStateToProps = (state) => ({
+  ideas: state.ideas,
+});
+
+export default connect(mapStateToProps)(IdeasPage);
+
+// BASIC MATERIAL UI TABLE
+
 // import {
 //   AddBox,
 //   ArrowDownward,
@@ -21,86 +94,92 @@ import React, { Component } from 'react';
 //   Grade,
 // } from '@material-ui/icons/';
 
-import ImageUpload from '../ImageUpload/ImageUpload';
-import {
-  withStyles,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  Paper,
-} from '@material-ui/core';
+// import ImageUpload from '../ImageUpload/ImageUpload';
+// import {
+//   withStyles,
+//   Table,
+//   TableBody,
+//   TableCell,
+//   TableHead,
+//   TableRow,
+//   Paper,
+// } from '@material-ui/core';
 
-const styles = (theme) => ({
-  root: {
-    width: '100%',
-    marginTop: theme.spacing.unit * 3,
-    overflowX: 'auto',
-  },
-  table: {
-    minWidth: 700,
-  },
-});
+// const styles = (theme) => ({
+//   root: {
+//     width: '100%',
+//     marginTop: theme.spacing.unit * 3,
+//     overflowX: 'auto',
+//   },
+//   table: {
+//     minWidth: 700,
+//   },
+// });
 
-let id = 0;
-function createData(name, calories, fat, carbs, protein) {
-  id += 1;
-  return { id, name, calories, fat, carbs, protein };
-}
+// let id = 0;
+// function createData(name, calories, fat, carbs, protein) {
+//   id += 1;
+//   return { id, name, calories, fat, carbs, protein };
+// }
 
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
+// // const rows = [
+// //   createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
+// //   createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
+// //   createData('Eclair', 262, 16.0, 24, 6.0),
+// //   createData('Cupcake', 305, 3.7, 67, 4.3),
+// //   createData('Gingerbread', 356, 16.0, 49, 3.9),
+// // ];
 
-function SimpleTable(props) {
-  const { classes } = props;
+// const row = (x, i, header) => (
+//     <TableRow key={row.id}>
+//               <TableCell component="th" scope="row">
+//                 {row.name}
+//               </TableCell>
+//               <TableCell align="right">{row.calories}</TableCell>
+//               <TableCell align="right">{row.fat}</TableCell>
+//               <TableCell align="right">{row.carbs}</TableCell>
+//               <TableCell align="right">{row.protein}</TableCell>
+//             </TableRow>
+// );
 
-  return (
-    <Paper className={classes.root}>
-      <Table className={classes.table}>
-        <TableHead>
-          <TableRow>
-            <TableCell>Dessert (100g serving)</TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat (g)</TableCell>
-            <TableCell align="right">Carbs (g)</TableCell>
-            <TableCell align="right">Protein (g)</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.id}>
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </Paper>
-  );
-}
+// function SimpleTable(props) {
+//   const { classes } = props;
+
+//   return (
+//     <Paper className={classes.root}>
+//       <Table className={classes.table}>
+//         <TableHead>
+//           <TableRow>
+//             <TableCell>Dessert (100g serving)</TableCell>
+//             <TableCell align="right">Calories</TableCell>
+//             <TableCell align="right">Fat (g)</TableCell>
+//             <TableCell align="right">Carbs (g)</TableCell>
+//             <TableCell align="right">Protein (g)</TableCell>
+//           </TableRow>
+//         </TableHead>
+//         <TableBody>
+//           {rows.map((row) => (
+
+//           ))}
+//         </TableBody>
+//       </Table>
+//     </Paper>
+//   );
+// }
 
 // SimpleTable.propTypes = {
 //   classes: PropTypes.object.isRequired,
 // };
 
-export default withStyles(styles)(SimpleTable);
+// export default withStyles(styles)(SimpleTable);
 
 // const mapStateToProps = (reduxState) => ({
 //   reduxState,
 // });
 
 // export default connect(mapStateToProps)(Ideas);
+
+// EDIT DELETE CREATE SEARCH MATERIAL UI COMPLEX TABLE
 
 // const can be utilized outside of class
 // const tableIcons = {
