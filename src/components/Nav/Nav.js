@@ -24,39 +24,39 @@ const Nav = (props) => (
         {/* Show this link if they are logged in or not,
         but call this link 'Home' if they are logged in,
         and call this link 'Login / Register' if they are not */}
-        {props.user.id ? 'Home' : 'Tasks'}
+        {props.user.id ? 'Tasks' : 'Home'}
       </Link>
       <Link className="nav-link" to="/reminders">
         {/* Show this link if they are logged in or not,
         but call this link 'Home' if they are logged in,
         and call this link 'Login / Register' if they are not */}
-        {props.user.id ? 'Home' : 'Reminders'}
+        {props.user.id ? 'Reminders' : 'Home'}
       </Link>
       <Link className="nav-link" to="/ideas">
         {/* Show this link if they are logged in or not,
         but call this link 'Home' if they are logged in,
         and call this link 'Login / Register' if they are not */}
-        {props.user.id ? 'Home' : 'Ideas'}
+        {props.user.id ? 'Ideas' : 'Home'}
       </Link>
 
       <Link className="nav-link" to="/memories">
         {/* Show this link if they are logged in or not,
         but call this link 'Home' if they are logged in,
         and call this link 'Login / Register' if they are not */}
-        {props.user.id ? 'Home' : 'Memories'}
+        {props.user.id ? 'Memories' : 'Home'}
       </Link>
       <Link className="nav-link" to="/statistics">
         {/* Show this link if they are logged in or not,
         but call this link 'Home' if they are logged in,
         and call this link 'Login / Register' if they are not */}
-        {props.user.id ? 'Home' : 'Statistics'}
+        {props.user.id ? 'Statistics' : 'Home'}
       </Link>
 
       <Link className="nav-link" to="/home">
         {/* Show this link if they are logged in or not,
         but call this link 'Home' if they are logged in,
         and call this link 'Login / Register' if they are not */}
-        {props.user.id ? 'Home' : 'Login / Register'}
+        {props.user.id ? 'Login / Register' : 'Home'}
       </Link>
       {/* Show the link to the info page and the logout button if the user is logged in */}
       {props.user.id && (

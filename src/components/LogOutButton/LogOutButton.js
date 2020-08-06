@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import './LogOutButton.css';
 
-const LogOutButton = props => (
+const LogOutButton = (props) => (
   <button
     // This button shows up in multiple locations and is styled differently
     // because it's styled differently depending on where it is used, the className

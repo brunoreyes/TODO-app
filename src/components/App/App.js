@@ -16,21 +16,12 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import AboutPage from '../AboutPage/AboutPage';
 import UserPage from '../UserPage/UserPage';
 import InfoPage from '../InfoPage/InfoPage';
+
 import TasksPage from '../TasksPage/TasksPage';
 import RemindersPage from '../RemindersPage/RemindersPage';
 import IdeasPage from '../IdeasPage/IdeasPage';
 import MemoriesPage from '../MemoriesPage/MemoriesPage';
 import StatisticsPage from '../StatisticsPage/StatisticsPage';
-import ImageUpload from '../ImageUpload/ImageUpload';
-import TasksTable from '../TasksTable/TasksTable';
-// import RemindersTable from '../RemindersTable/RemindersTable';
-// import IdeasTable from '../IdeasTable/IdeasTable';
-// import MemoriesTable from '../MemoriesTable/MemoriesTable';
-// import TasksForm from '../TasksForm/TasksForm';
-// import RemindersForm from '../RemindersForm/RemindersForm';
-// import IdeasForm from '../IdeasForm/IdeasForm';
-// import MemoriesForm from '../MemoriesForm/MemoriesForm';
-
 import './App.css';
 
 class App extends Component {
@@ -59,15 +50,12 @@ class App extends Component {
             <ProtectedRoute exact path="/info" component={InfoPage} />
             {/* If none of the other routes matched, we will show a 404. */}
             <Route exact path="/tasks" component={TasksPage} />
-            <Route exact path="/taskstable" component={TasksTable} />
             <Route exact path="/reminders" component={RemindersPage} />
             <Route exact path="/ideas" component={IdeasPage} />
             <Route exact path="/memories" component={MemoriesPage} />
             <Route exact path="/statistics" component={StatisticsPage} />
             <Route render={() => <h1>404</h1>} />
           </Switch>
-          <ImageUpload />
-          <TasksTable />
           <Footer />
         </div>
       </Router>

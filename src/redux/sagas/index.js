@@ -3,6 +3,7 @@ import loginSaga from './loginSaga';
 import registrationSaga from './registrationSaga';
 import userSaga from './userSaga';
 import imageInfoSaga from './imageInfoSaga';
+import ideasSaga from './ideasSaga';
 
 // rootSaga is the primary saga.
 // It bundles up all of the other sagas so our project can use them.
@@ -12,5 +13,11 @@ import imageInfoSaga from './imageInfoSaga';
 // the registration triggers a login
 // and login triggers setting the user
 export default function* rootSaga() {
-  yield all([loginSaga(), registrationSaga(), userSaga(), imageInfoSaga()]);
+  yield all([
+    loginSaga(),
+    registrationSaga(),
+    userSaga(),
+    imageInfoSaga(),
+    ideasSaga(),
+  ]);
 }
