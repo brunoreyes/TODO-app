@@ -11,6 +11,7 @@ const passport = require('./strategies/user.strategy');
 const userRouter = require('./routes/user.router');
 const imageUrlRouter = require('./routes/image-url.router');
 const ideasRouter = require('./routes/ideas.router');
+const categoryRouter = require('./routes/category.router');
 // UploaderS3Router added below
 const UploaderS3Router = require('react-dropzone-s3-uploader/s3router');
 
@@ -29,6 +30,7 @@ app.use(passport.session());
 app.use('/api/user', userRouter);
 app.use('/api/imageurl', imageUrlRouter);
 app.use('/api/ideas', ideasRouter);
+app.use('/api/category', categoryRouter);
 // AWS S3 image upload
 app.use(
   '/s3',

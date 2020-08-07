@@ -1,7 +1,7 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
 
-function* getIdeas() {
+function* getCategories() {
   try {
     const config = {
       headers: { 'Content-Type': 'application/json' },
@@ -12,29 +12,29 @@ function* getIdeas() {
     // allow the server session to recognize the user
     // If a user is logged in, this will return their information
     // from the server session (req.user)
-    const response = yield axios.get('/api/ideas', config);
+    const response = yield axios.get('/api/category', config);
 
     // const response = yield axios.get('/api/ideas');
     yield console.log('This is what we get from axios.get: ', response.data);
-    yield put({ type: 'SET_IDEAS', payload: response.data });
+    yield put({ type: 'SET_CATEGORIES', payload: response.data });
   } catch (error) {
     console.log('Trouble getting ideas to display', error);
   }
 }
-function* addIdea(payload) {
+function* addCategory(payload) {
   try {
-    const response = yield axios.post('/api/ideas', payload.payload);
-    yield console.log('response from /api/ideas post', response);
+    const response = yield axios.post('/api/category', payload.payload);
+    yield console.log('response from /api/category post', response);
     //call refresh of Get Data list
-    yield put({ type: 'FETCH_IDEAS' });
+    yield put({ type: 'FETCH_CATEGORIES' });
   } catch (error) {
     console.log('Error with user logout:', error);
   }
 }
 
-function* IdeasSaga() {
-  yield takeLatest('FETCH_IDEAS', getIdeas);
-  yield takeLatest('ADD_IDEA', addIdea);
+function* categorySaga() {
+  yield takeLatest('FETCH_CATEGORIES', getCategories);
+  yield takeLatest('ADD_CATEGORY', addCategory);
 }
 
-export default IdeasSaga;
+export default categorySaga;

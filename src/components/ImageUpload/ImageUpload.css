@@ -7,6 +7,8 @@
   /* border: 2px solid rgba(2, 2, 2, 0.925); */
   font-size: 12px;
   font-family: 'Montserrat', sans-serif;
+  margin: -5px;
+  margin-top: -10px;
 }
 .inner-drop:hover {
   color: gold;

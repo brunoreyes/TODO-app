@@ -9,13 +9,13 @@ const {
 const router = express.Router();
 require('dotenv').config();
 
-// // This route *should* READ an idea for the logged in user
+// return all favorite images
+
+// // This route *should* READ a category for the logged in user
 // MAKE SURE TO IMPLEMENT THIS WITH ALL ROUTES
 router.get('/', rejectUnauthenticated, (req, res) => {
-  const displayQuery = `SELECT "ideas".*, "category"."name" AS "category" FROM "ideas"
-JOIN "category" on "ideas"."category_id" = "category"."id"
- WHERE user_id=${req.user.id};`;
-  console.log(`req.user.id:`, req.user.id);
+  const displayQuery = `select * from "category"
+  ORDER BY "name" ASC;`;
 
   //Pool is our connection to the database
   //we are going to query a queryString command to pool (database)
@@ -32,7 +32,7 @@ JOIN "category" on "ideas"."category_id" = "category"."id"
 });
 
 // WORK ON THIS
-// This route *should* CREATE a category for the logged in user
+// This route *should* CREATE a idea for the logged in user
 router.post('/', rejectUnauthenticated, (req, res) => {
   console.log('req.body', req.body);
   console.log('req.user', req.user);
@@ -61,38 +61,38 @@ router.post('/', rejectUnauthenticated, (req, res) => {
     });
 });
 
-// //WORK ON THIS
-// // This route *should* DELETE an idea for the logged in user
-// router.delete('/:id', rejectUnauthenticated, (req, res) => {
-//   const queryValues = [req.user.id, req.params.id];
-//   pool
-//     .query(
-//       `DELETE FROM "item" WHERE $1 = item.user_id AND item.id = $2`,
-//       queryValues
-//     )
-//     .then((results) => res.sendStatus(200))
-//     .catch((err) => {
-//       console.log('error deleting item: ', err);
-//       res.sendStatus(500);
-//     });
-// });
+//WORK ON THIS
+// This route *should* DELETE an idea for the logged in user
+router.delete('/:id', rejectUnauthenticated, (req, res) => {
+  const queryValues = [req.user.id, req.params.id];
+  pool
+    .query(
+      `DELETE FROM "item" WHERE $1 = item.user_id AND item.id = $2`,
+      queryValues
+    )
+    .then((results) => res.sendStatus(200))
+    .catch((err) => {
+      console.log('error deleting item: ', err);
+      res.sendStatus(500);
+    });
+});
 
-// //WORK ON THIS
-// // This route *should* UPDATE an idea for the logged in user
-// router.put('/:id', rejectUnauthenticated, (req, res) => {
-//   console.log('req.body is', req.body);
-//   const queryText = `UPDATE ideas SET title=$1, description=$2 WHERE id=$3;`;
-//   const queryValues = [req.body.title, req.body.description, req.body.id];
-//   pool
-//     .query(queryText, queryValues)
-//     .then((result) => {
-//       console.log('in /api/display/edit PUT');
-//       res.send(result.rows);
-//     })
-//     .catch((error) => {
-//       console.log(`PUT error:`, error);
-//       res.sendStatus(500);
-//     });
-// });
+//WORK ON THIS
+// This route *should* UPDATE an idea for the logged in user
+router.put('/:id', rejectUnauthenticated, (req, res) => {
+  console.log('req.body is', req.body);
+  const queryText = `UPDATE ideas SET title=$1, description=$2 WHERE id=$3;`;
+  const queryValues = [req.body.title, req.body.description, req.body.id];
+  pool
+    .query(queryText, queryValues)
+    .then((result) => {
+      console.log('in /api/display/edit PUT');
+      res.send(result.rows);
+    })
+    .catch((error) => {
+      console.log(`PUT error:`, error);
+      res.sendStatus(500);
+    });
+});
 
 module.exports = router;

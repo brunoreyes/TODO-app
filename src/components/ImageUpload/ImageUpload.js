@@ -34,7 +34,7 @@ class ImageUpload extends Component {
 
     const innerDropElement = (
       <div class="inner-drop">
-        <p>Upload or Drop Image</p>
+        <p>or Upload/Drop Image</p>
       </div>
     );
     return (
