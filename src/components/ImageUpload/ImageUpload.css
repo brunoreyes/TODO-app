@@ -1,22 +1,16 @@
 .inner-drop {
   text-align: center;
   /* color: #ffffff; */
-  background-color: rgba(2, 2, 2, 0.925);
+  background-color: #161616;
   color: #fff;
-  align-items: center;
-  /* float: center; */
-  justify-content: center;
-  margin-top: 20px;
-  margin: auto;
-  width: 250px;
-  height: 55px;
-  border: 2px solid rgba(2, 2, 2, 0.925);
-  font-size: 18px;
+  width: fit-content;
+  /* border: 2px solid rgba(2, 2, 2, 0.925); */
+  font-size: 12px;
   font-family: 'Montserrat', sans-serif;
 }
 .inner-drop:hover {
-  color: white;
+  color: gold;
   /* color: rgba(2, 2, 2, 0.925); */
   /* border-bottom: 4px solid white; */
-  text-decoration: underline;
+  /* text-decoration: underline; */
 }

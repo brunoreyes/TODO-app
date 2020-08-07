@@ -1,5 +1,5 @@
 .nav-title {
-  font-size: 25px;
+  font-size: 30px;
   font-weight: 700;
   display: inline-block;
   /* color: black; */
@@ -7,8 +7,8 @@
   padding-left: 20px;
   font-family: 'Montserrat', sans-serif;
   margin-left: 15px;
-  border-top: #161616 solid 12px;
-  padding-bottom: 5px;
+  border-top: #161616 solid 2px;
+  padding-bottom: 0px;
   padding-right: 15px;
 }
 
