@@ -1,7 +1,7 @@
 const express = require('express');
 const pool = require('../modules/pool');
-const { default: Axios } = require('axios');
-const { query } = require('../modules/pool');
+// const { default: Axios } = require('axios');
+// const { query } = require('../modules/pool');
 const {
   rejectUnauthenticated,
 } = require('../modules/authentication-middleware');
@@ -42,7 +42,7 @@ router.post('/', rejectUnauthenticated, (req, res) => {
     req.body.description,
     req.body.link,
     req.body.image_url,
-    req.body.category,
+    req.body.category_id,
     req.body.favorited,
     req.body.date,
     req.body.user_id,
@@ -50,7 +50,9 @@ router.post('/', rejectUnauthenticated, (req, res) => {
   // Pool Query to insert an entry into the table
   pool
     .query(
-      `INSERT INTO "ideas" ("name","description",  "link", "image_url", "category_id", "favorited","date", "user_id")
+      `INSERT INTO "ideas" ("name","description",  "link", "image_url", "category_id",
+       "favorited",
+       "date", "user_id")
               VALUES ( $1, $2, $3, $4, $5 , $6, $7, $8 )`,
       queryValues
     )

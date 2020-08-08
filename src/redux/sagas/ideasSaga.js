@@ -21,16 +21,40 @@ function* getIdeas() {
     console.log('Trouble getting ideas to display', error);
   }
 }
-function* addIdea(payload) {
+
+function* addIdea(action) {
   try {
-    const response = yield axios.post('/api/ideas', payload.payload);
-    yield console.log('response from /api/ideas post', response);
+    const config = {
+      headers: { 'Content-Type': 'application/json' },
+      withCredentials: true,
+    };
+    const response = yield axios.post('/api/ideas', action.payload, config);
+    yield console.log(
+      'response from /api/ideas post',
+      response,
+      action.payload
+    );
     //call refresh of Get Data list
     yield put({ type: 'FETCH_IDEAS' });
   } catch (error) {
     console.log('Error with user logout:', error);
   }
 }
+
+// function* addIdea(payload) {
+//   try {
+//     const config = {
+//       headers: { 'Content-Type': 'application/json' },
+//       withCredentials: true,
+//     };
+//     const response = yield axios.post('/api/ideas', payload.payload);
+//     yield console.log('response from /api/ideas post', response);
+//     //call refresh of Get Data list
+//     yield put({ type: 'FETCH_IDEAS' });
+//   } catch (error) {
+//     console.log('Error with user logout:', error);
+//   }
+// }
 
 function* IdeasSaga() {
   yield takeLatest('FETCH_IDEAS', getIdeas);

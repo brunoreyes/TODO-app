@@ -1,5 +1,3 @@
-import MaterialTable from 'material-table';
-import { forwardRef } from 'react';
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import ImageUpload from '../ImageUpload/ImageUpload';
@@ -24,7 +22,6 @@ import {
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import StarIcon from '@material-ui/icons/Star';
-import Icon from '@material-ui/core/Icon';
 import EmojiObjectsIcon from '@material-ui/icons/EmojiObjects';
 
 // BASIC CONVERTED MATERIAL UI TABLE
@@ -47,6 +44,7 @@ const styles = (theme) => ({
     'text-align': 'center',
     width: 'auto',
     'margin-bottom': '120px',
+    'margin-top': '20px',
   },
   menuItemsContainer: {
     flexWrap: 'wrap',
@@ -81,6 +79,7 @@ const styles = (theme) => ({
   dateField: {
     'margin-top': '0px',
   },
+  categorySelector: { 'margin-top': '-10px' },
   tableHead: {
     'background-color': '#161616',
   },
@@ -88,14 +87,14 @@ const styles = (theme) => ({
     minWidth: 700,
   },
   tableHeadCell: {
-    'font-size': '15px',
+    'font-size': '16px',
     'font-family': 'Montserrat',
     'font-weight': '500',
     color: 'white',
     'padding-top': '18px',
     'padding-bottom': '18px',
     'padding-left': '18px',
-    'text-transform': 'uppercase',
+    // 'text-transform': 'uppercase',
   },
   tableCell: {
     'font-family': 'Montserrat',
@@ -145,12 +144,24 @@ const styles = (theme) => ({
 });
 
 // MENU props handle the scrollable selector
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
+const CategorySelector_HEIGHT = 48;
+const CategorySelector_PADDING_TOP = 8;
 const CategorySelectorProps = {
   PaperProps: {
     style: {
-      maxHeight: ITEM_HEIGHT * 3.4 + ITEM_PADDING_TOP,
+      maxHeight: CategorySelector_HEIGHT * 3.4 + CategorySelector_PADDING_TOP,
+      width: 150,
+    },
+  },
+};
+
+// MENU props handle the scrollable table
+const table_HEIGHT = 48;
+const table_PADDING_TOP = 8;
+const tableProps = {
+  PaperProps: {
+    style: {
+      maxHeight: table_HEIGHT * 1.4 + table_PADDING_TOP,
       width: 150,
     },
   },
@@ -162,10 +173,78 @@ class IdeasPage extends Component {
     this.props.dispatch({ type: 'FETCH_IDEAS' });
     this.props.dispatch({ type: 'FETCH_CATEGORIES' });
   }
-  //   categoriesDidMount() {
-  //     // use component did mount to dispatch an action to request the SearchList from the API
-  //     this.props.dispatch({ type: 'FETCH_CATEGORIES' });
-  //   }
+  state = {
+    description: '',
+    image_url: '', //,
+  };
+
+  addIdea = () => {
+    console.log('in addIdea');
+
+    const payload = {
+      name: this.state.name,
+      description: this.state.description,
+      image_url: this.state.image_url,
+      category_id: this.state.category_id,
+      link: this.state.link,
+      date: this.state.date,
+    };
+    this.props.dispatch({ type: 'ADD_IDEA', payload });
+  };
+
+  handleInputName = (event) => {
+    console.log('in handleInputName, value:', event.target.value);
+
+    // this.setState sets the state's comment property = to the user's input
+    this.setState({
+      name: event.target.value,
+    });
+  }; //end handleInputName
+
+  handleInputDescription = (event) => {
+    console.log('in handleInputDescription, value:', event.target.value);
+
+    // this.setState sets the state's comment property = to the user's input
+    this.setState({
+      description: event.target.value,
+    });
+  }; //end handleInputDescription
+
+  handleInputImageUrl = (event) => {
+    console.log('in handleInputImageUrl, value:', event.target.value);
+
+    // this.setState sets the state's comment property = to the user's input
+    this.setState({
+      image_url: event.target.value,
+    });
+  }; //end handleInputImageUrl
+
+  handleInputCategory = (event) => {
+    console.log('in handleInputCategory, value:', event.target.value);
+
+    // this.setState sets the state's comment property = to the user's input
+    this.setState({
+      category_id: event.target.value,
+    });
+  }; //end handleInputCategory
+
+  handleInputLink = (event) => {
+    console.log('in handleInputLink, value:', event.target.value);
+
+    // this.setState sets the state's comment property = to the user's input
+    this.setState({
+      link: event.target.value,
+    });
+  }; //end handleInputLink
+
+  handleInputDate = (event) => {
+    console.log('in handleInputDate, value:', event.target.value);
+
+    // this.setState sets the state's comment property = to the user's input
+    this.setState({
+      date: event.target.value,
+    });
+  }; //end handleInputDate
 
   constructor() {
     super();
@@ -201,8 +280,8 @@ class IdeasPage extends Component {
             <InputLabel htmlFor="component-helper">Name *</InputLabel>
             <Input
               id="component-helper"
-              // value={this.state.name}
-              // onChange={this.handleChange}
+              value={this.state.name}
+              onChange={this.handleInputName}
               aria-describedby="component-helper-text"
             />
             <FormHelperText id="component-helper-text">Required</FormHelperText>
@@ -211,8 +290,8 @@ class IdeasPage extends Component {
             <InputLabel htmlFor="component-helper">Description *</InputLabel>
             <Input
               id="component-helper"
-              //   value={this.state.name}
-              //   onChange={this.handleChange}
+              value={this.state.description}
+              onChange={this.handleInputDescription}
               aria-describedby="component-helper-text"
             />
             <FormHelperText id="component-helper-text">Required</FormHelperText>
@@ -221,8 +300,8 @@ class IdeasPage extends Component {
             <InputLabel htmlFor="component-helper">Link</InputLabel>
             <Input
               id="component-helper"
-              // value={this.state.name}
-              // onChange={this.handleChange}
+              value={this.state.link}
+              onChange={this.handleInputLink}
               aria-describedby="component-helper-text"
             />
             <FormHelperText id="component-helper-text"></FormHelperText>
@@ -231,8 +310,8 @@ class IdeasPage extends Component {
             <InputLabel htmlFor="component-helper">Image Url</InputLabel>
             <Input
               id="component-helper"
-              // value={this.state.name}
-              // onChange={this.handleChange}
+              value={this.state.image_url}
+              onChange={this.handleInputImageUrl}
               aria-describedby="component-helper-text"
             />
             <FormHelperText id="component-helper-text"></FormHelperText>
@@ -247,12 +326,13 @@ class IdeasPage extends Component {
             </Button>
           </FormControl>
           <FormControl className={classes.formControl}>
-            <InputLabel>Category *</InputLabel>
+            <InputLabel className={classes.categorySelector}>
+              Category *
+            </InputLabel>
             <Select
               MenuProps={CategorySelectorProps}
-              // value={this.state.age}
-              // onChange={this.handleChange}
-              //   input={<Input name="age" id="age-helper" />}
+              value={this.state.category_id}
+              onChange={this.handleInputCategory}
             >
               {/* <MenuItem value="">
                 <em>None</em>
@@ -272,15 +352,21 @@ class IdeasPage extends Component {
             </FormHelperText>
           </FormControl>
           <FormControl className={classes.formControl}>
-            <StarIcon className={classes.starIconForm}></StarIcon>
+            <StarIcon
+              //     value={this.state.favorited}
+              // onChange={this.handleInput}
+              className={classes.starIconForm}
+            ></StarIcon>
           </FormControl>
           <FormControl className={classes.formControl}>
             <TextField
               id="date"
               label="Date"
               type="date"
-              // defaultValue={this.state.date} sets the calendar to today's date via
+              // defaultValue sets the calendar to today's date via
               // the constructor function above
+              value={this.state.date}
+              onChange={this.handleInputDate}
               defaultValue={this.state.date}
               className={classes.dateField}
               InputLabelProps={{
@@ -292,6 +378,7 @@ class IdeasPage extends Component {
             <Button
               variant="contained"
               // color="white"
+              onClick={this.addIdea}
               className={classes.newOrAddIdeaButton}
               endIcon={<EmojiObjectsIcon>Add</EmojiObjectsIcon>}
             >
@@ -302,7 +389,7 @@ class IdeasPage extends Component {
         {/* THE TABLE */}
         <div className="tableContainer"></div>
         <Paper className={classes.root} elevation={3}>
-          <Table className={classes.table}>
+          <Table className={classes.table} MenuProps={tableProps}>
             <TableHead className={classes.tableHead}>
               <TableRow className={classes.tableHead}>
                 <TableCell className={classes.tableHeadCell}>Name</TableCell>
@@ -352,6 +439,7 @@ class IdeasPage extends Component {
                       </TableCell>
                       <TableCell className={classes.tableCell} align="left">
                         {ideas.category}
+                        {/* {JSON.stringify(ideas.category_id)} */}
                       </TableCell>
                       <TableCell className={classes.tableCell} align="left">
                         {JSON.stringify(ideas.favorited)}
