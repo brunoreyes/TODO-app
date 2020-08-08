@@ -35,7 +35,7 @@ JOIN "category" on "ideas"."category_id" = "category"."id"
 // This route *should* CREATE a category for the logged in user
 router.post('/', rejectUnauthenticated, (req, res) => {
   console.log('req.body', req.body);
-  console.log('req.user', req.user);
+  // console.log('req.user', req.user);
 
   const queryValues = [
     req.body.name,
@@ -45,8 +45,10 @@ router.post('/', rejectUnauthenticated, (req, res) => {
     req.body.category_id,
     req.body.favorited,
     req.body.date,
-    req.body.user_id,
+    req.user.id,
   ];
+  // ^^^ Here notice we used req.user.id, because of line 17: `WHERE user_id=${req.user.id};`;
+
   // Pool Query to insert an entry into the table
   pool
     .query(
@@ -63,21 +65,23 @@ router.post('/', rejectUnauthenticated, (req, res) => {
     });
 });
 
-// //WORK ON THIS
-// // This route *should* DELETE an idea for the logged in user
-// router.delete('/:id', rejectUnauthenticated, (req, res) => {
-//   const queryValues = [req.user.id, req.params.id];
-//   pool
-//     .query(
-//       `DELETE FROM "item" WHERE $1 = item.user_id AND item.id = $2`,
-//       queryValues
-//     )
-//     .then((results) => res.sendStatus(200))
-//     .catch((err) => {
-//       console.log('error deleting item: ', err);
-//       res.sendStatus(500);
-//     });
-// });
+//WORK ON THIS
+// This route *should* DELETE an idea for the logged in user
+router.delete('/:id', rejectUnauthenticated, (req, res) => {
+  const queryValues = [req.user.id, req.params.id];
+  pool
+    .query(
+      `DELETE FROM "ideas" WHERE $1 = ideas.user_id AND ideas.id = $2`,
+      queryValues
+    )
+    .then((results) => res.sendStatus(200))
+    .catch((err) => {
+      console.log('error deleting item: ', err);
+      console.log('req.user.id and req.params.id', req.user.id, req.params.id);
+
+      res.sendStatus(500);
+    });
+});
 
 // //WORK ON THIS
 // // This route *should* UPDATE an idea for the logged in user

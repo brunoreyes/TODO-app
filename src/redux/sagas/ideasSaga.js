@@ -15,7 +15,7 @@ function* getIdeas() {
     const response = yield axios.get('/api/ideas', config);
 
     // const response = yield axios.get('/api/ideas');
-    yield console.log('This is what we get from axios.get: ', response.data);
+    console.log('This is what we get from axios.get: ', response.data);
     yield put({ type: 'SET_IDEAS', payload: response.data });
   } catch (error) {
     console.log('Trouble getting ideas to display', error);
@@ -24,16 +24,14 @@ function* getIdeas() {
 
 function* addIdea(action) {
   try {
-    const config = {
-      headers: { 'Content-Type': 'application/json' },
-      withCredentials: true,
-    };
-    const response = yield axios.post('/api/ideas', action.payload, config);
-    yield console.log(
-      'response from /api/ideas post',
-      response,
-      action.payload
-    );
+    // const config = {
+    //   headers: { 'Content-Type': 'application/json' },
+    //   withCredentials: true,
+    // };
+    yield axios.post('/api/ideas', action.payload);
+    console.log('response from /api/ideas post', action.payload);
+    // console.log(action.payload);
+
     //call refresh of Get Data list
     yield put({ type: 'FETCH_IDEAS' });
   } catch (error) {
@@ -41,14 +39,24 @@ function* addIdea(action) {
   }
 }
 
-// function* addIdea(payload) {
+function* deleteIdea(action) {
+  try {
+    // const response =
+    yield axios.delete(`/api/ideas/${action.payload}`);
+    console.log('response from /api/ideas delete', action.payload);
+    //call refresh of Get Data list
+    yield put({ type: 'FETCH_IDEAS' });
+  } catch (error) {
+    console.log('Error with user logout:', error);
+    console.log('response from /api/ideas delete', action);
+  }
+}
+
+// function* deleteIdea(payload) {
 //   try {
-//     const config = {
-//       headers: { 'Content-Type': 'application/json' },
-//       withCredentials: true,
-//     };
-//     const response = yield axios.post('/api/ideas', payload.payload);
-//     yield console.log('response from /api/ideas post', response);
+//     // const response =
+//     yield axios.delete(`/api/ideas/${payload.payload}`);
+//     console.log('response from /api/ideas delete', payload.payload);
 //     //call refresh of Get Data list
 //     yield put({ type: 'FETCH_IDEAS' });
 //   } catch (error) {
@@ -59,6 +67,7 @@ function* addIdea(action) {
 function* IdeasSaga() {
   yield takeLatest('FETCH_IDEAS', getIdeas);
   yield takeLatest('ADD_IDEA', addIdea);
+  yield takeLatest('DELETE_THIS', deleteIdea);
 }
 
 export default IdeasSaga;

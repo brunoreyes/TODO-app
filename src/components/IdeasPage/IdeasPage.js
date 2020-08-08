@@ -24,9 +24,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import StarIcon from '@material-ui/icons/Star';
 import EmojiObjectsIcon from '@material-ui/icons/EmojiObjects';
 
-// BASIC CONVERTED MATERIAL UI TABLE
 // classes.tableHead, table, anything is just talking about styles
-// that are manipulated here
 const styles = (theme) => ({
   allContainer: {},
   root: {
@@ -34,7 +32,6 @@ const styles = (theme) => ({
     marginTop: theme.spacing.unit * 3,
     overflowX: 'auto',
     margin: 'auto',
-    // 'border-radius': '10px',
   },
   formControl: {
     'text-align': 'center',
@@ -50,7 +47,7 @@ const styles = (theme) => ({
     flexWrap: 'wrap',
   },
   menuItem: {
-    margin: theme.spacing.unit / 4,
+    margin: (theme.spacing.unit * 1) / 4,
   },
   invisibleText: {
     color: 'white',
@@ -133,6 +130,9 @@ const styles = (theme) => ({
     'padding-bottom': '10px',
     'padding-left': '0px',
     'padding-right': '15px',
+    '&:hover': {
+      color: '#fba333',
+    },
   },
   deleteIcon: {
     'font-size': '20px',
@@ -140,6 +140,19 @@ const styles = (theme) => ({
     'padding-bottom': '10px',
     'padding-left': '0px',
     'padding-right': '15px',
+    '&:hover': {
+      color: '#e53935',
+    },
+  },
+  tableImage: {
+    width: '40px',
+    height: '40px',
+  },
+  iconContainer: {
+    margin: '0px',
+    width: '0px',
+    height: '0px',
+    padding: '0px',
   },
 });
 
@@ -169,18 +182,21 @@ const tableProps = {
 
 class IdeasPage extends Component {
   componentDidMount() {
-    // use component did mount to dispatch an action to request the SearchList from the API
+    // componentDidMount dispatches an action to request the SearchList from the API
     this.props.dispatch({ type: 'FETCH_IDEAS' });
     this.props.dispatch({ type: 'FETCH_CATEGORIES' });
   }
   state = {
+    name: '',
     description: '',
-    image_url: '', //,
+    image_url: '',
+    category_id: '',
+    link: '',
+    date: '',
   };
 
-  addIdea = () => {
+  addIdeaClick = () => {
     console.log('in addIdea');
-
     const payload = {
       name: this.state.name,
       description: this.state.description,
@@ -192,10 +208,39 @@ class IdeasPage extends Component {
     this.props.dispatch({ type: 'ADD_IDEA', payload });
   };
 
+  deleteIdeaClick = () => {
+    const payload = { id: this.state.id };
+    console.log('delete was clicked!', payload.id);
+    this.props.dispatch({ type: 'DELETE_THIS', payload: payload.id });
+  };
+
+  deleteIdeaHovered = (event) => {
+    console.log('in deleteIdeaHovered, value:', event.target.value);
+    // this.setState sets the state's name property = to the user's input
+    this.setState({
+      id: event.target.value,
+    });
+  }; //end handleInputName
+
+  editIdeaHovered = (event) => {
+    console.log('in editIdeaHovered, value:', event.target.value);
+    // this.setState sets the state's name property = to the user's input
+    this.setState({
+      id: event.target.value,
+    });
+  }; //end handleInputName
+
+  handleEditName = (event) => {
+    console.log('in handleEditName, value:', event.target.value);
+    // this.setState sets the state's name property = to the user's input
+    this.setState({
+      name: event.target.value,
+    });
+  }; //end handleInputName
+
   handleInputName = (event) => {
     console.log('in handleInputName, value:', event.target.value);
-
-    // this.setState sets the state's comment property = to the user's input
+    // this.setState sets the state's name property = to the user's input
     this.setState({
       name: event.target.value,
     });
@@ -203,8 +248,6 @@ class IdeasPage extends Component {
 
   handleInputDescription = (event) => {
     console.log('in handleInputDescription, value:', event.target.value);
-
-    // this.setState sets the state's comment property = to the user's input
     this.setState({
       description: event.target.value,
     });
@@ -212,8 +255,6 @@ class IdeasPage extends Component {
 
   handleInputImageUrl = (event) => {
     console.log('in handleInputImageUrl, value:', event.target.value);
-
-    // this.setState sets the state's comment property = to the user's input
     this.setState({
       image_url: event.target.value,
     });
@@ -221,8 +262,6 @@ class IdeasPage extends Component {
 
   handleInputCategory = (event) => {
     console.log('in handleInputCategory, value:', event.target.value);
-
-    // this.setState sets the state's comment property = to the user's input
     this.setState({
       category_id: event.target.value,
     });
@@ -230,8 +269,6 @@ class IdeasPage extends Component {
 
   handleInputLink = (event) => {
     console.log('in handleInputLink, value:', event.target.value);
-
-    // this.setState sets the state's comment property = to the user's input
     this.setState({
       link: event.target.value,
     });
@@ -239,8 +276,6 @@ class IdeasPage extends Component {
 
   handleInputDate = (event) => {
     console.log('in handleInputDate, value:', event.target.value);
-
-    // this.setState sets the state's comment property = to the user's input
     this.setState({
       date: event.target.value,
     });
@@ -269,7 +304,6 @@ class IdeasPage extends Component {
           <FormControl className={classes.formControl}>
             <Button
               variant="contained"
-              // color="white"
               className={classes.newOrAddIdeaButton}
               endIcon={<EmojiObjectsIcon>New</EmojiObjectsIcon>}
             >
@@ -277,51 +311,36 @@ class IdeasPage extends Component {
             </Button>
           </FormControl>
           <FormControl className={classes.formControl}>
-            <InputLabel htmlFor="component-helper">Name *</InputLabel>
+            <InputLabel>Name *</InputLabel>
             <Input
-              id="component-helper"
               value={this.state.name}
               onChange={this.handleInputName}
-              aria-describedby="component-helper-text"
+              defaultValue={this.handleEditName}
             />
-            <FormHelperText id="component-helper-text">Required</FormHelperText>
+            <FormHelperText>Required</FormHelperText>
           </FormControl>
           <FormControl className={classes.formControl}>
-            <InputLabel htmlFor="component-helper">Description *</InputLabel>
+            <InputLabel>Description *</InputLabel>
             <Input
-              id="component-helper"
               value={this.state.description}
               onChange={this.handleInputDescription}
-              aria-describedby="component-helper-text"
             />
-            <FormHelperText id="component-helper-text">Required</FormHelperText>
+            <FormHelperText>Required</FormHelperText>
           </FormControl>
           <FormControl className={classes.formControl}>
-            <InputLabel htmlFor="component-helper">Link</InputLabel>
-            <Input
-              id="component-helper"
-              value={this.state.link}
-              onChange={this.handleInputLink}
-              aria-describedby="component-helper-text"
-            />
-            <FormHelperText id="component-helper-text"></FormHelperText>
+            <InputLabel>Link</InputLabel>
+            <Input value={this.state.link} onChange={this.handleInputLink} />
+            <FormHelperText></FormHelperText>
           </FormControl>
           <FormControl className={classes.formControl}>
-            <InputLabel htmlFor="component-helper">Image Url</InputLabel>
+            <InputLabel>Image Url</InputLabel>
             <Input
-              id="component-helper"
               value={this.state.image_url}
               onChange={this.handleInputImageUrl}
-              aria-describedby="component-helper-text"
             />
-            <FormHelperText id="component-helper-text"></FormHelperText>
           </FormControl>
           <FormControl className={classes.formControl}>
-            <Button
-              variant="contained"
-              // color="white"
-              className={classes.uploadImageButton}
-            >
+            <Button variant="contained" className={classes.uploadImageButton}>
               <ImageUpload />
             </Button>
           </FormControl>
@@ -354,7 +373,7 @@ class IdeasPage extends Component {
           <FormControl className={classes.formControl}>
             <StarIcon
               //     value={this.state.favorited}
-              // onChange={this.handleInput}
+              // onChange={this.handleInput}>
               className={classes.starIconForm}
             ></StarIcon>
           </FormControl>
@@ -363,8 +382,7 @@ class IdeasPage extends Component {
               id="date"
               label="Date"
               type="date"
-              // defaultValue sets the calendar to today's date via
-              // the constructor function above
+              // defaultValue sets the calendar to today's date via constructor function
               value={this.state.date}
               onChange={this.handleInputDate}
               defaultValue={this.state.date}
@@ -377,8 +395,7 @@ class IdeasPage extends Component {
           <FormControl className={classes.formControl}>
             <Button
               variant="contained"
-              // color="white"
-              onClick={this.addIdea}
+              onClick={this.addIdeaClick}
               className={classes.newOrAddIdeaButton}
               endIcon={<EmojiObjectsIcon>Add</EmojiObjectsIcon>}
             >
@@ -417,43 +434,64 @@ class IdeasPage extends Component {
             <TableBody>
               {this.props.ideas === []
                 ? 'please wait..'
-                : this.props.ideas.map((ideas, index) => (
+                : this.props.ideas.map((idea, index) => (
                     <TableRow key={index}>
                       <TableCell className={classes.tableCell}>
-                        {ideas.name}
+                        {idea.name}
                       </TableCell>
                       <TableCell
                         className={classes.tableCellDescription}
                         align="left"
                       >
-                        {ideas.description}
+                        {idea.description}
                       </TableCell>
                       <TableCell className={classes.tableCell} align="left">
-                        {ideas.link}
+                        {idea.link}
                       </TableCell>
                       <TableCell className={classes.tableCell} align="left">
                         <img
-                          src={ideas.image_url}
+                          className={classes.tableImage}
+                          src={idea.image_url}
+                          alt={idea.name}
                           // onClick={this.clickhandler}
                         ></img>
                       </TableCell>
                       <TableCell className={classes.tableCell} align="left">
-                        {ideas.category}
+                        {idea.category}
                         {/* {JSON.stringify(ideas.category_id)} */}
                       </TableCell>
                       <TableCell className={classes.tableCell} align="left">
-                        {JSON.stringify(ideas.favorited)}
-                        {ideas.favorited}
+                        {JSON.stringify(idea.favorited)}
+
+                        {idea.favorited}
                       </TableCell>
                       <TableCell className={classes.tableCell} align="left">
-                        {ideas.date.split('T')[0]}
+                        {idea.date.split('T')[0]}
                       </TableCell>
                       {/* Star is for favorite */}
+                      {/* Here we get an error saying the star or SVG icon cannot appear as a child of tr */}
                       <StarIcon className={classes.starIconTable}></StarIcon>
-                      <EditIcon className={classes.editIcon}></EditIcon>
-                      <DeleteIcon className={classes.deleteIcon}></DeleteIcon>
-                      {/* <p>{JSON.stringify(index)}</p>
-                      <p>{JSON.stringify(ideas.name)}</p> */}
+
+                      <Button
+                        onMouseEnter={this.editIdeaHovered}
+                        onClick={this.deleteIdeaClick}
+                        value={idea.id}
+                        className={classes.iconContainer}
+                      >
+                        <EditIcon className={classes.editIcon}></EditIcon>
+                      </Button>
+                      {/* {JSON.stringify(this.state.id)} */}
+                      {/* {JSON.stringify(idea.id)} */}
+                      <Button
+                        onMouseEnter={this.deleteIdeaHovered}
+                        onClick={this.deleteIdeaClick}
+                        value={idea.id}
+                        className={classes.iconContainer}
+                      >
+                        <DeleteIcon className={classes.deleteIcon}></DeleteIcon>
+                      </Button>
+
+                      {/* <p>{JSON.stringify(ideas.name)}</p> */}
                     </TableRow>
                   ))}
             </TableBody>

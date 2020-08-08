@@ -5,17 +5,7 @@ import './ImageUpload.css';
 
 // s3 comes from react
 const dropStyles = {
-  // width: '200px',
-  // height: '70px',
-  // border: '1px solid black',
-  // 'background-color': '#dddddd',
-  // margin: 'auto',
   'margin-top': '20px',
-  // hover: {
-  //   '&:hover': {
-  //     backgroundColor: 'black',
-  //   },
-  // },
 };
 class ImageUpload extends Component {
   handleFinishedUpload = (info) => {
@@ -33,7 +23,7 @@ class ImageUpload extends Component {
     const s3Url = 'http://brunobucket.s3.amazonaws.com';
 
     const innerDropElement = (
-      <div class="inner-drop">
+      <div className="inner-drop">
         <p>or Upload/Drop Image</p>
       </div>
     );
