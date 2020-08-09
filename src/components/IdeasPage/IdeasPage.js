@@ -18,12 +18,13 @@ import {
   MenuItem,
   TextField,
   Button,
+  IconButton,
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import StarIcon from '@material-ui/icons/Star';
 import EmojiObjectsIcon from '@material-ui/icons/EmojiObjects';
-
+import IdeasTable from './IdeasTable/IdeasTable';
 // classes.tableHead, table, anything is just talking about styles
 const styles = (theme) => ({
   allContainer: {},
@@ -139,7 +140,7 @@ const styles = (theme) => ({
     'padding-top': '10px',
     'padding-bottom': '10px',
     'padding-left': '0px',
-    'padding-right': '15px',
+    'padding-right': '5px',
     '&:hover': {
       color: '#e53935',
     },
@@ -148,11 +149,17 @@ const styles = (theme) => ({
     width: '40px',
     height: '40px',
   },
-  iconContainer: {
-    margin: '0px',
-    width: '0px',
-    height: '0px',
-    padding: '0px',
+  deleteIconContainer: {
+    margin: '5px',
+    width: '5px',
+    height: '5px',
+    // KEEP PADDING OR ELSE BUTTON WON'T WORK
+    padding: '5px',
+    'padding-left': '4px',
+    'padding-right': '4px',
+    '&:hover': {
+      backgroundColor: 'white',
+    },
   },
 });
 
@@ -187,100 +194,12 @@ class IdeasPage extends Component {
     this.props.dispatch({ type: 'FETCH_CATEGORIES' });
   }
   state = {
-    name: '',
     description: '',
     image_url: '',
     category_id: '',
     link: '',
-    date: '',
   };
-
-  addIdeaClick = () => {
-    console.log('in addIdea');
-    const payload = {
-      name: this.state.name,
-      description: this.state.description,
-      image_url: this.state.image_url,
-      category_id: this.state.category_id,
-      link: this.state.link,
-      date: this.state.date,
-    };
-    this.props.dispatch({ type: 'ADD_IDEA', payload });
-  };
-
-  deleteIdeaClick = () => {
-    const payload = { id: this.state.id };
-    console.log('delete was clicked!', payload.id);
-    this.props.dispatch({ type: 'DELETE_THIS', payload: payload.id });
-  };
-
-  deleteIdeaHovered = (event) => {
-    console.log('in deleteIdeaHovered, value:', event.target.value);
-    // this.setState sets the state's name property = to the user's input
-    this.setState({
-      id: event.target.value,
-    });
-  }; //end handleInputName
-
-  editIdeaHovered = (event) => {
-    console.log('in editIdeaHovered, value:', event.target.value);
-    // this.setState sets the state's name property = to the user's input
-    this.setState({
-      id: event.target.value,
-    });
-  }; //end handleInputName
-
-  handleEditName = (event) => {
-    console.log('in handleEditName, value:', event.target.value);
-    // this.setState sets the state's name property = to the user's input
-    this.setState({
-      name: event.target.value,
-    });
-  }; //end handleInputName
-
-  handleInputName = (event) => {
-    console.log('in handleInputName, value:', event.target.value);
-    // this.setState sets the state's name property = to the user's input
-    this.setState({
-      name: event.target.value,
-    });
-  }; //end handleInputName
-
-  handleInputDescription = (event) => {
-    console.log('in handleInputDescription, value:', event.target.value);
-    this.setState({
-      description: event.target.value,
-    });
-  }; //end handleInputDescription
-
-  handleInputImageUrl = (event) => {
-    console.log('in handleInputImageUrl, value:', event.target.value);
-    this.setState({
-      image_url: event.target.value,
-    });
-  }; //end handleInputImageUrl
-
-  handleInputCategory = (event) => {
-    console.log('in handleInputCategory, value:', event.target.value);
-    this.setState({
-      category_id: event.target.value,
-    });
-  }; //end handleInputCategory
-
-  handleInputLink = (event) => {
-    console.log('in handleInputLink, value:', event.target.value);
-    this.setState({
-      link: event.target.value,
-    });
-  }; //end handleInputLink
-
-  handleInputDate = (event) => {
-    console.log('in handleInputDate, value:', event.target.value);
-    this.setState({
-      date: event.target.value,
-    });
-  }; //end handleInputDate
-
+  // initializing the date as today
   constructor() {
     super();
     var today = new Date(),
@@ -294,6 +213,96 @@ class IdeasPage extends Component {
       date: date,
     };
   }
+
+  addIdeaClick = () => {
+    console.log('in addIdea');
+
+    const payload = {
+      name: this.state.name,
+      description: this.state.description,
+      image_url: this.state.image_url,
+      category_id: this.state.category_id,
+      link: this.state.link,
+      date: this.state.date,
+    };
+    this.props.dispatch({ type: 'ADD_IDEA', payload });
+  };
+
+  // deleteIdeaClick = () => {
+  //   const payload = { id: this.state.id };
+  //   console.log('delete was clicked!', payload.id);
+  //   this.props.dispatch({ type: 'DELETE_THIS', payload: payload.id });
+  // };
+
+  deleteIdeaClick = (event) => {
+    const payload = { id: event.target.value };
+    console.log('delete was clicked!', event);
+    this.props.dispatch({ type: 'DELETE_THIS', payload: payload.id });
+  };
+
+  editIdeaClick = (event) => {
+    const payload = { id: event.target.value };
+    console.log('delete was clicked!', event);
+    this.props.dispatch({ type: 'DELETE_THIS', payload: payload.id });
+  };
+
+  // deleteIdeaHovered = (event) => {
+  //   console.log('in deleteIdeaHovered, value:', event.target.value);
+
+  //   // this.setState sets the state's name property = to the user's input
+  //   this.setState({
+  //     id: event.target.value,
+  //   });
+  // }; //end handleInputName
+
+  handleInputName = (event) => {
+    console.log('in handleInputName, value:', event.target.value);
+
+    // this.setState sets the state's name property = to the user's input
+    this.setState({
+      name: event.target.value,
+    });
+  }; //end handleInputName
+
+  handleInputDescription = (event) => {
+    console.log('in handleInputDescription, value:', event.target.value);
+
+    this.setState({
+      description: event.target.value,
+    });
+  }; //end handleInputDescription
+
+  handleInputImageUrl = (event) => {
+    console.log('in handleInputImageUrl, value:', event.target.value);
+
+    this.setState({
+      image_url: event.target.value,
+    });
+  }; //end handleInputImageUrl
+
+  handleInputCategory = (event) => {
+    console.log('in handleInputCategory, value:', event.target.value);
+
+    this.setState({
+      category_id: event.target.value,
+    });
+  }; //end handleInputCategory
+
+  handleInputLink = (event) => {
+    console.log('in handleInputLink, value:', event.target.value);
+
+    this.setState({
+      link: event.target.value,
+    });
+  }; //end handleInputLink
+
+  handleInputDate = (event) => {
+    console.log('in handleInputDate, value:', event.target.value);
+
+    this.setState({
+      date: event.target.value,
+    });
+  }; //end handleInputDate
 
   render() {
     const { classes } = this.props;
@@ -312,11 +321,7 @@ class IdeasPage extends Component {
           </FormControl>
           <FormControl className={classes.formControl}>
             <InputLabel>Name *</InputLabel>
-            <Input
-              value={this.state.name}
-              onChange={this.handleInputName}
-              defaultValue={this.handleEditName}
-            />
+            <Input value={this.state.name} onChange={this.handleInputName} />
             <FormHelperText>Required</FormHelperText>
           </FormControl>
           <FormControl className={classes.formControl}>
@@ -405,98 +410,49 @@ class IdeasPage extends Component {
         </div>
         {/* THE TABLE */}
         <div className="tableContainer"></div>
-        <Paper className={classes.root} elevation={3}>
-          <Table className={classes.table} MenuProps={tableProps}>
-            <TableHead className={classes.tableHead}>
-              <TableRow className={classes.tableHead}>
-                <TableCell className={classes.tableHeadCell}>Name</TableCell>
-                <TableCell className={classes.tableHeadCell} align="left">
-                  Description
-                </TableCell>
-                <TableCell className={classes.tableHeadCell} align="left">
-                  Link
-                </TableCell>
-                <TableCell className={classes.tableHeadCell} align="left">
-                  Image
-                </TableCell>
-                <TableCell className={classes.tableHeadCell} align="left">
-                  Category
-                </TableCell>
-                <TableCell className={classes.tableHeadCell} align="left">
-                  Favorited
-                </TableCell>
-                <TableCell className={classes.tableHeadCell} align="left">
-                  Date
-                </TableCell>
-                <TableCell></TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {this.props.ideas === []
-                ? 'please wait..'
-                : this.props.ideas.map((idea, index) => (
-                    <TableRow key={index}>
-                      <TableCell className={classes.tableCell}>
-                        {idea.name}
-                      </TableCell>
-                      <TableCell
-                        className={classes.tableCellDescription}
-                        align="left"
-                      >
-                        {idea.description}
-                      </TableCell>
-                      <TableCell className={classes.tableCell} align="left">
-                        {idea.link}
-                      </TableCell>
-                      <TableCell className={classes.tableCell} align="left">
-                        <img
-                          className={classes.tableImage}
-                          src={idea.image_url}
-                          alt={idea.name}
-                          // onClick={this.clickhandler}
-                        ></img>
-                      </TableCell>
-                      <TableCell className={classes.tableCell} align="left">
-                        {idea.category}
-                        {/* {JSON.stringify(ideas.category_id)} */}
-                      </TableCell>
-                      <TableCell className={classes.tableCell} align="left">
-                        {JSON.stringify(idea.favorited)}
-
-                        {idea.favorited}
-                      </TableCell>
-                      <TableCell className={classes.tableCell} align="left">
-                        {idea.date.split('T')[0]}
-                      </TableCell>
-                      {/* Star is for favorite */}
-                      {/* Here we get an error saying the star or SVG icon cannot appear as a child of tr */}
-                      <StarIcon className={classes.starIconTable}></StarIcon>
-
-                      <Button
-                        onMouseEnter={this.editIdeaHovered}
-                        onClick={this.deleteIdeaClick}
-                        value={idea.id}
-                        className={classes.iconContainer}
-                      >
-                        <EditIcon className={classes.editIcon}></EditIcon>
-                      </Button>
-                      {/* {JSON.stringify(this.state.id)} */}
-                      {/* {JSON.stringify(idea.id)} */}
-                      <Button
-                        onMouseEnter={this.deleteIdeaHovered}
-                        onClick={this.deleteIdeaClick}
-                        value={idea.id}
-                        className={classes.iconContainer}
-                      >
-                        <DeleteIcon className={classes.deleteIcon}></DeleteIcon>
-                      </Button>
-
-                      {/* <p>{JSON.stringify(ideas.name)}</p> */}
-                    </TableRow>
-                  ))}
-            </TableBody>
-          </Table>
-        </Paper>
+        {this.props.ideas === [] ? (
+          'please wait..'
+        ) : (
+          <Paper className={classes.root} elevation={3}>
+            <Table className={classes.table} MenuProps={tableProps}>
+              <TableHead className={classes.tableHead}>
+                <TableRow className={classes.tableHead}>
+                  <TableCell className={classes.tableHeadCell}>Name</TableCell>
+                  <TableCell className={classes.tableHeadCell} align="left">
+                    Description
+                  </TableCell>
+                  <TableCell className={classes.tableHeadCell} align="left">
+                    Link
+                  </TableCell>
+                  <TableCell className={classes.tableHeadCell} align="left">
+                    Image
+                  </TableCell>
+                  <TableCell className={classes.tableHeadCell} align="left">
+                    Category
+                  </TableCell>
+                  <TableCell className={classes.tableHeadCell} align="left">
+                    Favorited
+                  </TableCell>
+                  <TableCell className={classes.tableHeadCell} align="left">
+                    Date
+                  </TableCell>
+                  <TableCell className={classes.tableHeadCell} align="left">
+                    Actions
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {this.props.ideas.map((idea, index) => (
+                  <IdeasTable
+                    idea={idea}
+                    index={index}
+                    editIdeaClick={this.editIdeaClick}
+                  />
+                ))}
+              </TableBody>
+            </Table>
+          </Paper>
+        )}
       </div>
     );
   }

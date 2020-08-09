@@ -16,7 +16,6 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import AboutPage from '../AboutPage/AboutPage';
 import UserPage from '../UserPage/UserPage';
 import InfoPage from '../InfoPage/InfoPage';
-
 import TasksPage from '../TasksPage/TasksPage';
 import RemindersPage from '../RemindersPage/RemindersPage';
 import IdeasPage from '../IdeasPage/IdeasPage';

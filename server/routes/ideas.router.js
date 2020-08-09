@@ -14,7 +14,8 @@ require('dotenv').config();
 router.get('/', rejectUnauthenticated, (req, res) => {
   const displayQuery = `SELECT "ideas".*, "category"."name" AS "category" FROM "ideas"
 JOIN "category" on "ideas"."category_id" = "category"."id"
- WHERE user_id=${req.user.id};`;
+WHERE user_id=${req.user.id}
+ ORDER BY "date" ASC;`;
   console.log(`req.user.id:`, req.user.id);
 
   //Pool is our connection to the database
