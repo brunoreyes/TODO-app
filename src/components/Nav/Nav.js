@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import LogOutButton from '../LogOutButton/LogOutButton';
 import './Nav.css';
-// import NavBar from '../NavBar/NavBar.js';
 import { Link } from 'react-router-dom';
 const Nav = (props) => (
   // <Paper elevation={2}>

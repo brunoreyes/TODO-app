@@ -18,14 +18,13 @@ import {
   MenuItem,
   TextField,
   Button,
-  IconButton,
+  // IconButton,
 } from '@material-ui/core';
-import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
 import StarIcon from '@material-ui/icons/Star';
 import EmojiObjectsIcon from '@material-ui/icons/EmojiObjects';
 import IdeasTable from './IdeasTable/IdeasTable';
-// classes.tableHead, table, anything is just talking about styles
+
+// Material UI styles
 const styles = (theme) => ({
   allContainer: {},
   root: {
@@ -33,6 +32,8 @@ const styles = (theme) => ({
     marginTop: theme.spacing.unit * 3,
     overflowX: 'auto',
     margin: 'auto',
+    minWidth: 700,
+    maxHeight: 350,
   },
   formControl: {
     'text-align': 'center',
@@ -78,35 +79,6 @@ const styles = (theme) => ({
     'margin-top': '0px',
   },
   categorySelector: { 'margin-top': '-10px' },
-  tableHead: {
-    'background-color': '#161616',
-  },
-  table: {
-    minWidth: 700,
-  },
-  tableHeadCell: {
-    'font-size': '16px',
-    'font-family': 'Montserrat',
-    'font-weight': '500',
-    color: 'white',
-    'padding-top': '18px',
-    'padding-bottom': '18px',
-    'padding-left': '18px',
-    // 'text-transform': 'uppercase',
-  },
-  tableCell: {
-    'font-family': 'Montserrat',
-    'font-size': '13px',
-    'text-transform': 'capitalize',
-    'padding-left': '18px',
-    'padding-top': '10px',
-    'padding-bottom': '10px',
-  },
-  tableCellDescription: {
-    'font-family': 'Montserrat',
-    'font-size': '13px',
-    'padding-left': '15px',
-  },
   starIconForm: {
     'font-size': '40px',
     'padding-top': '10px',
@@ -116,50 +88,29 @@ const styles = (theme) => ({
       color: 'gold',
     },
   },
-  starIconTable: {
-    'font-size': '20px',
-    'padding-top': '20px',
-    'padding-left': '0px',
-    'padding-right': '15px',
-    '&:hover': {
-      color: 'gold',
-    },
+  table: {
+    'margin-top': '0px',
   },
-  editIcon: {
-    'font-size': '20px',
+  tableHeadCell: {
+    'font-size': '16px',
+    'font-family': 'Montserrat',
+    'font-weight': '500',
+    color: 'white',
+    'padding-top': '18px',
+    'padding-bottom': '18px',
+    'padding-left': '18px',
+    'background-color': '#161616',
+    position: 'sticky',
+    top: 0,
+    // 'text-transform': 'uppercase',
+  },
+  tableCell: {
+    'font-family': 'Montserrat',
+    'font-size': '13px',
+    'text-transform': 'capitalize',
+    'padding-left': '18px',
     'padding-top': '10px',
     'padding-bottom': '10px',
-    'padding-left': '0px',
-    'padding-right': '15px',
-    '&:hover': {
-      color: '#fba333',
-    },
-  },
-  deleteIcon: {
-    'font-size': '20px',
-    'padding-top': '10px',
-    'padding-bottom': '10px',
-    'padding-left': '0px',
-    'padding-right': '5px',
-    '&:hover': {
-      color: '#e53935',
-    },
-  },
-  tableImage: {
-    width: '40px',
-    height: '40px',
-  },
-  deleteIconContainer: {
-    margin: '5px',
-    width: '5px',
-    height: '5px',
-    // KEEP PADDING OR ELSE BUTTON WON'T WORK
-    padding: '5px',
-    'padding-left': '4px',
-    'padding-right': '4px',
-    '&:hover': {
-      backgroundColor: 'white',
-    },
   },
 });
 
@@ -175,30 +126,24 @@ const CategorySelectorProps = {
   },
 };
 
-// MENU props handle the scrollable table
-const table_HEIGHT = 48;
-const table_PADDING_TOP = 8;
-const tableProps = {
-  PaperProps: {
-    style: {
-      maxHeight: table_HEIGHT * 1.4 + table_PADDING_TOP,
-      width: 150,
-    },
-  },
-};
-
 class IdeasPage extends Component {
   componentDidMount() {
     // componentDidMount dispatches an action to request the SearchList from the API
     this.props.dispatch({ type: 'FETCH_IDEAS' });
     this.props.dispatch({ type: 'FETCH_CATEGORIES' });
+    this.props.dispatch({ type: 'FETCH_FAVORITE' });
   }
   state = {
+    name: '',
     description: '',
     image_url: '',
     category_id: '',
+    category: '',
     link: '',
+    date: '',
+    favorited: false,
   };
+
   // initializing the date as today
   constructor() {
     super();
@@ -214,9 +159,23 @@ class IdeasPage extends Component {
     };
   }
 
-  addIdeaClick = () => {
-    console.log('in addIdea');
+  editIdeaClick = (idea) => {
+    this.setState({
+      id: idea.id,
+      name: idea.name,
+      description: idea.description,
+      image_url: idea.image_url,
+      category: idea.category,
+      category_id: idea.category_id,
+      link: idea.link,
+      date: idea.date,
+      editmode: true,
+      user_id: idea.user_id,
+    });
+    console.log('edit was clicked!', idea);
+  };
 
+  addIdeaClick = () => {
     const payload = {
       name: this.state.name,
       description: this.state.description,
@@ -225,39 +184,49 @@ class IdeasPage extends Component {
       link: this.state.link,
       date: this.state.date,
     };
-    this.props.dispatch({ type: 'ADD_IDEA', payload });
+    console.log('in addIdea with payload:', payload);
+    this.props.dispatch({ type: 'ADD_IDEA', payload: payload });
   };
 
-  // deleteIdeaClick = () => {
-  //   const payload = { id: this.state.id };
-  //   console.log('delete was clicked!', payload.id);
-  //   this.props.dispatch({ type: 'DELETE_THIS', payload: payload.id });
-  // };
-
-  deleteIdeaClick = (event) => {
-    const payload = { id: event.target.value };
-    console.log('delete was clicked!', event);
-    this.props.dispatch({ type: 'DELETE_THIS', payload: payload.id });
+  saveChangesClicked = () => {
+    console.log('in saveChangesClicked');
+    const payload = {
+      name: this.state.name,
+      description: this.state.description,
+      image_url: this.state.image_url,
+      category_id: this.state.category_id,
+      link: this.state.link,
+      date: this.state.date,
+      id: this.state.id,
+    };
+    console.log('payload', payload);
+    this.props.dispatch({
+      type: 'UPDATE_IDEA',
+      payload: payload,
+    });
+    this.setState({
+      editmode: false,
+    });
   };
 
-  editIdeaClick = (event) => {
-    const payload = { id: event.target.value };
-    console.log('delete was clicked!', event);
-    this.props.dispatch({ type: 'DELETE_THIS', payload: payload.id });
+  favoritedIdeaClick = () => {
+    console.log('in favoritedIdeaClick');
+
+    this.setState({
+      favorited: !this.state.favorited,
+    });
+    const payload = {
+      favorited: this.state.favorited,
+    };
+    this.props.dispatch({
+      type: 'CHANGE_FAVORITE_STATUS_IDEA',
+      payload: payload,
+    });
+    console.log('this.state.favorited', this.state.favorited);
   };
-
-  // deleteIdeaHovered = (event) => {
-  //   console.log('in deleteIdeaHovered, value:', event.target.value);
-
-  //   // this.setState sets the state's name property = to the user's input
-  //   this.setState({
-  //     id: event.target.value,
-  //   });
-  // }; //end handleInputName
 
   handleInputName = (event) => {
     console.log('in handleInputName, value:', event.target.value);
-
     // this.setState sets the state's name property = to the user's input
     this.setState({
       name: event.target.value,
@@ -266,7 +235,6 @@ class IdeasPage extends Component {
 
   handleInputDescription = (event) => {
     console.log('in handleInputDescription, value:', event.target.value);
-
     this.setState({
       description: event.target.value,
     });
@@ -274,7 +242,6 @@ class IdeasPage extends Component {
 
   handleInputImageUrl = (event) => {
     console.log('in handleInputImageUrl, value:', event.target.value);
-
     this.setState({
       image_url: event.target.value,
     });
@@ -282,7 +249,6 @@ class IdeasPage extends Component {
 
   handleInputCategory = (event) => {
     console.log('in handleInputCategory, value:', event.target.value);
-
     this.setState({
       category_id: event.target.value,
     });
@@ -290,7 +256,6 @@ class IdeasPage extends Component {
 
   handleInputLink = (event) => {
     console.log('in handleInputLink, value:', event.target.value);
-
     this.setState({
       link: event.target.value,
     });
@@ -298,7 +263,6 @@ class IdeasPage extends Component {
 
   handleInputDate = (event) => {
     console.log('in handleInputDate, value:', event.target.value);
-
     this.setState({
       date: event.target.value,
     });
@@ -357,9 +321,13 @@ class IdeasPage extends Component {
               MenuProps={CategorySelectorProps}
               value={this.state.category_id}
               onChange={this.handleInputCategory}
+              // defaultValue={this.state.category}
             >
-              {/* <MenuItem value="">
-                <em>None</em>
+              {/* <MenuItem value={this.state}>
+                <em>Select Below</em>
+              </MenuItem>
+              <MenuItem value={this.state.category_id}>
+                {this.state.category}
               </MenuItem> */}
               {this.props.categories.map((category, index) => (
                 <MenuItem key={index} value={category.id}>
@@ -377,7 +345,7 @@ class IdeasPage extends Component {
           </FormControl>
           <FormControl className={classes.formControl}>
             <StarIcon
-              //     value={this.state.favorited}
+              value={this.state.favorited}
               // onChange={this.handleInput}>
               className={classes.starIconForm}
             ></StarIcon>
@@ -398,14 +366,28 @@ class IdeasPage extends Component {
             />
           </FormControl>
           <FormControl className={classes.formControl}>
-            <Button
-              variant="contained"
-              onClick={this.addIdeaClick}
-              className={classes.newOrAddIdeaButton}
-              endIcon={<EmojiObjectsIcon>Add</EmojiObjectsIcon>}
-            >
-              Add
-            </Button>
+            {/* if this.state.editmode is true ? */}
+            {this.state.editmode ? (
+              <Button
+                // id={submitButton}
+                variant="contained"
+                onClick={this.saveChangesClicked}
+                className={classes.newOrAddIdeaButton}
+                endIcon={<EmojiObjectsIcon>Save</EmojiObjectsIcon>}
+              >
+                Save
+              </Button>
+            ) : (
+              <Button
+                // id={submitButton}
+                variant="contained"
+                onClick={this.addIdeaClick}
+                className={classes.newOrAddIdeaButton}
+                endIcon={<EmojiObjectsIcon>Add</EmojiObjectsIcon>}
+              >
+                Add
+              </Button>
+            )}
           </FormControl>
         </div>
         {/* THE TABLE */}
@@ -414,9 +396,9 @@ class IdeasPage extends Component {
           'please wait..'
         ) : (
           <Paper className={classes.root} elevation={3}>
-            <Table className={classes.table} MenuProps={tableProps}>
-              <TableHead className={classes.tableHead}>
-                <TableRow className={classes.tableHead}>
+            <Table className={classes.table}>
+              <TableHead>
+                <TableRow>
                   <TableCell className={classes.tableHeadCell}>Name</TableCell>
                   <TableCell className={classes.tableHeadCell} align="left">
                     Description
@@ -445,8 +427,9 @@ class IdeasPage extends Component {
                 {this.props.ideas.map((idea, index) => (
                   <IdeasTable
                     idea={idea}
-                    index={index}
+                    key={index}
                     editIdeaClick={this.editIdeaClick}
+                    favoritedIdeaClick={this.favoritedIdeaClick}
                   />
                 ))}
               </TableBody>

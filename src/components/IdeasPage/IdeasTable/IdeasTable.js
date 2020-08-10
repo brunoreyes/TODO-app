@@ -1,10 +1,15 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
-import { withStyles, TableCell, TableRow, IconButton } from '@material-ui/core';
+import {
+  withStyles,
+  TableCell,
+  TableRow,
+  // IconButton
+} from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import StarIcon from '@material-ui/icons/Star';
-import EmojiObjectsIcon from '@material-ui/icons/EmojiObjects';
+// import EmojiObjectsIcon from '@material-ui/icons/EmojiObjects';
 
 const styles = (theme) => ({
   allContainer: {},
@@ -41,39 +46,44 @@ const styles = (theme) => ({
     'padding-left': '15px',
   },
   starIconForm: {
+    // TRBL/Clockwise
+    padding: '10px 0px 0px 0px',
     'font-size': '40px',
-    'padding-top': '10px',
-    'padding-left': '0px',
-    'padding-right': '0px',
+    '&:hover': {
+      color: 'gold',
+    },
+  },
+  graystarIconTable: {
+    'font-size': '20px',
+    'margin-top': '10px',
+    padding: '10px 15px 0px 0px',
+
     '&:hover': {
       color: 'gold',
     },
   },
   starIconTable: {
     'font-size': '20px',
-    'padding-top': '20px',
-    'padding-left': '0px',
-    'padding-right': '15px',
+    'margin-top': '10px',
+    padding: '10px 15px 0px 0px',
+
+    color: 'gold',
     '&:hover': {
-      color: 'gold',
+      color: '#161616',
     },
   },
   editIcon: {
     'font-size': '20px',
-    'padding-top': '10px',
-    'padding-bottom': '10px',
-    'padding-left': '0px',
-    'padding-right': '15px',
+    'margin-top': '10px',
+    padding: '10px 15px 0px 0px',
     '&:hover': {
       color: '#fba333',
     },
   },
   deleteIcon: {
+    'margin-top': '10px',
     'font-size': '20px',
-    'padding-top': '10px',
-    'padding-bottom': '10px',
-    'padding-left': '0px',
-    'padding-right': '5px',
+    padding: '10px 15px 0px 0px',
     '&:hover': {
       color: '#e53935',
     },
@@ -81,6 +91,14 @@ const styles = (theme) => ({
   tableImage: {
     width: '40px',
     height: '40px',
+    border: '#FFFFFF solid 3px',
+    color: 'white',
+    shadow: '0px',
+    backgroundColor: 'white',
+    '&:hover': {
+      border: '#161616 solid 2px',
+      'box-shadow': 'inset 0px 0px 0px 0px #FFFFFF',
+    },
   },
   deleteIconContainer: {
     margin: '5px',
@@ -99,7 +117,7 @@ const styles = (theme) => ({
 class IdeasTable extends Component {
   deleteIdeaClick = () => {
     console.log('delete was clicked!', this.props.idea.id);
-    this.props.dispatch({ type: 'DELETE_THIS', payload: this.props.idea.id });
+    this.props.dispatch({ type: 'DELETE_IDEA', payload: this.props.idea.id });
   };
 
   render() {
@@ -121,7 +139,7 @@ class IdeasTable extends Component {
             <img
               className={classes.tableImage}
               src={this.props.idea.image_url}
-              alt={this.props.idea.name}
+              // alt={this.props.idea.name}
               // onClick={this.clickhandler}
             ></img>
           </TableCell>
@@ -139,30 +157,36 @@ class IdeasTable extends Component {
           </TableCell>
           {/* Star is for favorite */}
           {/* Here we get an error saying the star or SVG icon cannot appear as a child of tr */}
-          <StarIcon className={classes.starIconTable}></StarIcon>
+          {JSON.stringify(this.props.idea.favorited)}
+          {/* {JSON.stringify(this.state.favorited)} */}
+          {this.props.idea.favorited ? (
+            <StarIcon
+              onClick={() => this.props.favoritedIdeaClick(this.props.idea)}
+              className={classes.starIconTable}
+            ></StarIcon>
+          ) : (
+            <StarIcon
+              onClick={() => this.props.favoritedIdeaClick(this.props.idea)}
+              className={classes.graystarIconTable}
+            ></StarIcon>
+          )}
+          {/* <StarIcon
+            onClick={() => this.props.favoritedIdeaClick(this.props.idea)}
+            className={classes.starIconTable}
+          ></StarIcon> */}
           <EditIcon
-            onClick={this.editIdeaClick}
+            onClick={() => this.props.editIdeaClick(this.props.idea)}
             className={classes.editIcon}
           ></EditIcon>
           {/* {JSON.stringify(this.state.id)} */}
           {/* {JSON.stringify(this.props.idea.id)} */}
           {/* <IconButton
-            // onMouseEnter={this.deleteIdeaHovered}
-            onClick={this.deleteIdeaClick}
-            className={classes.deleteIconContainer}
           > */}
           <DeleteIcon
             className={classes.deleteIcon}
             onClick={this.deleteIdeaClick}
           ></DeleteIcon>
           {/* </IconButton> */}
-          {/* <DeleteIcon
-                    component={'Button'}
-                    onClick={this.deleteIdeaClick}
-                    value={idea.id}
-                    className={classes.deleteIcon}
-                ></DeleteIcon> */}
-          {/* <p>{JSON.stringify(ideas.name)}</p> */}
         </TableRow>
       </>
     );
