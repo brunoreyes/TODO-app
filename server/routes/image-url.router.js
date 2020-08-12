@@ -10,14 +10,14 @@ const router = express.Router();
 /**
  * POST route template
  */
-router.post('/', (req, res) => {
-  console.log('req.body:', req.body);
-  console.log('req.body.imageUrl:', req.body.imageUrl);
-  const imageUrl = req.body.imageUrl;
-  const queryString = 'INSERT INTO "awesome_table" ("image_url") VALUES ($1)';
+// router.post('/', (req, res) => {
+//   console.log('req.body:', req.body);
+//   console.log('req.body.imageUrl:', req.body.imageUrl);
+//   const imageUrl = req.body.imageUrl;
+//   const queryString = 'INSERT INTO "ideas" ("image_url") VALUES ($1) WHERE ';
 
-  pool.query(queryString, [imageUrl]);
-  res.sendStatus(200);
-});
+//   pool.query(queryString, [imageUrl]);
+//   res.sendStatus(200);
+// });
 
 module.exports = router;

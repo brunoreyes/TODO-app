@@ -2,18 +2,19 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import DropzoneS3Uploader from 'react-dropzone-s3-uploader';
 import './ImageUpload.css';
+import ImageIcon from '@material-ui/icons/Image';
 
 // s3 comes from react
 const dropStyles = {
   'margin-top': '20px',
 };
 class ImageUpload extends Component {
-  handleFinishedUpload = (info) => {
-    console.log('info:', info);
-    console.log('File uploaded with filename:', info.filename);
-    console.log('Access it on s3 at:', info.fileUrl);
-    this.props.dispatch({ type: 'POST_IMAGE_URL', payload: info.fileUrl });
-  };
+  // handleFinishedUpload = (info) => {
+  //   console.log('info:', info);
+  //   console.log('File uploaded with filename:', info.filename);
+  //   console.log('Access it on s3 at:', info.fileUrl);
+  //   this.props.dispatch({ type: 'POST_IMAGE_URL', payload: info.fileUrl });
+  // };
   render() {
     const uploadOptions = {
       server: 'https://warm-shore-09020.herokuapp.com',
@@ -24,14 +25,16 @@ class ImageUpload extends Component {
 
     const innerDropElement = (
       <div className="inner-drop">
-        <p>or Upload/Drop Image</p>
+        <p>
+          Upload <ImageIcon className="image-icon" />
+        </p>
       </div>
     );
     return (
       <span className="uploaderContainer">
         <DropzoneS3Uploader
           children={innerDropElement}
-          onFinish={this.handleFinishedUpload}
+          onFinish={this.props.handleFinishedUpload}
           s3Url={s3Url}
           style={dropStyles}
           maxSize={1024 * 1024 * 5}

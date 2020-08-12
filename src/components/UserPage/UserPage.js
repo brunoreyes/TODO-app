@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import LogOutButton from "../LogOutButton/LogOutButton";
+import LogOutButton from '../LogOutButton/LogOutButton';
+import './UserPage.css';
 
 class UserPage extends Component {
-
   // this component doesn't do much to start, just renders some user info to the DOM
   render() {
     return (
-      <div>
-        <h1 id="welcome">Welcome, {this.props.user.username}!</h1>
+      <div className="userPage">
+        <h1 id="welcome">Welcome, {this.props.user.first_name}!</h1>
         <p>Your ID is: {this.props.user.id}</p>
         <LogOutButton className="log-in" />
       </div>
