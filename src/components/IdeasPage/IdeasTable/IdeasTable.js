@@ -36,12 +36,10 @@ const styles = (theme) => ({
       backgroundColor: '#f9f9f9',
     },
   },
-  tableCellLeft: {
-    font: '  500 13px Montserrat, sans-serif',
-    'text-transform': 'capitalize',
-    padding: '10px 0px 10px 18px',
+  collapseTableRow: {
+    backgroundColor: '#f9f9f9',
   },
-  collapseTableCellLeft: {
+  tableCellLeft: {
     font: '  500 13px Montserrat, sans-serif',
     'text-transform': 'capitalize',
     padding: '10px 0px 10px 18px',
@@ -61,16 +59,8 @@ const styles = (theme) => ({
   tableCellDescription: {
     font: '  500 13px Montserrat, sans-serif',
     padding: '10px 1% 10px 1%',
-    display: 'flex-box',
-    // maxWidth: '50px',
-  },
-  starIconForm: {
-    // TRBL/Clockwise
-    padding: '10px 0px 0px 0px',
-    'font-size': '40px',
-    '&:hover': {
-      color: 'gold',
-    },
+    'word-wrap': 'break-word',
+    width: '400px',
   },
   blackstarIconTable: {
     'margin-bottom': '5px',
@@ -120,7 +110,7 @@ const styles = (theme) => ({
   },
   tableImage: {
     // border: '#ffffff solid 2px',
-    width: '180px',
+    width: '300px',
     // 'box-shadow': 'inset 0px 0px 0px 0px #FFFFFF',
     backgroundColor: 'white',
   },
@@ -190,9 +180,15 @@ class IdeasTable extends Component {
             {this.props.idea.name}
           </TableCell>
           <TableCell className={classes.tableCellDescription} align="left">
-            {this.state.viewmoremode
-              ? this.props.idea.description
-              : this.props.idea.description.substring(0, 20) + '...'}
+            {this.state.viewmoremode ? (
+              this.props.idea.description
+            ) : (
+              <span>
+                {this.props.idea.description.length > 40
+                  ? this.props.idea.description.substring(0, 40) + '...'
+                  : this.props.idea.description}
+              </span>
+            )}
           </TableCell>
           <TableCell className={classes.tableCell} align="left">
             {this.props.idea.category}
@@ -225,7 +221,7 @@ class IdeasTable extends Component {
               <img
                 className={classes.tableImage}
                 src={this.props.idea.image_url}
-                alt={this.props.idea.name}
+                // alt={this.props.idea.name}
               ></img>
             ) : (
               <span></span>
@@ -250,7 +246,8 @@ class IdeasTable extends Component {
             )}
             {this.props.idea.favorited}
           </TableCell>
-          {/* Here we get an error saying the star or SVG icon cannot appear as a child of tr */}
+          {/* Here we get an error saying the star or 
+          SVG icon cannot appear as a child of tr */}
           {this.state.viewmoremode ? (
             <ExpandMoreIcon
               className={classes.collapseIcon}

@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import ImageUpload from '../ImageUpload/ImageUpload';
-import './IdeasPage.css';
 import {
   withStyles,
   Table,
@@ -34,6 +33,11 @@ const styles = (theme) => ({
 
   // FORM STYLING
 
+  formControl: {
+    'text-align': 'center',
+    margin: '10px',
+    'padding-top': '20px',
+  },
   formControl: {
     'text-align': 'center',
     margin: '10px',
@@ -77,6 +81,7 @@ const styles = (theme) => ({
   //   marginTop: '15px',
   // },
   descriptionInput: { width: '250px' },
+  descriptionInput: { width: '250px' },
   categorySelector: { marginTop: '0px' },
   linkInputField: { marginTop: '-5px' },
   uploadImageButton: {
@@ -107,6 +112,13 @@ const styles = (theme) => ({
   },
   // TABLE STYLING
 
+  tableContainer: {
+    'margin-top': '450px',
+    position: 'sticky',
+    bottom: 0,
+  },
+
+  // root = table's paper
   root: {
     width: '90%',
     marginTop: theme.spacing.unit * 3,
@@ -115,39 +127,27 @@ const styles = (theme) => ({
     minWidth: 700,
     'border-radius': '5px',
   },
-  tableContainer: {
-    'margin-top': '450px',
-    position: 'sticky',
-    bottom: 0,
-  },
-  table: {
-    'margin-top': '0px',
-  },
-  tableHeadCell: {
-    font: '500 16px Montserrat, sans-serif',
-    color: 'white',
-    padding: '18px 9% 18px -10%',
-    'background-color': '#161616',
-    // position: 'sticky',
-    // top: 0,
-    // 'text-transform': 'capitalize',
-  },
+  table: {},
   tableHeadCellLeft: {
     // font: font-weight font-size/line-height font-variant, font-stylefont
     font: 'small-caps 500 16px Montserrat, sans-serif',
     color: 'white',
-    padding: '18px 30% 18px 1%',
+    padding: '18px 0% 18px 1%',
     'background-color': '#161616',
+  },
+  tableHeadCell: {
+    font: '500 16px Montserrat, sans-serif',
+    color: 'white',
+    padding: '18px 0% 18px -1%',
+    'background-color': '#161616',
+    // position: 'sticky',
+    // top: 0,
   },
   tableHeadCellRight: {
     font: '500 16px Montserrat, sans-serif',
     color: 'white',
-    padding: '18px 30% 18px 3%',
+    padding: '18px 0px 18px 0%',
     'background-color': '#161616',
-  },
-  tableCell: {
-    font: '  500 16px Montserrat, sans-serif',
-    padding: '18px -1% 18px -10%',
   },
 });
 
@@ -347,6 +347,7 @@ class IdeasPage extends Component {
     }
   };
 
+  // image upload handler
   handleFinishedUpload = (info) => {
     console.log(
       'info:',
@@ -371,6 +372,7 @@ class IdeasPage extends Component {
 
   render() {
     const { classes } = this.props;
+
     return (
       <div className={classes.allContainer}>
         <span className={classes.newViewContainer}>
@@ -400,12 +402,15 @@ class IdeasPage extends Component {
           <Fade>
             <div className={classes.formControlContainer}>
               <FormControl className={classes.formControl}>
-                <InputLabel>Name</InputLabel>
-                <Input
-                  value={this.state.name}
-                  onChange={this.handleInputChangeFor('name')}
-                />
-                <FormHelperText>Required *</FormHelperText>
+                <div>
+                  <InputLabel>Name</InputLabel>
+                  <Input
+                    multiline
+                    value={this.state.name}
+                    onChange={this.handleInputChangeFor('name')}
+                  />
+                  <FormHelperText>Required *</FormHelperText>
+                </div>
               </FormControl>
               <FormControl className={classes.formControl}>
                 <InputLabel>Description</InputLabel>
@@ -446,8 +451,8 @@ class IdeasPage extends Component {
                   <LinkIcon />
                 </InputLabel>
                 <Input
+                  className={classes.descriptionInput}
                   value={this.state.link}
-                  // onChange={this.handleInputLink}
                   onChange={this.handleInputChangeFor('link')}
                 />
                 <FormHelperText></FormHelperText>
