@@ -16,7 +16,7 @@ import {
   FormHelperText,
   Select,
   MenuItem,
-  TextField,
+  // TextField,
   Button,
   // IconButton,
 } from '@material-ui/core';
@@ -31,15 +31,9 @@ import Fade from 'react-reveal/Fade';
 // Material UI styles
 const styles = (theme) => ({
   allContainer: {},
-  root: {
-    width: '90%',
-    marginTop: theme.spacing.unit * 3,
-    overflowX: 'auto',
-    margin: 'auto',
-    minWidth: 700,
-    // maxHeight: 350,
-    'margin-bottom': '120px',
-  },
+
+  // FORM STYLING
+
   formControl: {
     'text-align': 'center',
     margin: '10px',
@@ -48,38 +42,22 @@ const styles = (theme) => ({
   formControlContainer: {
     'text-align': 'center',
     width: 'auto',
-    'margin-bottom': '20px',
-    'margin-top': '20px',
+    margin: '20px 0px',
   },
   newViewContainer: {
-    'text-align': 'center',
     margin: 'auto',
     display: 'flex',
     'justify-content': 'center',
   },
   newContainer: {
     width: 'auto',
-    'margin-bottom': '0px',
-    'margin-top': '100px',
     display: 'inline-block',
-    marginRight: '10px',
-    margin: 'auto',
+    margin: '100px 10px 0px auto',
   },
   viewContainer: {
-    margin: 'auto',
     width: 'auto',
-    marginLeft: '10px',
-    'margin-bottom': '0px',
-    'margin-top': '100px',
+    margin: '100px auto 0px 10px',
     display: 'inline-block',
-    // position: 'fixed',
-    // bottom: 3,
-  },
-  menuItemsContainer: {
-    flexWrap: 'wrap',
-  },
-  menuItem: {
-    margin: (theme.spacing.unit * 1) / 4,
   },
   invisibleText: {
     color: 'white',
@@ -88,32 +66,30 @@ const styles = (theme) => ({
     color: 'white',
     'font-family': 'Montserrat',
     'background-color': '#161616',
-    margin: '0px',
-    padding: '8px',
-    'margin-top': '10px',
+    margin: '10px 0px 0px 0px',
+    padding: '8px 8px 8px 10px',
     '&:hover': {
       color: 'gold',
       'background-color': '#161616',
     },
   },
+  // dateField: {
+  //   marginTop: '15px',
+  // },
+  descriptionInput: { width: '250px' },
+  categorySelector: { marginTop: '0px' },
+  linkInputField: { marginTop: '-5px' },
   uploadImageButton: {
-    'padding-top': '0px',
-    'padding-bottom': '0px',
+    padding: '0px 11px 0px 13px',
     'background-color': '#161616',
-    'margin-bottom': '50px',
-    'margin-top': '10px',
+    margin: '10px 0px 50px 0px',
     '&:hover': {
       'background-color': '#161616',
     },
   },
-  dateField: {
-    'margin-top': '15px',
-  },
-  categorySelector: { 'margin-top': '0px' },
-  linkInputField: { 'margin-top': '-5px' },
   starIconForm: {
     'font-size': '40px',
-    padding: '10px 0px 0px 0px',
+    paddingTop: '10px',
     color: 'gold',
     '&:hover': {
       color: '#161616',
@@ -121,75 +97,67 @@ const styles = (theme) => ({
   },
   blackstarIconForm: {
     'font-size': '40px',
-    padding: '10px 0px 0px 0px',
-    'padding-top': '10px',
-    'padding-left': '0px',
-    'padding-right': '0px',
+    paddingTop: '10px',
     '&:hover': {
       color: 'gold',
     },
   },
+  errorMessage: {
+    color: 'white',
+  },
+  // TABLE STYLING
+
+  root: {
+    width: '90%',
+    marginTop: theme.spacing.unit * 3,
+    overflowX: 'auto',
+    margin: 'auto auto 120px auto',
+    minWidth: 700,
+    'border-radius': '5px',
+  },
   tableContainer: {
-    'margin-top': '340px',
+    'margin-top': '450px',
     position: 'sticky',
     bottom: 0,
   },
   table: {
     'margin-top': '0px',
   },
-
   tableHeadCell: {
-    'font-size': '16px',
-    'font-family': 'Montserrat',
-    'font-weight': '500',
+    font: '500 16px Montserrat, sans-serif',
     color: 'white',
     padding: '18px 9% 18px -10%',
     'background-color': '#161616',
     // position: 'sticky',
     // top: 0,
-    // 'text-transform': 'uppercase',
+    // 'text-transform': 'capitalize',
   },
   tableHeadCellLeft: {
-    'font-size': '16px',
-    'font-family': 'Montserrat',
-    'font-weight': '500',
+    // font: font-weight font-size/line-height font-variant, font-stylefont
+    font: 'small-caps 500 16px Montserrat, sans-serif',
     color: 'white',
     padding: '18px 30% 18px 1%',
     'background-color': '#161616',
-    // position: 'sticky',
-    // top: 0,
-    // 'text-transform': 'uppercase',
   },
   tableHeadCellRight: {
-    'font-size': '16px',
-    'font-family': 'Montserrat',
-    'font-weight': '500',
+    font: '500 16px Montserrat, sans-serif',
     color: 'white',
-    // 'margin-left': '40px',
     padding: '18px 30% 18px 3%',
     'background-color': '#161616',
-    // position: 'sticky',
-    // top: 0,
-    // 'text-transform': 'uppercase',
   },
   tableCell: {
-    'font-family': 'Montserrat',
-    'font-size': '13px',
-    'text-transform': 'capitalize',
+    font: '  500 16px Montserrat, sans-serif',
     padding: '18px -1% 18px -10%',
-  },
-  errorMessage: {
-    color: 'white',
   },
 });
 
 // PaperProps handle the scrollable selector
-const CategorySelector_HEIGHT = 40;
-const CategorySelector_PADDING_TOP = 6;
+const CategorySelectorHeight = 40;
+const CategorySelectorPaddingTop = 6;
 const CategorySelectorProps = {
   PaperProps: {
     style: {
-      maxHeight: CategorySelector_HEIGHT * 3.4 + CategorySelector_PADDING_TOP,
+      maxHeight: CategorySelectorHeight * 3.4 + CategorySelectorPaddingTop,
       width: 150,
     },
   },
@@ -217,7 +185,7 @@ class IdeasPage extends Component {
     viewmode: false,
   };
 
-  // initializing the date as today
+  // Changing the date to today
   constructor() {
     super();
     var today = new Date(),
@@ -232,21 +200,48 @@ class IdeasPage extends Component {
     };
   }
 
-  newClicked = () => {
-    console.log('new was clicked!', this.state.editmode);
+  // Unique Click Handlers
+  handleNewClick = () => {
     this.setState({
       inputmode: !this.state.inputmode,
     });
+    console.log(
+      'New was clicked! Now edit mode state is:',
+      this.state.editmode
+    );
   };
 
-  viewClicked = () => {
-    console.log('view was clicked!', this.state.editmode);
+  handleViewClick = () => {
     this.setState({
       viewmode: !this.state.viewmode,
     });
+    console.log(
+      'View was clicked! Now view mode state is:',
+      this.state.viewmode
+    );
   };
 
-  editIdeaClick = (idea) => {
+  handleFavoriteIdeaFormClick = () => {
+    this.setState({
+      favorited: !this.state.favorited,
+    });
+    console.log(
+      'in handleFavoriteIdeaFormClick. Now this.state.favorited value is:',
+      this.state.favorited
+    );
+  };
+
+  // handleSwitchChangeFor = (propertyName) => (event) => {
+  //   this.setState({
+  //     [propertyName]: !this.state.propertyName,
+  //   });
+  //   console.log(
+  //     `in handleInputChangeFor ${propertyName}:`,
+  //     this.state.propertyName
+  //   );
+  // };
+
+  handleEditIdeaClick = (idea) => {
     this.setState({
       id: idea.id,
       name: idea.name,
@@ -260,16 +255,35 @@ class IdeasPage extends Component {
       user_id: idea.user_id,
       favorited: idea.favorited,
     });
-    console.log('edit was clicked!', idea);
+    console.log('edit was clicked! Idea state:', idea);
   };
 
-  addIdeaClick = () => {
+  handleFavoritedIdeaClick = (idea) => {
+    const payload = {
+      favorited: !idea.favorited,
+      id: idea.id,
+    };
+    this.setState({
+      favorited: !idea.favorited,
+      id: idea.id,
+    });
+    this.props.dispatch({
+      type: 'CHANGE_FAVORITE_STATUS_IDEA',
+      payload: payload,
+    });
+    console.log(
+      'in favoritedIdeaClick, this.state.favorited:',
+      this.state.favorited
+    );
+  };
+
+  handleAddIdeaClick = () => {
     if (
       this.state.name === '' ||
       this.state.description === '' ||
-      this.state.category === ''
+      this.state.category_id === ''
     ) {
-      alert('Please Fill All Required * Feilds');
+      alert('Please Fill All Required * Fields');
     } else {
       const payload = {
         name: this.state.name,
@@ -290,21 +304,20 @@ class IdeasPage extends Component {
         category_id: '',
         category: '',
         link: '',
-        date: '',
         favorited: false,
       });
     }
   };
 
-  saveChangesClicked = () => {
+  // save changes = submit button
+  handleSaveChangesClick = () => {
     if (
       this.state.name === '' ||
       this.state.description === '' ||
-      this.state.category === ''
+      this.state.category_id === ''
     ) {
       alert('Please Fill All Required * Fields');
     } else {
-      console.log('in saveChangesClicked');
       const payload = {
         name: this.state.name,
         description: this.state.description,
@@ -315,7 +328,7 @@ class IdeasPage extends Component {
         favorited: this.state.favorited,
         id: this.state.id,
       };
-      console.log('payload', payload);
+      console.log('In saveChangesClicked, payload:', payload);
       this.props.dispatch({
         type: 'UPDATE_IDEA',
         payload: payload,
@@ -330,81 +343,30 @@ class IdeasPage extends Component {
         link: '',
         favorited: false,
       });
-
       this.props.dispatch({ type: 'FETCH_IDEAS' });
     }
   };
 
-  favoritedIdeaClick = (idea) => {
-    console.log('in favoritedIdeaClick');
-    const payload = {
-      favorited: !idea.favorited,
-      id: idea.id,
-    };
-    this.setState({
-      favorited: !idea.favorited,
-      id: idea.id,
-    });
-    this.props.dispatch({
-      type: 'CHANGE_FAVORITE_STATUS_IDEA',
-      payload: payload,
-    });
-    console.log('this.state.favorited', this.state.favorited);
-  };
-
-  handleFavoriteIdeaFormClick = (event) => {
-    console.log(
-      'in handleFavoriteIdeaFormClick, old value:',
-      this.state.favorited
-    );
-    this.setState({
-      favorited: !this.state.favorited,
-    });
-  };
-
-  handleInputName = (event) => {
-    console.log('in handleInputName, value:', event.target.value);
-    // this.setState sets the state's name property = to the user's input
-    this.setState({
-      name: event.target.value,
-    });
-  };
-
-  handleInputDescription = (event) => {
-    console.log('in handleInputDescription, value:', event.target.value);
-    this.setState({
-      description: event.target.value,
-    });
-  };
-
   handleFinishedUpload = (info) => {
-    console.log('info:', info);
-    console.log('File uploaded with filename:', info.filename);
-    console.log('Access it on s3 at:', info.fileUrl);
+    console.log(
+      'info:',
+      info,
+      'File uploaded with filename:',
+      info.filename,
+      'Access it on s3 at:',
+      info.fileUrl
+    );
     this.setState({
       image_url: info.fileUrl,
     });
   };
 
-  handleInputCategory = (event) => {
-    console.log('in handleInputCategory, value:', event.target.value);
+  // General Click Handler for Name, Description, Catagory, Link & Date
+  handleInputChangeFor = (propertyName) => (event) => {
     this.setState({
-      category_id: event.target.value,
+      [propertyName]: event.target.value,
     });
-  };
-
-  handleInputLink = (event) => {
-    console.log('in handleInputLink, value:', event.target.value);
-    this.setState({
-      link: event.target.value,
-    });
-  };
-
-  handleInputDate = (event) => {
-    console.log('in handleInputDate, value:', event.target.value);
-    this.setState({
-      date: event.target.value,
-    });
+    console.log(`in handleInputChangeFor ${propertyName}:`, event.target.value);
   };
 
   render() {
@@ -417,8 +379,8 @@ class IdeasPage extends Component {
             <Button
               variant="contained"
               className={classes.newOrAddIdeaButton}
-              endIcon={<EmojiObjectsIcon>New</EmojiObjectsIcon>}
-              onClick={this.newClicked}
+              endIcon={<EmojiObjectsIcon></EmojiObjectsIcon>}
+              onClick={this.handleNewClick}
             >
               New
             </Button>
@@ -427,8 +389,8 @@ class IdeasPage extends Component {
             <Button
               variant="contained"
               className={classes.newOrAddIdeaButton}
-              endIcon={<EmojiObjectsIcon>View</EmojiObjectsIcon>}
-              onClick={this.viewClicked}
+              endIcon={<EmojiObjectsIcon></EmojiObjectsIcon>}
+              onClick={this.handleViewClick}
             >
               View
             </Button>
@@ -441,17 +403,18 @@ class IdeasPage extends Component {
                 <InputLabel>Name</InputLabel>
                 <Input
                   value={this.state.name}
-                  onChange={this.handleInputName}
+                  onChange={this.handleInputChangeFor('name')}
                 />
                 <FormHelperText>Required *</FormHelperText>
               </FormControl>
               <FormControl className={classes.formControl}>
                 <InputLabel>Description</InputLabel>
                 <Input
+                  className={classes.descriptionInput}
                   multiline
                   rowsMax={10}
                   value={this.state.description}
-                  onChange={this.handleInputDescription}
+                  onChange={this.handleInputChangeFor('description')}
                 />
                 <FormHelperText>Required *</FormHelperText>
               </FormControl>
@@ -462,15 +425,8 @@ class IdeasPage extends Component {
                 <Select
                   MenuProps={CategorySelectorProps}
                   value={this.state.category_id}
-                  onChange={this.handleInputCategory}
-                  // defaultValue={this.state.category}
+                  onChange={this.handleInputChangeFor('category_id')}
                 >
-                  {/* <MenuItem value={this.state}>
-                <em>Select Below</em>
-              </MenuItem>
-              <MenuItem value={this.state.category_id}>
-                {this.state.category}
-              </MenuItem> */}
                   {this.props.categories.map((category, index) => (
                     <MenuItem key={index} value={category.id}>
                       {category.name}
@@ -487,12 +443,12 @@ class IdeasPage extends Component {
               </FormControl>
               <FormControl className={classes.formControl}>
                 <InputLabel className={classes.linkInputField}>
-                  {' '}
                   <LinkIcon />
                 </InputLabel>
                 <Input
                   value={this.state.link}
-                  onChange={this.handleInputLink}
+                  // onChange={this.handleInputLink}
+                  onChange={this.handleInputChangeFor('link')}
                 />
                 <FormHelperText></FormHelperText>
               </FormControl>
@@ -530,6 +486,7 @@ class IdeasPage extends Component {
                   ></StarIcon>
                 </FormControl>
               )}
+
               {/* <FormControl className={classes.formControl}>
             <InputLabel className={classes.dateLabel}>Date</InputLabel>
             <TextField
@@ -545,13 +502,13 @@ class IdeasPage extends Component {
               }}
             />
           </FormControl> */}
+
               <FormControl className={classes.formControl}>
-                {/* if this.state.editmode is true ? */}
                 {this.state.editmode ? (
                   <Button
                     // id={submitButton}
                     variant="contained"
-                    onClick={this.saveChangesClicked}
+                    onClick={this.handleSaveChangesClick}
                     className={classes.newOrAddIdeaButton}
                     endIcon={<EmojiObjectsIcon>Save</EmojiObjectsIcon>}
                   >
@@ -560,7 +517,7 @@ class IdeasPage extends Component {
                 ) : (
                   <Button
                     variant="contained"
-                    onClick={this.addIdeaClick}
+                    onClick={this.handleAddIdeaClick}
                     className={classes.newOrAddIdeaButton}
                     endIcon={<EmojiObjectsIcon>Add</EmojiObjectsIcon>}
                   >
@@ -635,12 +592,14 @@ class IdeasPage extends Component {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {this.props.ideas.map((idea, index) => (
+                      {this.props.ideas.map((idea) => (
                         <IdeasTable
                           idea={idea}
                           key={idea.id}
-                          editIdeaClick={this.editIdeaClick}
-                          favoritedIdeaClick={this.favoritedIdeaClick}
+                          handleEditIdeaClick={this.handleEditIdeaClick}
+                          handleFavoritedIdeaClick={
+                            this.handleFavoritedIdeaClick
+                          }
                         />
                       ))}
                     </TableBody>

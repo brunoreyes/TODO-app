@@ -13,13 +13,13 @@ import LinkIcon from '@material-ui/icons/Link';
 import ImageIcon from '@material-ui/icons/Image';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import BubbleChartIcon from '@material-ui/icons/BubbleChart';
+// import BubbleChartIcon from '@material-ui/icons/BubbleChart';
 // import EmojiObjectsIcon from '@material-ui/icons/EmojiObjects';
 
 const styles = (theme) => ({
   allContainer: {},
   root: {
-    width: '80%',
+    width: '70%',
     marginTop: theme.spacing.unit * 3,
     overflowX: 'auto',
     margin: 'auto',
@@ -32,55 +32,35 @@ const styles = (theme) => ({
     //   backgroundColor: '#f9f9f9',
     // },
     color: '#161616',
-    // flex: 1,
     '&:hover': {
       backgroundColor: '#f9f9f9',
     },
   },
-  collapseTableRow: {
-    color: '#161616',
-    // flex: 1,
-    // border: '#161616 solid 2px',
-    backgroundColor: '#f9f9f9',
-    // alignItems: 'top',
-    height: '100%',
-
-    // with point-events I can click something
-    // and it'll be that way indefinetely
-    // 'pointer-events': 'none',
-  },
   tableCellLeft: {
-    'font-size': '13px',
-    'font-family': 'Montserrat',
-    'font-weight': '500',
+    font: '  500 13px Montserrat, sans-serif',
     'text-transform': 'capitalize',
-    'padding-left': '18px',
-    'padding-top': '10px',
-    'padding-bottom': '10px',
+    padding: '10px 0px 10px 18px',
+  },
+  collapseTableCellLeft: {
+    font: '  500 13px Montserrat, sans-serif',
+    'text-transform': 'capitalize',
+    padding: '10px 0px 10px 18px',
   },
   tableCell: {
-    'font-family': 'Montserrat',
-    'font-size': '13px',
-    'font-weight': '500',
+    font: '  500 13px Montserrat, sans-serif',
     'text-transform': 'capitalize',
-    'padding-left': '18px',
-    'padding-top': '10px',
-    'padding-bottom': '10px',
+    padding: '10px 0px 10px 18px',
   },
-
   tableLink: {
-    'font-family': 'Montserrat',
-    'font-size': '13px',
+    font: '13px Montserrat, sans-serif',
     'padding-left': '15px',
     '&:hover': {
       color: '#1976d1',
     },
   },
   tableCellDescription: {
-    'font-family': 'Montserrat',
-    'font-weight': '500',
-    'font-size': '13px',
-    padding: '10px 2% 10px 1%',
+    font: '  500 13px Montserrat, sans-serif',
+    padding: '10px 1% 10px 1%',
     display: 'flex-box',
     // maxWidth: '50px',
   },
@@ -109,14 +89,14 @@ const styles = (theme) => ({
   },
   collapseIcon: {
     'font-size': '30px',
-    padding: '17px 10px 0px 20px',
+    padding: '17px 10px 0px 1px',
     '&:hover': {
       color: '#1669aa',
     },
   },
   uncollapseIcon: {
     'font-size': '30px',
-    padding: '17px 10px 0px 0px',
+    padding: '17px 10px 0px 3px',
     '&:hover': {
       color: '#1669aa',
     },
@@ -148,12 +128,6 @@ const styles = (theme) => ({
 
 class IdeasTable extends Component {
   componentDidUpdate(prevProps) {
-    // Typical usage (don't forget to compare props):
-    // if (this.props.userID !== prevProps.userID) {
-    //   this.fetchData(this.props.userID);
-    //   this.setState({
-    //     editmode: false,
-    //   });
     if (this.props.userID !== prevProps.userID) {
       this.fetchData(this.props.userID);
       this.setState({
@@ -162,29 +136,30 @@ class IdeasTable extends Component {
     }
   }
 
-  deleteIdeaClick = () => {
+  handleDeleteIdeaClick = () => {
     console.log('delete was clicked!', this.props.idea.id);
     this.props.dispatch({ type: 'DELETE_IDEA', payload: this.props.idea.id });
   };
 
-  linkClicked = () => {
+  handleLinkClick = () => {
     console.log('this.props.idea.link', this.props.idea.link);
     let win = window.open(this.props.idea.link, '_blank');
     win.focus();
   };
+
   state = {
     editmode: false,
     viewmoremode: false,
   };
 
-  editIdeaClickOnTable = () => {
+  handleEditIdeaClickOnTable = () => {
     console.log('edit was clicked!', this.state.editmode);
     this.setState({
       editmode: !this.state.editmode,
     });
   };
 
-  collapsedClicked = () => {
+  handleCollapsedClick = () => {
     console.log(
       'collapse was clicked, viewmoremode state switched to:',
       this.state.editmode
@@ -198,7 +173,7 @@ class IdeasTable extends Component {
     const { classes } = this.props;
     return (
       <>
-        {/* Do not wrap table row within a Div */}
+        {/*-- Do not wrap table row within a Div --*/}
         <TableRow
           id={this.props.idea.id}
           key={this.props.idea.id}
@@ -227,12 +202,10 @@ class IdeasTable extends Component {
             {this.props.idea.link === '' ? (
               <span></span>
             ) : (
-              // <a href={this.props.idea.link}>
               <LinkIcon
                 value={this.props.idea.link}
-                onClick={this.linkClicked}
+                onClick={this.handleLinkClick}
               />
-              // </a>
             )}
           </TableCell>
           <TableCell className={classes.tableCell} align="left">
@@ -252,6 +225,7 @@ class IdeasTable extends Component {
               <img
                 className={classes.tableImage}
                 src={this.props.idea.image_url}
+                alt={this.props.idea.name}
               ></img>
             ) : (
               <span></span>
@@ -261,12 +235,16 @@ class IdeasTable extends Component {
             {/* {JSON.stringify(this.props.idea.favorited)} */}
             {this.props.idea.favorited ? (
               <StarIcon
-                onClick={() => this.props.favoritedIdeaClick(this.props.idea)}
+                onClick={() =>
+                  this.props.handleFavoritedIdeaClick(this.props.idea)
+                }
                 className={classes.starIconTable}
               ></StarIcon>
             ) : (
               <StarIcon
-                onClick={() => this.props.favoritedIdeaClick(this.props.idea)}
+                onClick={() =>
+                  this.props.handleFavoritedIdeaClick(this.props.idea)
+                }
                 className={classes.blackstarIconTable}
               ></StarIcon>
             )}
@@ -276,18 +254,18 @@ class IdeasTable extends Component {
           {this.state.viewmoremode ? (
             <ExpandMoreIcon
               className={classes.collapseIcon}
-              onClick={this.collapsedClicked}
+              onClick={this.handleCollapsedClick}
             />
           ) : (
             <ExpandLessIcon
               className={classes.uncollapseIcon}
-              onClick={this.collapsedClicked}
+              onClick={this.handleCollapsedClick}
             />
           )}
           <EditIcon
             onClick={() => {
-              this.props.editIdeaClick(this.props.idea);
-              this.editIdeaClickOnTable();
+              this.props.handleEditIdeaClick(this.props.idea);
+              this.handleEditIdeaClickOnTable();
             }}
             className={classes.editIcon}
           ></EditIcon>
@@ -298,7 +276,7 @@ class IdeasTable extends Component {
           {/* document.querySelector('tr #6') */}
           <DeleteIcon
             className={classes.deleteIcon}
-            onClick={this.deleteIdeaClick}
+            onClick={this.handleDeleteIdeaClick}
           ></DeleteIcon>
           {/* </IconButton> */}
         </TableRow>
