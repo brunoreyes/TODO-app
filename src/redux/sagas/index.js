@@ -6,6 +6,7 @@ import imageInfoSaga from './imageInfoSaga';
 import ideasSaga from './ideasSaga';
 import categorySaga from './categorySaga';
 import favoriteSaga from './favoriteSaga';
+import memoriesSaga from './memoriesSaga';
 
 // rootSaga is the primary saga.
 // It bundles up all of the other sagas so our project can use them.
@@ -23,5 +24,6 @@ export default function* rootSaga() {
     ideasSaga(),
     categorySaga(),
     favoriteSaga(),
+    memoriesSaga(),
   ]);
 }

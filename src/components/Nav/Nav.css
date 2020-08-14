@@ -5,12 +5,12 @@
 
   /* color: black; */
   color: white;
-  padding-left: 20px;
+  padding-left: 10px;
   font-family: 'Montserrat', sans-serif;
-  margin-left: 15px;
+  /* margin-left: 15px; */
   border-top: #161616 solid 2px;
-  padding-bottom: 0px;
-  padding-right: 15px;
+  /* padding-bottom: 0px; */
+  padding-right: 10px;
 }
 
 /* The whole header nav bar */
@@ -43,7 +43,7 @@
   /* border-bottom: black solid 2px; */
   border-top: #161616 solid 1px;
   margin-right: 10px;
-  padding-bottom: 14px;
+  padding-bottom: 13px;
   /* border-bottom: white solid 13px; */
 }
 

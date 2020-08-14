@@ -24,9 +24,7 @@ const styles = (theme) => ({
     overflowX: 'auto',
     margin: 'auto',
   },
-  table: {
-    minWidth: 700,
-  },
+  table: {},
   tableRow: {
     // '&:nth-of-type(even)': {
     //   backgroundColor: '#f9f9f9',
@@ -60,7 +58,7 @@ const styles = (theme) => ({
     font: '  500 13px Montserrat, sans-serif',
     padding: '10px 1% 10px 1%',
     'word-wrap': 'break-word',
-    width: '400px',
+    width: '800px',
   },
   blackstarIconTable: {
     'margin-bottom': '5px',
@@ -122,7 +120,7 @@ const styles = (theme) => ({
   },
 });
 
-class IdeasTable extends Component {
+class MemoriesTable extends Component {
   componentDidUpdate(prevProps) {
     if (this.props.userID !== prevProps.userID) {
       this.fetchData(this.props.userID);
@@ -132,15 +130,12 @@ class IdeasTable extends Component {
     }
   }
 
-  handleDeleteIdeaClick = () => {
-    console.log('delete was clicked!', this.props.idea.id);
-    this.props.dispatch({ type: 'DELETE_IDEA', payload: this.props.idea.id });
-  };
-
-  handleLinkClick = () => {
-    console.log('this.props.idea.link', this.props.idea.link);
-    let win = window.open(this.props.idea.link, '_blank');
-    win.focus();
+  handleDeleteMemoryClick = () => {
+    console.log('delete was clicked!', this.props.memory.id);
+    this.props.dispatch({
+      type: 'DELETE_MEMORY',
+      payload: this.props.memory.id,
+    });
   };
 
   state = {
@@ -148,7 +143,7 @@ class IdeasTable extends Component {
     viewmoremode: false,
   };
 
-  handleEditIdeaClickOnTable = () => {
+  handleEditMemoryClickOnTable = () => {
     console.log('edit was clicked!', this.state.editmode);
     this.setState({
       editmode: !this.state.editmode,
@@ -171,8 +166,8 @@ class IdeasTable extends Component {
       <>
         {/*-- Do not wrap table row within a Div --*/}
         <TableRow
-          id={this.props.idea.id}
-          key={this.props.idea.id}
+          id={this.props.memory.id}
+          key={this.props.memory.id}
           className={`${
             this.state.viewmoremode
               ? classes.collapseTableRow
@@ -180,39 +175,39 @@ class IdeasTable extends Component {
           }`}
         >
           <TableCell className={classes.tableCellLeft} align="left">
-            {this.props.idea.date.split('T')[0]}
+            {this.props.memory.date.split('T')[0]}
           </TableCell>
           <TableCell className={classes.tableCell}>
-            {this.props.idea.name}
+            {this.props.memory.name}
           </TableCell>
           <TableCell className={classes.tableCellDescription} align="left">
             {this.state.viewmoremode ? (
-              this.props.idea.description
+              this.props.memory.description
             ) : (
               <span>
-                {this.props.idea.description.length > 40
-                  ? this.props.idea.description.substring(0, 40) + '...'
-                  : this.props.idea.description}
+                {this.props.memory.description.length > 100
+                  ? this.props.memory.description.substring(0, 100) + '...'
+                  : this.props.memory.description}
               </span>
             )}
           </TableCell>
-          <TableCell className={classes.tableCell} align="left">
-            {this.props.idea.category}
-            {/* {JSON.stringify(ideas.category_id)} */}
-          </TableCell>
-          <TableCell className={classes.tableLink} align="left">
-            {this.props.idea.link === '' ? (
+          {/* <TableCell className={classes.tableCell} align="left">
+            {this.props.memory.category}
+            {/* {JSON.stringify(memories.category_id)} */}
+          {/* </TableCell> */}
+          {/* <TableCell className={classes.tableLink} align="left">
+            {this.props.memory.link === '' ? (
               <span></span>
             ) : (
               <LinkIcon
-                value={this.props.idea.link}
+                value={this.props.memory.link}
                 onClick={this.handleLinkClick}
               />
             )}
-          </TableCell>
-          <TableCell className={classes.tableCell} align="left">
-            {this.props.idea.image_url === '' ||
-            this.props.idea.image_url === null ? (
+          </TableCell> */}
+          {/* <TableCell className={classes.tableCell} align="left">
+            {this.props.memory.image_url === '' ||
+            this.props.memory.image_url === null ? (
               <span></span>
             ) : (
               <ImageIcon
@@ -222,35 +217,35 @@ class IdeasTable extends Component {
                     : classes.realIcon
                 }`}
               />
-            )}
-            {this.state.viewmoremode ? (
+            )} */}
+          {/* {this.state.viewmoremode ? (
               <img
                 className={classes.tableImage}
-                src={this.props.idea.image_url}
-                // alt={this.props.idea.name}
+                src={this.props.memory.image_url}
+                // alt={this.props.memory.name}
               ></img>
             ) : (
               <span></span>
             )}
-          </TableCell>
+          </TableCell> */}
           <TableCell className={classes.tableCell} align="left">
-            {/* {JSON.stringify(this.props.idea.favorited)} */}
-            {this.props.idea.favorited ? (
+            {/* {JSON.stringify(this.props.memory.favorited)} */}
+            {this.props.memory.favorited ? (
               <StarIcon
                 onClick={() =>
-                  this.props.handleFavoritedIdeaClick(this.props.idea)
+                  this.props.handleFavoritedMemoryClick(this.props.memory)
                 }
                 className={classes.starIconTable}
               ></StarIcon>
             ) : (
               <StarIcon
                 onClick={() =>
-                  this.props.handleFavoritedIdeaClick(this.props.idea)
+                  this.props.handleFavoritedMemoryClick(this.props.memory)
                 }
                 className={classes.blackstarIconTable}
               ></StarIcon>
             )}
-            {this.props.idea.favorited}
+            {this.props.memory.favorited}
           </TableCell>
           {/* Here we get an error saying the star or 
           SVG icon cannot appear as a child of tr */}
@@ -265,23 +260,23 @@ class IdeasTable extends Component {
               onClick={this.handleCollapsedClick}
             />
           )}
-          <a href="#ideas" className={classes.editIconLink}>
+          <a href="#memories" className={classes.editIconLink}>
             <EditIcon
               onClick={() => {
-                this.props.handleEditIdeaClick(this.props.idea);
-                this.handleEditIdeaClickOnTable();
+                this.props.handleEditMemoryClick(this.props.memory);
+                this.handleEditMemoryClickOnTable();
               }}
               className={classes.editIcon}
             ></EditIcon>
           </a>
           {/* {JSON.stringify(this.state.id)} */}
-          {/* {JSON.stringify(this.props.idea.id)} */}
+          {/* {JSON.stringify(this.props.memory.id)} */}
           {/* <IconButton
           > */}
           {/* document.querySelector('tr #6') */}
           <DeleteIcon
             className={classes.deleteIcon}
-            onClick={this.handleDeleteIdeaClick}
+            onClick={this.handleDeleteMemoryClick}
           ></DeleteIcon>
           {/* </IconButton> */}
         </TableRow>
@@ -291,8 +286,8 @@ class IdeasTable extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  ideas: state.ideas,
+  memories: state.memories,
   categories: state.categories,
 });
 
-export default withStyles(styles)(connect(mapStateToProps)(IdeasTable));
+export default withStyles(styles)(connect(mapStateToProps)(MemoriesTable));

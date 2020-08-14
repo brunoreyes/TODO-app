@@ -13,6 +13,10 @@ const imageUrlRouter = require('./routes/image-url.router');
 const ideasRouter = require('./routes/ideas.router');
 const categoryRouter = require('./routes/category.router');
 const favoriteRouter = require('./routes/favorite.router');
+const memoriesRouter = require('./routes/memories.router');
+// const tasksRouter = require('./routes/tasks.router');
+// const remindersRouter = require('./routes/reminders.router');
+
 // UploaderS3Router added below
 const UploaderS3Router = require('react-dropzone-s3-uploader/s3router');
 
@@ -30,9 +34,13 @@ app.use(passport.session());
 /* Routes */
 app.use('/api/user', userRouter);
 app.use('/api/imageurl', imageUrlRouter);
+// app.use('/api/tasks', tasksRouter);
+// app.use('/api/reminders', remindersRouter);
 app.use('/api/ideas', ideasRouter);
+app.use('/api/memories', memoriesRouter);
 app.use('/api/category', categoryRouter);
 app.use('/api/favorite', favoriteRouter);
+
 // AWS S3 image upload
 app.use(
   '/s3',
@@ -59,3 +67,5 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Listening on port: ${PORT}`);
 });
+
+module.exports = app;

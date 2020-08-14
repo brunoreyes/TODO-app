@@ -12,8 +12,8 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import AboutPage from '../AboutPage/AboutPage';
 import UserPage from '../UserPage/UserPage';
 import InfoPage from '../InfoPage/InfoPage';
-import TasksPage from '../TasksPage/TasksPage';
-import RemindersPage from '../RemindersPage/RemindersPage';
+// import TasksPage from '../TasksPage/TasksPage';
+// import RemindersPage from '../RemindersPage/RemindersPage';
 import IdeasPage from '../IdeasPage/IdeasPage';
 import MemoriesPage from '../MemoriesPage/MemoriesPage';
 import StatisticsPage from '../StatisticsPage/StatisticsPage';
@@ -44,8 +44,8 @@ class App extends Component {
             they will see the info page instead. */}
             <ProtectedRoute exact path="/info" component={InfoPage} />
             {/* If none of the other routes matched, we will show a 404. */}
-            <Route exact path="/tasks" component={TasksPage} />
-            <Route exact path="/reminders" component={RemindersPage} />
+            {/* <Route exact path="/tasks" component={TasksPage} />
+            <Route exact path="/reminders" component={RemindersPage} /> */}
             <Route exact path="/ideas" component={IdeasPage} />
             <Route exact path="/memories" component={MemoriesPage} />
             <Route exact path="/statistics" component={StatisticsPage} />

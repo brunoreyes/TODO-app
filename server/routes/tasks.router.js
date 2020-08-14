@@ -1,7 +1,5 @@
 const express = require('express');
 const pool = require('../modules/pool');
-// const { default: Axios } = require('axios');
-// const { query } = require('../modules/pool');
 const {
   rejectUnauthenticated,
 } = require('../modules/authentication-middleware');
@@ -34,7 +32,7 @@ WHERE user_id=$1
 });
 
 // WORK ON THIS
-// This route *should* CREATE a idea for the logged in user
+// This route *should* CREATE a category for the logged in user
 router.post('/', rejectUnauthenticated, (req, res) => {
   console.log('req.body', req.body);
   // console.log('req.user', req.user);

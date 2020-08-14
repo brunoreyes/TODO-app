@@ -61,38 +61,4 @@ router.get('/', rejectUnauthenticated, (req, res) => {
 //     });
 // });
 
-// //WORK ON THIS
-// // This route *should* DELETE an idea for the logged in user
-// router.delete('/:id', rejectUnauthenticated, (req, res) => {
-//   const queryValues = [req.user.id, req.params.id];
-//   pool
-//     .query(
-//       `DELETE FROM "item" WHERE $1 = item.user_id AND item.id = $2`,
-//       queryValues
-//     )
-//     .then((results) => res.sendStatus(200))
-//     .catch((err) => {
-//       console.log('error deleting item: ', err);
-//       res.sendStatus(500);
-//     });
-// });
-
-//WORK ON THIS
-// This route *should* UPDATE an idea for the logged in user
-// router.put('/:id', rejectUnauthenticated, (req, res) => {
-//   console.log('req.body is', req.body);
-//   const queryText = `UPDATE ideas SET title=$1, description=$2 WHERE id=$3;`;
-//   const queryValues = [req.body.title, req.body.description, req.body.id];
-//   pool
-//     .query(queryText, queryValues)
-//     .then((result) => {
-//       console.log('in /api/display/edit PUT');
-//       res.send(result.rows);
-//     })
-//     .catch((error) => {
-//       console.log(`PUT error:`, error);
-//       res.sendStatus(500);
-//     });
-// });
-
 module.exports = router;

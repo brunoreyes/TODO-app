@@ -38,11 +38,6 @@ const styles = (theme) => ({
     margin: '10px',
     'padding-top': '20px',
   },
-  formControl: {
-    'text-align': 'center',
-    margin: '10px',
-    'padding-top': '20px',
-  },
   formControlContainer: {
     'text-align': 'center',
     width: 'auto',
@@ -80,7 +75,6 @@ const styles = (theme) => ({
   // dateField: {
   //   marginTop: '15px',
   // },
-  descriptionInput: { width: '250px' },
   descriptionInput: { width: '250px' },
   categorySelector: { marginTop: '0px' },
   linkInputField: { marginTop: '-5px' },
@@ -375,29 +369,31 @@ class IdeasPage extends Component {
 
     return (
       <div className={classes.allContainer}>
-        <span className={classes.newViewContainer}>
-          {/* THE FORM */}
-          <div className={classes.newContainer}>
-            <Button
-              variant="contained"
-              className={classes.newOrAddIdeaButton}
-              endIcon={<EmojiObjectsIcon></EmojiObjectsIcon>}
-              onClick={this.handleNewClick}
-            >
-              New
-            </Button>
-          </div>
-          <div className={classes.viewContainer}>
-            <Button
-              variant="contained"
-              className={classes.newOrAddIdeaButton}
-              endIcon={<EmojiObjectsIcon></EmojiObjectsIcon>}
-              onClick={this.handleViewClick}
-            >
-              View
-            </Button>
-          </div>
-        </span>
+        <a name="ideas">
+          <span className={classes.newViewContainer}>
+            {/* THE FORM */}
+            <div className={classes.newContainer}>
+              <Button
+                variant="contained"
+                className={classes.newOrAddIdeaButton}
+                endIcon={<EmojiObjectsIcon></EmojiObjectsIcon>}
+                onClick={this.handleNewClick}
+              >
+                New
+              </Button>
+            </div>
+            <div className={classes.viewContainer}>
+              <Button
+                variant="contained"
+                className={classes.newOrAddIdeaButton}
+                endIcon={<EmojiObjectsIcon></EmojiObjectsIcon>}
+                onClick={this.handleViewClick}
+              >
+                View
+              </Button>
+            </div>
+          </span>
+        </a>
         {this.state.inputmode || this.state.editmode ? (
           <Fade>
             <div className={classes.formControlContainer}>

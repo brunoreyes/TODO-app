@@ -3,6 +3,7 @@ import errors from './errorsReducer';
 import loginMode from './loginModeReducer';
 import user from './userReducer';
 import ideas from './ideasReducer';
+import memories from './memoriesReducer';
 import categories from './categoriesReducer';
 // import favorite from './favoriteReducer';
 
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   user, // will have an id and username if someone is logged in
   ideas,
   categories,
+  memories,
   // favorite,
 });
 
