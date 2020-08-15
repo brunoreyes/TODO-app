@@ -14,7 +14,7 @@ const ideasRouter = require('./routes/ideas.router');
 const categoryRouter = require('./routes/category.router');
 const favoriteRouter = require('./routes/favorite.router');
 const memoriesRouter = require('./routes/memories.router');
-// const tasksRouter = require('./routes/tasks.router');
+const tasksRouter = require('./routes/tasks.router');
 const remindersRouter = require('./routes/reminders.router');
 
 // UploaderS3Router added below
@@ -34,7 +34,7 @@ app.use(passport.session());
 /* Routes */
 app.use('/api/user', userRouter);
 app.use('/api/imageurl', imageUrlRouter);
-// app.use('/api/tasks', tasksRouter);
+app.use('/api/tasks', tasksRouter);
 app.use('/api/reminders', remindersRouter);
 app.use('/api/ideas', ideasRouter);
 app.use('/api/memories', memoriesRouter);

@@ -15,17 +15,20 @@ import {
   FormHelperText,
   Select,
   MenuItem,
-  // TextField,
+  TextField,
   Button,
   // IconButton,
 } from '@material-ui/core';
 import StarIcon from '@material-ui/icons/Star';
-import EmojiObjectsIcon from '@material-ui/icons/EmojiObjects';
+import CheckBoxIcon from '@material-ui/icons/EmojiObjects';
 import TasksTable from './TasksTable/TasksTable';
 import LinkIcon from '@material-ui/icons/Link';
 import ImageIcon from '@material-ui/icons/Image';
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import Fade from 'react-reveal/Fade';
+
+// import RoomIcon from '@material-ui/icons/Room';
+import TimeInput from 'material-ui-time-picker';
 
 // Material UI styles
 const styles = (theme) => ({
@@ -215,26 +218,6 @@ class TasksPage extends Component {
     );
   };
 
-  handleFavoriteTaskFormClick = () => {
-    this.setState({
-      favorited: !this.state.favorited,
-    });
-    console.log(
-      'in handleFavoriteTaskFormClick. Now this.state.favorited value is:',
-      this.state.favorited
-    );
-  };
-
-  // handleSwitchChangeFor = (propertyName) => (event) => {
-  //   this.setState({
-  //     [propertyName]: !this.state.propertyName,
-  //   });
-  //   console.log(
-  //     `in handleInputChangeFor ${propertyName}:`,
-  //     this.state.propertyName
-  //   );
-  // };
-
   handleEditTaskClick = (task) => {
     this.setState({
       id: task.id,
@@ -376,7 +359,7 @@ class TasksPage extends Component {
               <Button
                 variant="contained"
                 className={classes.newOrAddTaskButton}
-                endIcon={<EmojiObjectsIcon></EmojiObjectsIcon>}
+                endIcon={<CheckBoxIcon></CheckBoxIcon>}
                 onClick={this.handleNewClick}
               >
                 New
@@ -386,7 +369,7 @@ class TasksPage extends Component {
               <Button
                 variant="contained"
                 className={classes.newOrAddTaskButton}
-                endIcon={<EmojiObjectsIcon></EmojiObjectsIcon>}
+                endIcon={<CheckBoxIcon></CheckBoxIcon>}
                 onClick={this.handleViewClick}
               >
                 View
@@ -443,6 +426,45 @@ class TasksPage extends Component {
                 </FormHelperText>
               </FormControl>
               <FormControl className={classes.formControl}>
+                <InputLabel className={classes.categorySelector}>
+                  Priority
+                </InputLabel>
+                <Select
+                  MenuProps={CategorySelectorProps}
+                  value={this.state.priority}
+                  // onChange={this.handleInputChangeFor('category_id')}
+                >
+                  <MenuItem value={'Daily'}>Low</MenuItem>
+                  <MenuItem value={'Weekly'}>Medium</MenuItem>
+                  <MenuItem value={'Monthly'}>High</MenuItem>
+                </Select>
+                <FormHelperText>
+                  Required *
+                  <span className={classes.invisibleText}>invisible text</span>
+                </FormHelperText>
+              </FormControl>
+              {/* <FormControl className={classes.formControl}>
+                <InputLabel>
+                  <RoomIcon />
+                </InputLabel>
+                <Input
+                  className={classes.descriptionInput}
+                  multiline
+                  type="text"
+                  size="50"
+                  id="searchTextField"
+                  // ref={autoCompleteRef}
+                  // onChange={(event) => setQuery(event.target.value)}
+                  // placeholder="Enter a City"
+                  // value={query}
+                  onClick={this.handleLocationClick}
+                  // rowsMax={3}
+                  // value={this.state.description}
+                  // onChange={this.handleInputChangeFor('description')}
+                />
+                <FormHelperText></FormHelperText>
+              </FormControl> */}
+              <FormControl className={classes.formControl}>
                 <InputLabel className={classes.linkInputField}>
                   <LinkIcon />
                 </InputLabel>
@@ -470,39 +492,32 @@ class TasksPage extends Component {
                   />
                 </Button>
               </FormControl>
-              {this.state.favorited ? (
-                <FormControl className={classes.formControl}>
-                  <StarIcon
-                    onClick={this.handleFavoriteTaskFormClick}
-                    value={this.state.favorited}
-                    className={classes.starIconForm}
-                  ></StarIcon>
-                </FormControl>
-              ) : (
-                <FormControl className={classes.formControl}>
-                  <StarIcon
-                    onClick={this.handleFavoriteTaskFormClick}
-                    value={this.state.favorited}
-                    className={classes.blackstarIconForm}
-                  ></StarIcon>
-                </FormControl>
-              )}
+              <FormControl className={classes.formControl}>
+                <InputLabel className={classes.dateLabel}> Duration</InputLabel>
 
-              {/* <FormControl className={classes.formControl}>
-            <InputLabel className={classes.dateLabel}>Date</InputLabel>
-            <TextField
-              id="date"
-              // label="Date"
-              type="date"
-              value={this.state.date}
-              onChange={this.handleInputDate}
-              defaultValue={this.state.date}
-              className={classes.dateField}
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-          </FormControl> */}
+                <TimeInput
+                  mode="24h"
+                  okLabel="Duration"
+                  // value={this.state.time}
+                  // onChange={(time) => this.handleChange(time)}
+                />
+              </FormControl>
+              <FormControl className={classes.formControl}>
+                <InputLabel className={classes.dateLabel}> Due Date</InputLabel>
+                <TextField
+                  id="date"
+                  // label="Date"
+                  type="datetime-local"
+                  value={this.state.end_date}
+                  onChange={this.handleInputChangeFor('end_date')}
+                  defaultValue={this.state.date}
+                  defaultValue={this.state.end_date}
+                  className={classes.dateField}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </FormControl>
 
               <FormControl className={classes.formControl}>
                 {this.state.editmode ? (
@@ -511,7 +526,7 @@ class TasksPage extends Component {
                     variant="contained"
                     onClick={this.handleSaveChangesClick}
                     className={classes.newOrAddTaskButton}
-                    endIcon={<EmojiObjectsIcon>Save</EmojiObjectsIcon>}
+                    endIcon={<CheckBoxIcon>Save</CheckBoxIcon>}
                   >
                     Save
                   </Button>
@@ -520,7 +535,7 @@ class TasksPage extends Component {
                     variant="contained"
                     onClick={this.handleAddTaskClick}
                     className={classes.newOrAddTaskButton}
-                    endIcon={<EmojiObjectsIcon>Add</EmojiObjectsIcon>}
+                    endIcon={<CheckBoxIcon>Add</CheckBoxIcon>}
                   >
                     Add
                   </Button>
@@ -545,6 +560,12 @@ class TasksPage extends Component {
                       <TableRow>
                         <TableCell
                           className={classes.tableHeadCellLeft}
+                          align="left"
+                        >
+                          <CheckBoxIcon />
+                        </TableCell>
+                        <TableCell
+                          className={classes.tableHeadCell}
                           align="left"
                         >
                           <CalendarTodayIcon />
@@ -575,13 +596,6 @@ class TasksPage extends Component {
                           align="left"
                         >
                           <ImageIcon />
-                        </TableCell>
-
-                        <TableCell
-                          className={classes.tableHeadCell}
-                          align="left"
-                        >
-                          <StarIcon />
                         </TableCell>
 
                         <TableCell

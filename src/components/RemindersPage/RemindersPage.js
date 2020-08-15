@@ -225,69 +225,14 @@ class RemindersPage extends Component {
     console.log('edit was clicked! Reminder state:', reminder);
   };
 
-  //   handleLocationClick = () => {
-  //       // initialize = () => {
-  //       let input = document.getElementById('searchTextField');
-  //     let google.maps.places.Autocomplete(input);
-  // }
-
-  //    {google.maps.event.addDomListener(window, 'load', handleLocationClick)}
-
-  // loadScript = (url, callback) => {
-  //   let script = document.createElement("script");
-  //   script.type = "text/javascript";
-
-  //   if (script.readyState) {
-  //     script.onreadystatechange = function() {
-  //       if (script.readyState === "loaded" || script.readyState === "complete") {
-  //         script.onreadystatechange = null;
-  //         callback();
-  //       }
-  //     };
-  //   } else {
-  //     script.onload = () => callback();
-  //   }
-
-  //   script.src = url;
-  //   document.getElementsByTagName("head")[0].appendChild(script);
+  // handleLocationClick = () => {
+  //   var Input = document.getElementById('searchTextField');
+  //   new google.maps.places.Autocomplete(Input);
   // };
 
-  // handleScriptLoad=(updateQuery, autoCompleteRef)=>{
-  //   autoComplete = new window.google.maps.places.Autocomplete(
-  //     autoCompleteRef.current,
-  //     { types: ["(cities)"], componentRestrictions: { country: "us" } }
-  //   );
-  //   autoComplete.setFields(["address_components", "formatted_address"]);
-  //   autoComplete.addListener("place_changed", () =>
-  //     handlePlaceSelect(updateQuery)
-  //   );
-  // }
-
-  // // async
-  // handlePlaceSelect=(updateQuery) =>{
-  //   const addressObject = autoComplete.getPlace();
-  //   const query = addressObject.formatted_address;
-  //   updateQuery(query);
-  //   console.log(addressObject);
-  // }
-
-  // SearchLocationInput =()=> {
-  //   const [query, setQuery] = useState("");
-  //   const autoCompleteRef = useRef(null);
-
-  //   useEffect(() => {
-  //     loadScript(
-  //       `https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_API_KEY}&libraries=places`,
-  //       () => handleScriptLoad(setQuery, autoCompleteRef)
-  //     );
-  //   }, []);
-
-  //   handlePlaceSelect =(updateQuery)=> {
-  //     const addressObject = autoComplete.getPlace(); // get place from google api
-  //     const query = addressObject.formatted_address;
-  //     updateQuery(query);
-  //     console.log(addressObject);
-  //   }
+  // handleLocationClickLoader = () => {
+  //   google.maps.event.addDomListener(window, 'load', handleLocationClick);
+  // };
 
   handleAddReminderClick = () => {
     if (
@@ -420,7 +365,7 @@ class RemindersPage extends Component {
                 />
                 <FormHelperText></FormHelperText>
               </FormControl>
-              <FormControl className={classes.formControl}>
+              {/* <FormControl className={classes.formControl}>
                 <InputLabel>
                   <RoomIcon />
                 </InputLabel>
@@ -440,7 +385,7 @@ class RemindersPage extends Component {
                   // onChange={this.handleInputChangeFor('description')}
                 />
                 <FormHelperText></FormHelperText>
-              </FormControl>
+              </FormControl> */}
               <FormControl className={classes.formControl}>
                 <InputLabel className={classes.categorySelector}>
                   Category
@@ -456,6 +401,26 @@ class RemindersPage extends Component {
                     </MenuItem>
                   ))}
                   {/* <MenuItem value={11}>New Category</MenuItem> */}
+                </Select>
+                <FormHelperText>
+                  Required *
+                  <span className={classes.invisibleText}>invisible text</span>
+                </FormHelperText>
+              </FormControl>
+              <FormControl className={classes.formControl}>
+                <InputLabel className={classes.categorySelector}>
+                  Repeat
+                </InputLabel>
+                <Select
+                  MenuProps={CategorySelectorProps}
+                  value={this.state.repeat}
+                  // onChange={this.handleInputChangeFor('category_id')}
+                >
+                  <MenuItem disabled>Repeat</MenuItem>
+                  <MenuItem value={'Daily'}>Daily</MenuItem>
+                  <MenuItem value={'Weekly'}>Weekly</MenuItem>
+                  <MenuItem value={'Monthly'}>Monthly</MenuItem>
+                  <MenuItem value={'Yearly'}>Yearly</MenuItem>
                 </Select>
                 <FormHelperText>
                   Required *
