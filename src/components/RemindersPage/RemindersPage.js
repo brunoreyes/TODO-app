@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
-import ImageUpload from '../ImageUpload/ImageUpload';
 import {
   withStyles,
   Table,
@@ -15,39 +14,21 @@ import {
   FormHelperText,
   Select,
   MenuItem,
-  // TextField,
+  TextField,
   Button,
   // IconButton,
 } from '@material-ui/core';
 import StarIcon from '@material-ui/icons/Star';
-import EmojiObjectsIcon from '@material-ui/icons/EmojiObjects';
-import IdeasTable from './RemindersTable/RemindersTable';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import RemindersTable from './RemindersTable/RemindersTable';
 import LinkIcon from '@material-ui/icons/Link';
-import ImageIcon from '@material-ui/icons/Image';
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import Fade from 'react-reveal/Fade';
+import RoomIcon from '@material-ui/icons/Room';
 
 // Material UI styles
 const styles = (theme) => ({
   allContainer: {},
-
-  // FORM STYLING
-
-  formControl: {
-    'text-align': 'center',
-    margin: '10px',
-    'padding-top': '20px',
-  },
-  formControlContainer: {
-    'text-align': 'center',
-    width: 'auto',
-    margin: '20px 0px',
-  },
-  newViewContainer: {
-    margin: 'auto',
-    display: 'flex',
-    'justify-content': 'center',
-  },
   newContainer: {
     width: 'auto',
     display: 'inline-block',
@@ -58,10 +39,13 @@ const styles = (theme) => ({
     margin: '100px auto 0px 10px',
     display: 'inline-block',
   },
+
+  // FORM STYLING
+
   invisibleText: {
     color: 'white',
   },
-  newOrAddIdeaButton: {
+  newOrAddReminderButton: {
     color: 'white',
     'font-family': 'Montserrat',
     'background-color': '#161616',
@@ -72,35 +56,36 @@ const styles = (theme) => ({
       'background-color': '#161616',
     },
   },
-  // dateField: {
-  //   marginTop: '15px',
-  // },
-  descriptionInput: { width: '250px' },
-  categorySelector: { marginTop: '0px' },
-  linkInputField: { marginTop: '-5px' },
-  uploadImageButton: {
-    padding: '0px 11px 0px 13px',
-    'background-color': '#161616',
-    margin: '10px 0px 50px 0px',
-    '&:hover': {
-      'background-color': '#161616',
-    },
+  formControlContainer: {
+    'text-align': 'center',
+    width: 'auto',
+    margin: '20px 0px',
   },
-  starIconForm: {
-    'font-size': '40px',
-    paddingTop: '10px',
-    color: 'gold',
-    '&:hover': {
-      color: '#161616',
-    },
+  formControl: {
+    'text-align': 'center',
+    margin: '10px',
+    'padding-top': '20px',
   },
-  blackstarIconForm: {
-    'font-size': '40px',
-    paddingTop: '10px',
-    '&:hover': {
-      color: 'gold',
-    },
+  linkFormControl: {
+    'text-align': 'center',
+    margin: '10px 60px 10px 10px',
+    'padding-top': '20px',
+    width: '50px',
   },
+  linkInput: { width: '100px' },
+  newViewContainer: {
+    margin: 'auto',
+    display: 'flex',
+    'justify-content': 'center',
+  },
+  dateField: {
+    marginTop: '15px',
+    width: '220px',
+  },
+  descriptionInput: { width: '200px' },
+  nameInput: { width: '100px' },
+  categorySelector: { marginTop: '0px', width: '50px' },
+
   errorMessage: {
     color: 'white',
   },
@@ -125,7 +110,7 @@ const styles = (theme) => ({
   tableHeadCellLeft: {
     // font: font-weight font-size/line-height font-variant, font-stylefont
     font: 'small-caps 500 16px Montserrat, sans-serif',
-    color: 'white',
+    color: '#4caf50',
     padding: '18px 0% 18px 1%',
     'background-color': '#161616',
   },
@@ -137,10 +122,17 @@ const styles = (theme) => ({
     // position: 'sticky',
     // top: 0,
   },
+  tableHeadEndCell: {
+    font: '500 16px Montserrat, sans-serif',
+    color: '#ff3d00',
+    padding: '18px 0% 18px -1%',
+    'background-color': '#161616',
+  },
   tableHeadCellRight: {
     font: '500 16px Montserrat, sans-serif',
     color: 'white',
     padding: '18px 0px 18px 0%',
+
     'background-color': '#161616',
   },
 });
@@ -152,14 +144,14 @@ const CategorySelectorProps = {
   PaperProps: {
     style: {
       maxHeight: CategorySelectorHeight * 3.4 + CategorySelectorPaddingTop,
-      width: 150,
+      width: 140,
     },
   },
 };
 
-class IdeasPage extends Component {
+class RemindersPage extends Component {
   componentDidMount() {
-    this.props.dispatch({ type: 'FETCH_IDEAS' });
+    this.props.dispatch({ type: 'FETCH_REMINDERS' });
     this.props.dispatch({ type: 'FETCH_CATEGORIES' });
     this.props.dispatch({ type: 'FETCH_FAVORITE' });
   }
@@ -167,12 +159,12 @@ class IdeasPage extends Component {
   state = {
     name: '',
     description: '',
-    image_url: '',
     category_id: '',
     category: '',
     link: '',
     date: '',
-    favorited: false,
+    end_date: '',
+    repeat: '',
     editmode: false,
     inputmode: false,
     readyToSendMode: true,
@@ -191,6 +183,7 @@ class IdeasPage extends Component {
         today.getDate();
     this.state = {
       date: date,
+      end_date: date,
     };
   }
 
@@ -215,63 +208,88 @@ class IdeasPage extends Component {
     );
   };
 
-  handleFavoriteIdeaFormClick = () => {
+  handleEditReminderClick = (reminder) => {
     this.setState({
-      favorited: !this.state.favorited,
+      id: reminder.id,
+      name: reminder.name,
+      description: reminder.description,
+      category: reminder.category,
+      category_id: reminder.category_id,
+      link: reminder.link,
+      date: reminder.date,
+      end_date: reminder.end_date,
+      repeat: reminder.repeat,
+      editmode: !reminder.editmode,
+      user_id: reminder.user_id,
     });
-    console.log(
-      'in handleFavoriteIdeaFormClick. Now this.state.favorited value is:',
-      this.state.favorited
-    );
+    console.log('edit was clicked! Reminder state:', reminder);
   };
 
-  // handleSwitchChangeFor = (propertyName) => (event) => {
-  //   this.setState({
-  //     [propertyName]: !this.state.propertyName,
-  //   });
-  //   console.log(
-  //     `in handleInputChangeFor ${propertyName}:`,
-  //     this.state.propertyName
-  //   );
+  //   handleLocationClick = () => {
+  //       // initialize = () => {
+  //       let input = document.getElementById('searchTextField');
+  //     let google.maps.places.Autocomplete(input);
+  // }
+
+  //    {google.maps.event.addDomListener(window, 'load', handleLocationClick)}
+
+  // loadScript = (url, callback) => {
+  //   let script = document.createElement("script");
+  //   script.type = "text/javascript";
+
+  //   if (script.readyState) {
+  //     script.onreadystatechange = function() {
+  //       if (script.readyState === "loaded" || script.readyState === "complete") {
+  //         script.onreadystatechange = null;
+  //         callback();
+  //       }
+  //     };
+  //   } else {
+  //     script.onload = () => callback();
+  //   }
+
+  //   script.src = url;
+  //   document.getElementsByTagName("head")[0].appendChild(script);
   // };
 
-  handleEditIdeaClick = (idea) => {
-    this.setState({
-      id: idea.id,
-      name: idea.name,
-      description: idea.description,
-      image_url: idea.image_url,
-      category: idea.category,
-      category_id: idea.category_id,
-      link: idea.link,
-      date: idea.date,
-      editmode: !idea.editmode,
-      user_id: idea.user_id,
-      favorited: idea.favorited,
-    });
-    console.log('edit was clicked! Idea state:', idea);
-  };
+  // handleScriptLoad=(updateQuery, autoCompleteRef)=>{
+  //   autoComplete = new window.google.maps.places.Autocomplete(
+  //     autoCompleteRef.current,
+  //     { types: ["(cities)"], componentRestrictions: { country: "us" } }
+  //   );
+  //   autoComplete.setFields(["address_components", "formatted_address"]);
+  //   autoComplete.addListener("place_changed", () =>
+  //     handlePlaceSelect(updateQuery)
+  //   );
+  // }
 
-  handleFavoritedIdeaClick = (idea) => {
-    const payload = {
-      favorited: !idea.favorited,
-      id: idea.id,
-    };
-    this.setState({
-      favorited: !idea.favorited,
-      id: idea.id,
-    });
-    this.props.dispatch({
-      type: 'CHANGE_FAVORITE_STATUS_IDEA',
-      payload: payload,
-    });
-    console.log(
-      'in favoritedIdeaClick, this.state.favorited:',
-      this.state.favorited
-    );
-  };
+  // // async
+  // handlePlaceSelect=(updateQuery) =>{
+  //   const addressObject = autoComplete.getPlace();
+  //   const query = addressObject.formatted_address;
+  //   updateQuery(query);
+  //   console.log(addressObject);
+  // }
 
-  handleAddIdeaClick = () => {
+  // SearchLocationInput =()=> {
+  //   const [query, setQuery] = useState("");
+  //   const autoCompleteRef = useRef(null);
+
+  //   useEffect(() => {
+  //     loadScript(
+  //       `https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_API_KEY}&libraries=places`,
+  //       () => handleScriptLoad(setQuery, autoCompleteRef)
+  //     );
+  //   }, []);
+
+  //   handlePlaceSelect =(updateQuery)=> {
+  //     const addressObject = autoComplete.getPlace(); // get place from google api
+  //     const query = addressObject.formatted_address;
+  //     updateQuery(query);
+  //     console.log(addressObject);
+  //   }
+
+  handleAddReminderClick = () => {
     if (
       this.state.name === '' ||
       this.state.description === '' ||
@@ -282,23 +300,22 @@ class IdeasPage extends Component {
       const payload = {
         name: this.state.name,
         description: this.state.description,
-        image_url: this.state.image_url,
         category_id: this.state.category_id,
         link: this.state.link,
         date: this.state.date,
-        favorited: this.state.favorited,
+        end_date: this.state.end_date,
+        repeat: this.state.repeat,
       };
-      console.log('in addIdea with payload:', payload);
-      this.props.dispatch({ type: 'ADD_IDEA', payload: payload });
+      console.log('in addReminder with payload:', payload);
+      this.props.dispatch({ type: 'ADD_REMINDER', payload: payload });
 
       this.setState({
         name: '',
         description: '',
-        image_url: '',
         category_id: '',
         category: '',
         link: '',
-        favorited: false,
+        repeat: '',
       });
     }
   };
@@ -315,45 +332,28 @@ class IdeasPage extends Component {
       const payload = {
         name: this.state.name,
         description: this.state.description,
-        image_url: this.state.image_url,
         category_id: this.state.category_id,
         link: this.state.link,
         date: this.state.date,
-        favorited: this.state.favorited,
+        end_date: this.state.end_date,
         id: this.state.id,
       };
       console.log('In saveChangesClicked, payload:', payload);
       this.props.dispatch({
-        type: 'UPDATE_IDEA',
+        type: 'UPDATE_REMINDER',
         payload: payload,
       });
       this.setState({
         editmode: !this.state.editmode,
         name: '',
         description: '',
-        image_url: '',
         category_id: '',
         category: '',
         link: '',
-        favorited: false,
+        repeat: '',
       });
-      this.props.dispatch({ type: 'FETCH_IDEAS' });
+      this.props.dispatch({ type: 'FETCH_REMINDERS' });
     }
-  };
-
-  // image upload handler
-  handleFinishedUpload = (info) => {
-    console.log(
-      'info:',
-      info,
-      'File uploaded with filename:',
-      info.filename,
-      'Access it on s3 at:',
-      info.fileUrl
-    );
-    this.setState({
-      image_url: info.fileUrl,
-    });
   };
 
   // General Click Handler for Name, Description, Catagory, Link & Date
@@ -369,14 +369,14 @@ class IdeasPage extends Component {
 
     return (
       <div className={classes.allContainer}>
-        <a name="ideas">
+        <a name="reminders">
           <span className={classes.newViewContainer}>
             {/* THE FORM */}
             <div className={classes.newContainer}>
               <Button
                 variant="contained"
-                className={classes.newOrAddIdeaButton}
-                endIcon={<EmojiObjectsIcon></EmojiObjectsIcon>}
+                className={classes.newOrAddReminderButton}
+                endIcon={<NotificationsIcon></NotificationsIcon>}
                 onClick={this.handleNewClick}
               >
                 New
@@ -385,8 +385,8 @@ class IdeasPage extends Component {
             <div className={classes.viewContainer}>
               <Button
                 variant="contained"
-                className={classes.newOrAddIdeaButton}
-                endIcon={<EmojiObjectsIcon></EmojiObjectsIcon>}
+                className={classes.newOrAddReminderButton}
+                endIcon={<NotificationsIcon></NotificationsIcon>}
                 onClick={this.handleViewClick}
               >
                 View
@@ -401,6 +401,7 @@ class IdeasPage extends Component {
                 <div>
                   <InputLabel>Name</InputLabel>
                   <Input
+                    className={classes.nameInput}
                     multiline
                     value={this.state.name}
                     onChange={this.handleInputChangeFor('name')}
@@ -417,7 +418,28 @@ class IdeasPage extends Component {
                   value={this.state.description}
                   onChange={this.handleInputChangeFor('description')}
                 />
-                <FormHelperText>Required *</FormHelperText>
+                <FormHelperText></FormHelperText>
+              </FormControl>
+              <FormControl className={classes.formControl}>
+                <InputLabel>
+                  <RoomIcon />
+                </InputLabel>
+                <Input
+                  className={classes.descriptionInput}
+                  multiline
+                  type="text"
+                  size="50"
+                  id="searchTextField"
+                  // ref={autoCompleteRef}
+                  // onChange={(event) => setQuery(event.target.value)}
+                  // placeholder="Enter a City"
+                  // value={query}
+                  onClick={this.handleLocationClick}
+                  // rowsMax={3}
+                  // value={this.state.description}
+                  // onChange={this.handleInputChangeFor('description')}
+                />
+                <FormHelperText></FormHelperText>
               </FormControl>
               <FormControl className={classes.formControl}>
                 <InputLabel className={classes.categorySelector}>
@@ -437,90 +459,67 @@ class IdeasPage extends Component {
                 </Select>
                 <FormHelperText>
                   Required *
-                  <span className={classes.invisibleText}>
-                    invisible text is here
-                  </span>
+                  <span className={classes.invisibleText}>invisible text</span>
                 </FormHelperText>
               </FormControl>
-              <FormControl className={classes.formControl}>
+              {/* <input id="searchTextField" type="text" size="50"></input> */}
+              <FormControl className={classes.linkFormControl}>
                 <InputLabel className={classes.linkInputField}>
                   <LinkIcon />
                 </InputLabel>
                 <Input
-                  className={classes.descriptionInput}
+                  className={classes.linkInput}
                   value={this.state.link}
                   onChange={this.handleInputChangeFor('link')}
                 />
-                <FormHelperText></FormHelperText>
               </FormControl>
               <FormControl className={classes.formControl}>
-                {/* <InputLabel>Image Url</InputLabel>
-            <Input
-              value={this.state.image_url}
-              onChange={this.handleInputImageUrl}
-            /> */}
+                <InputLabel className={classes.dateLabel}>Date</InputLabel>
+                <TextField
+                  id="date"
+                  type="datetime-local"
+                  value={this.state.date}
+                  onChange={this.handleInputChangeFor('date')}
+                  defaultValue={this.state.date}
+                  className={classes.dateField}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
               </FormControl>
               <FormControl className={classes.formControl}>
-                <Button
-                  variant="contained"
-                  className={classes.uploadImageButton}
-                >
-                  <ImageUpload
-                    handleFinishedUpload={this.handleFinishedUpload}
-                  />
-                </Button>
+                <InputLabel className={classes.dateLabel}> End Date</InputLabel>
+                <TextField
+                  id="date"
+                  // label="Date"
+                  type="datetime-local"
+                  value={this.state.end_date}
+                  onChange={this.handleInputChangeFor('end_date')}
+                  defaultValue={this.state.date}
+                  defaultValue={this.state.end_date}
+                  className={classes.dateField}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
               </FormControl>
-              {this.state.favorited ? (
-                <FormControl className={classes.formControl}>
-                  <StarIcon
-                    onClick={this.handleFavoriteIdeaFormClick}
-                    value={this.state.favorited}
-                    className={classes.starIconForm}
-                  ></StarIcon>
-                </FormControl>
-              ) : (
-                <FormControl className={classes.formControl}>
-                  <StarIcon
-                    onClick={this.handleFavoriteIdeaFormClick}
-                    value={this.state.favorited}
-                    className={classes.blackstarIconForm}
-                  ></StarIcon>
-                </FormControl>
-              )}
-
-              {/* <FormControl className={classes.formControl}>
-            <InputLabel className={classes.dateLabel}>Date</InputLabel>
-            <TextField
-              id="date"
-              // label="Date"
-              type="date"
-              value={this.state.date}
-              onChange={this.handleInputDate}
-              defaultValue={this.state.date}
-              className={classes.dateField}
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-          </FormControl> */}
 
               <FormControl className={classes.formControl}>
                 {this.state.editmode ? (
                   <Button
-                    // id={submitButton}
                     variant="contained"
                     onClick={this.handleSaveChangesClick}
-                    className={classes.newOrAddIdeaButton}
-                    endIcon={<EmojiObjectsIcon>Save</EmojiObjectsIcon>}
+                    className={classes.newOrAddReminderButton}
+                    endIcon={<NotificationsIcon>Save</NotificationsIcon>}
                   >
                     Save
                   </Button>
                 ) : (
                   <Button
                     variant="contained"
-                    onClick={this.handleAddIdeaClick}
-                    className={classes.newOrAddIdeaButton}
-                    endIcon={<EmojiObjectsIcon>Add</EmojiObjectsIcon>}
+                    onClick={this.handleAddReminderClick}
+                    className={classes.newOrAddReminderButton}
+                    endIcon={<NotificationsIcon>Add</NotificationsIcon>}
                   >
                     Add
                   </Button>
@@ -536,7 +535,7 @@ class IdeasPage extends Component {
         {this.state.viewmode ? (
           <Fade bottom>
             <div className={classes.tableContainer}>
-              {this.props.ideas === [] ? (
+              {this.props.reminders === [] ? (
                 'please wait..'
               ) : (
                 <Paper className={classes.root} elevation={3}>
@@ -545,6 +544,12 @@ class IdeasPage extends Component {
                       <TableRow>
                         <TableCell
                           className={classes.tableHeadCellLeft}
+                          align="left"
+                        >
+                          <CalendarTodayIcon />
+                        </TableCell>
+                        <TableCell
+                          className={classes.tableHeadEndCell}
                           align="left"
                         >
                           <CalendarTodayIcon />
@@ -570,19 +575,6 @@ class IdeasPage extends Component {
                         >
                           <LinkIcon />
                         </TableCell>
-                        <TableCell
-                          className={classes.tableHeadCell}
-                          align="left"
-                        >
-                          <ImageIcon />
-                        </TableCell>
-
-                        <TableCell
-                          className={classes.tableHeadCell}
-                          align="left"
-                        >
-                          <StarIcon />
-                        </TableCell>
 
                         <TableCell
                           className={classes.tableHeadCellRight}
@@ -593,14 +585,11 @@ class IdeasPage extends Component {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {this.props.ideas.map((idea) => (
-                        <IdeasTable
-                          idea={idea}
-                          key={idea.id}
-                          handleEditIdeaClick={this.handleEditIdeaClick}
-                          handleFavoritedIdeaClick={
-                            this.handleFavoritedIdeaClick
-                          }
+                      {this.props.reminders.map((reminder) => (
+                        <RemindersTable
+                          reminder={reminder}
+                          key={reminder.id}
+                          handleEditReminderClick={this.handleEditReminderClick}
                         />
                       ))}
                     </TableBody>
@@ -618,8 +607,8 @@ class IdeasPage extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  ideas: state.ideas,
+  reminders: state.reminders,
   categories: state.categories,
 });
 
-export default withStyles(styles)(connect(mapStateToProps)(IdeasPage));
+export default withStyles(styles)(connect(mapStateToProps)(RemindersPage));

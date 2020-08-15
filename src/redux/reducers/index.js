@@ -3,9 +3,10 @@ import errors from './errorsReducer';
 import loginMode from './loginModeReducer';
 import user from './userReducer';
 import ideas from './ideasReducer';
+import reminders from './remindersReducer';
+import tasks from './tasksReducer';
 import memories from './memoriesReducer';
 import categories from './categoriesReducer';
-// import favorite from './favoriteReducer';
 
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
@@ -20,7 +21,8 @@ const rootReducer = combineReducers({
   ideas,
   categories,
   memories,
-  // favorite,
+  reminders,
+  tasks,
 });
 
 // REDUCERS are meant for switches, and other things

@@ -1,10 +1,10 @@
-const ideas = (state = [], action) => {
+const reminders = (state = [], action) => {
   switch (action.type) {
-    case 'SET_IDEAS':
+    case 'SET_REMINDERS':
       return action.payload;
     default:
       return state;
   }
 };
 
-export default ideas;
+export default reminders;

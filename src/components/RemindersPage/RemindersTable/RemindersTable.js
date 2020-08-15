@@ -10,7 +10,6 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import StarIcon from '@material-ui/icons/Star';
 import LinkIcon from '@material-ui/icons/Link';
-import ImageIcon from '@material-ui/icons/Image';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 // import BubbleChartIcon from '@material-ui/icons/BubbleChart';
@@ -114,15 +113,9 @@ const styles = (theme) => ({
       color: '#e53935',
     },
   },
-  tableImage: {
-    // border: '#ffffff solid 2px',
-    width: '300px',
-    // 'box-shadow': 'inset 0px 0px 0px 0px #FFFFFF',
-    backgroundColor: 'white',
-  },
 });
 
-class IdeasTable extends Component {
+class RemindersTable extends Component {
   componentDidUpdate(prevProps) {
     if (this.props.userID !== prevProps.userID) {
       this.fetchData(this.props.userID);
@@ -132,14 +125,17 @@ class IdeasTable extends Component {
     }
   }
 
-  handleDeleteIdeaClick = () => {
-    console.log('delete was clicked!', this.props.idea.id);
-    this.props.dispatch({ type: 'DELETE_IDEA', payload: this.props.idea.id });
+  handleDeleteReminderClick = () => {
+    console.log('delete was clicked!', this.props.reminder.id);
+    this.props.dispatch({
+      type: 'DELETE_REMINDER',
+      payload: this.props.reminder.id,
+    });
   };
 
   handleLinkClick = () => {
-    console.log('this.props.idea.link', this.props.idea.link);
-    let win = window.open(this.props.idea.link, '_blank');
+    console.log('this.props.reminder.link', this.props.reminder.link);
+    let win = window.open(this.props.reminder.link, '_blank');
     win.focus();
   };
 
@@ -148,7 +144,7 @@ class IdeasTable extends Component {
     viewmoremode: false,
   };
 
-  handleEditIdeaClickOnTable = () => {
+  handleEditReminderClickOnTable = () => {
     console.log('edit was clicked!', this.state.editmode);
     this.setState({
       editmode: !this.state.editmode,
@@ -165,14 +161,20 @@ class IdeasTable extends Component {
     });
   };
 
+  timeStampConversion = () => {
+    let s = `${this.props.reminder.date}`;
+    let d = new Date(Date.parse(s));
+    console.log('d', d);
+  };
+
   render() {
     const { classes } = this.props;
     return (
       <>
         {/*-- Do not wrap table row within a Div --*/}
         <TableRow
-          id={this.props.idea.id}
-          key={this.props.idea.id}
+          id={this.props.reminder.id}
+          key={this.props.reminder.id}
           className={`${
             this.state.viewmoremode
               ? classes.collapseTableRow
@@ -180,77 +182,41 @@ class IdeasTable extends Component {
           }`}
         >
           <TableCell className={classes.tableCellLeft} align="left">
-            {this.props.idea.date.split('T')[0]}
+            {/* {/* {this.props.reminder.date.split('T')[0]} */}
+            {/* {this.props.reminder.date.split(':00.00')[0]} */}
+            {Date(this.props.reminder.date).split('GMT')[0].slice(0, -4)}
+            {Date(this.props.reminder.date).split('GMT')[0].slice(0, -4)}
+          </TableCell>
+          <TableCell className={classes.tableCellLeft} align="left">
+            {/* {this.props.reminder.end_date.split('T')[0]} */}
+            {this.props.reminder.end_date.split(':00.00')[0]}
           </TableCell>
           <TableCell className={classes.tableCell}>
-            {this.props.idea.name}
+            {this.props.reminder.name}
           </TableCell>
           <TableCell className={classes.tableCellDescription} align="left">
             {this.state.viewmoremode ? (
-              this.props.idea.description
+              this.props.reminder.description
             ) : (
               <span>
-                {this.props.idea.description.length > 40
-                  ? this.props.idea.description.substring(0, 40) + '...'
-                  : this.props.idea.description}
+                {this.props.reminder.description.length > 40
+                  ? this.props.reminder.description.substring(0, 40) + '...'
+                  : this.props.reminder.description}
               </span>
             )}
           </TableCell>
           <TableCell className={classes.tableCell} align="left">
-            {this.props.idea.category}
-            {/* {JSON.stringify(ideas.category_id)} */}
+            {this.props.reminder.category}
           </TableCell>
           <TableCell className={classes.tableLink} align="left">
-            {this.props.idea.link === '' ? (
+            {this.props.reminder.link === '' ? (
               <span></span>
             ) : (
               <LinkIcon
-                value={this.props.idea.link}
+                value={this.props.reminder.link}
                 onClick={this.handleLinkClick}
               />
             )}
-          </TableCell>
-          <TableCell className={classes.tableCell} align="left">
-            {this.props.idea.image_url === '' ||
-            this.props.idea.image_url === null ? (
-              <span></span>
-            ) : (
-              <ImageIcon
-                className={`${
-                  this.state.viewmoremode
-                    ? classes.invisibleIcon
-                    : classes.realIcon
-                }`}
-              />
-            )}
-            {this.state.viewmoremode ? (
-              <img
-                className={classes.tableImage}
-                src={this.props.idea.image_url}
-                // alt={this.props.idea.name}
-              ></img>
-            ) : (
-              <span></span>
-            )}
-          </TableCell>
-          <TableCell className={classes.tableCell} align="left">
-            {/* {JSON.stringify(this.props.idea.favorited)} */}
-            {this.props.idea.favorited ? (
-              <StarIcon
-                onClick={() =>
-                  this.props.handleFavoritedIdeaClick(this.props.idea)
-                }
-                className={classes.starIconTable}
-              ></StarIcon>
-            ) : (
-              <StarIcon
-                onClick={() =>
-                  this.props.handleFavoritedIdeaClick(this.props.idea)
-                }
-                className={classes.blackstarIconTable}
-              ></StarIcon>
-            )}
-            {this.props.idea.favorited}
           </TableCell>
           {/* Here we get an error saying the star or 
           SVG icon cannot appear as a child of tr */}
@@ -265,23 +231,23 @@ class IdeasTable extends Component {
               onClick={this.handleCollapsedClick}
             />
           )}
-          <a href="#ideas" className={classes.editIconLink}>
+          <a href="#reminders" className={classes.editIconLink}>
             <EditIcon
               onClick={() => {
-                this.props.handleEditIdeaClick(this.props.idea);
-                this.handleEditIdeaClickOnTable();
+                this.props.handleEditReminderClick(this.props.reminder);
+                this.handleEditReminderClickOnTable();
               }}
               className={classes.editIcon}
             ></EditIcon>
           </a>
           {/* {JSON.stringify(this.state.id)} */}
-          {/* {JSON.stringify(this.props.idea.id)} */}
+          {/* {JSON.stringify(this.props.reminder.id)} */}
           {/* <IconButton
           > */}
           {/* document.querySelector('tr #6') */}
           <DeleteIcon
             className={classes.deleteIcon}
-            onClick={this.handleDeleteIdeaClick}
+            onClick={this.handleDeleteReminderClick}
           ></DeleteIcon>
           {/* </IconButton> */}
         </TableRow>
@@ -291,8 +257,8 @@ class IdeasTable extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  ideas: state.ideas,
+  reminders: state.reminders,
   categories: state.categories,
 });
 
-export default withStyles(styles)(connect(mapStateToProps)(IdeasTable));
+export default withStyles(styles)(connect(mapStateToProps)(RemindersTable));

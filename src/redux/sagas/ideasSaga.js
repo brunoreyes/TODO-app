@@ -62,11 +62,11 @@ function* deleteIdea(action) {
   }
 }
 
-function* IdeasSaga() {
+function* ideasSaga() {
   yield takeLatest('FETCH_IDEAS', getIdeas);
   yield takeLatest('ADD_IDEA', addIdea);
   yield takeLatest('DELETE_IDEA', deleteIdea);
   yield takeLatest('UPDATE_IDEA', editIdea);
 }
 
-export default IdeasSaga;
+export default ideasSaga;

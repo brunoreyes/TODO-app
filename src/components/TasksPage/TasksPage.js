@@ -21,7 +21,7 @@ import {
 } from '@material-ui/core';
 import StarIcon from '@material-ui/icons/Star';
 import EmojiObjectsIcon from '@material-ui/icons/EmojiObjects';
-import IdeasTable from './TasksTable/TasksTable';
+import TasksTable from './TasksTable/TasksTable';
 import LinkIcon from '@material-ui/icons/Link';
 import ImageIcon from '@material-ui/icons/Image';
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
@@ -61,7 +61,7 @@ const styles = (theme) => ({
   invisibleText: {
     color: 'white',
   },
-  newOrAddIdeaButton: {
+  newOrAddTaskButton: {
     color: 'white',
     'font-family': 'Montserrat',
     'background-color': '#161616',
@@ -157,9 +157,9 @@ const CategorySelectorProps = {
   },
 };
 
-class IdeasPage extends Component {
+class TasksPage extends Component {
   componentDidMount() {
-    this.props.dispatch({ type: 'FETCH_IDEAS' });
+    this.props.dispatch({ type: 'FETCH_TASKS' });
     this.props.dispatch({ type: 'FETCH_CATEGORIES' });
     this.props.dispatch({ type: 'FETCH_FAVORITE' });
   }
@@ -215,12 +215,12 @@ class IdeasPage extends Component {
     );
   };
 
-  handleFavoriteIdeaFormClick = () => {
+  handleFavoriteTaskFormClick = () => {
     this.setState({
       favorited: !this.state.favorited,
     });
     console.log(
-      'in handleFavoriteIdeaFormClick. Now this.state.favorited value is:',
+      'in handleFavoriteTaskFormClick. Now this.state.favorited value is:',
       this.state.favorited
     );
   };
@@ -235,43 +235,43 @@ class IdeasPage extends Component {
   //   );
   // };
 
-  handleEditIdeaClick = (idea) => {
+  handleEditTaskClick = (task) => {
     this.setState({
-      id: idea.id,
-      name: idea.name,
-      description: idea.description,
-      image_url: idea.image_url,
-      category: idea.category,
-      category_id: idea.category_id,
-      link: idea.link,
-      date: idea.date,
-      editmode: !idea.editmode,
-      user_id: idea.user_id,
-      favorited: idea.favorited,
+      id: task.id,
+      name: task.name,
+      description: task.description,
+      image_url: task.image_url,
+      category: task.category,
+      category_id: task.category_id,
+      link: task.link,
+      date: task.date,
+      editmode: !task.editmode,
+      user_id: task.user_id,
+      favorited: task.favorited,
     });
-    console.log('edit was clicked! Idea state:', idea);
+    console.log('edit was clicked! Task state:', task);
   };
 
-  handleFavoritedIdeaClick = (idea) => {
+  handleFavoritedTaskClick = (task) => {
     const payload = {
-      favorited: !idea.favorited,
-      id: idea.id,
+      favorited: !task.favorited,
+      id: task.id,
     };
     this.setState({
-      favorited: !idea.favorited,
-      id: idea.id,
+      favorited: !task.favorited,
+      id: task.id,
     });
     this.props.dispatch({
-      type: 'CHANGE_FAVORITE_STATUS_IDEA',
+      type: 'CHANGE_FAVORITE_STATUS_TASK',
       payload: payload,
     });
     console.log(
-      'in favoritedIdeaClick, this.state.favorited:',
+      'in favoritedTaskClick, this.state.favorited:',
       this.state.favorited
     );
   };
 
-  handleAddIdeaClick = () => {
+  handleAddTaskClick = () => {
     if (
       this.state.name === '' ||
       this.state.description === '' ||
@@ -288,8 +288,8 @@ class IdeasPage extends Component {
         date: this.state.date,
         favorited: this.state.favorited,
       };
-      console.log('in addIdea with payload:', payload);
-      this.props.dispatch({ type: 'ADD_IDEA', payload: payload });
+      console.log('in addTask with payload:', payload);
+      this.props.dispatch({ type: 'ADD_TASK', payload: payload });
 
       this.setState({
         name: '',
@@ -324,7 +324,7 @@ class IdeasPage extends Component {
       };
       console.log('In saveChangesClicked, payload:', payload);
       this.props.dispatch({
-        type: 'UPDATE_IDEA',
+        type: 'UPDATE_TASK',
         payload: payload,
       });
       this.setState({
@@ -337,7 +337,7 @@ class IdeasPage extends Component {
         link: '',
         favorited: false,
       });
-      this.props.dispatch({ type: 'FETCH_IDEAS' });
+      this.props.dispatch({ type: 'FETCH_TASKS' });
     }
   };
 
@@ -369,13 +369,13 @@ class IdeasPage extends Component {
 
     return (
       <div className={classes.allContainer}>
-        <a name="ideas">
+        <a name="tasks">
           <span className={classes.newViewContainer}>
             {/* THE FORM */}
             <div className={classes.newContainer}>
               <Button
                 variant="contained"
-                className={classes.newOrAddIdeaButton}
+                className={classes.newOrAddTaskButton}
                 endIcon={<EmojiObjectsIcon></EmojiObjectsIcon>}
                 onClick={this.handleNewClick}
               >
@@ -385,7 +385,7 @@ class IdeasPage extends Component {
             <div className={classes.viewContainer}>
               <Button
                 variant="contained"
-                className={classes.newOrAddIdeaButton}
+                className={classes.newOrAddTaskButton}
                 endIcon={<EmojiObjectsIcon></EmojiObjectsIcon>}
                 onClick={this.handleViewClick}
               >
@@ -473,7 +473,7 @@ class IdeasPage extends Component {
               {this.state.favorited ? (
                 <FormControl className={classes.formControl}>
                   <StarIcon
-                    onClick={this.handleFavoriteIdeaFormClick}
+                    onClick={this.handleFavoriteTaskFormClick}
                     value={this.state.favorited}
                     className={classes.starIconForm}
                   ></StarIcon>
@@ -481,7 +481,7 @@ class IdeasPage extends Component {
               ) : (
                 <FormControl className={classes.formControl}>
                   <StarIcon
-                    onClick={this.handleFavoriteIdeaFormClick}
+                    onClick={this.handleFavoriteTaskFormClick}
                     value={this.state.favorited}
                     className={classes.blackstarIconForm}
                   ></StarIcon>
@@ -510,7 +510,7 @@ class IdeasPage extends Component {
                     // id={submitButton}
                     variant="contained"
                     onClick={this.handleSaveChangesClick}
-                    className={classes.newOrAddIdeaButton}
+                    className={classes.newOrAddTaskButton}
                     endIcon={<EmojiObjectsIcon>Save</EmojiObjectsIcon>}
                   >
                     Save
@@ -518,8 +518,8 @@ class IdeasPage extends Component {
                 ) : (
                   <Button
                     variant="contained"
-                    onClick={this.handleAddIdeaClick}
-                    className={classes.newOrAddIdeaButton}
+                    onClick={this.handleAddTaskClick}
+                    className={classes.newOrAddTaskButton}
                     endIcon={<EmojiObjectsIcon>Add</EmojiObjectsIcon>}
                   >
                     Add
@@ -536,7 +536,7 @@ class IdeasPage extends Component {
         {this.state.viewmode ? (
           <Fade bottom>
             <div className={classes.tableContainer}>
-              {this.props.ideas === [] ? (
+              {this.props.tasks === [] ? (
                 'please wait..'
               ) : (
                 <Paper className={classes.root} elevation={3}>
@@ -593,13 +593,13 @@ class IdeasPage extends Component {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {this.props.ideas.map((idea) => (
-                        <IdeasTable
-                          idea={idea}
-                          key={idea.id}
-                          handleEditIdeaClick={this.handleEditIdeaClick}
-                          handleFavoritedIdeaClick={
-                            this.handleFavoritedIdeaClick
+                      {this.props.tasks.map((task) => (
+                        <TasksTable
+                          task={task}
+                          key={task.id}
+                          handleEditTaskClick={this.handleEditTaskClick}
+                          handleFavoritedTaskClick={
+                            this.handleFavoritedTaskClick
                           }
                         />
                       ))}
@@ -618,8 +618,8 @@ class IdeasPage extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  ideas: state.ideas,
+  tasks: state.tasks,
   categories: state.categories,
 });
 
-export default withStyles(styles)(connect(mapStateToProps)(IdeasPage));
+export default withStyles(styles)(connect(mapStateToProps)(TasksPage));

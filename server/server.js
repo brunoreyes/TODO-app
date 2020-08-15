@@ -15,7 +15,7 @@ const categoryRouter = require('./routes/category.router');
 const favoriteRouter = require('./routes/favorite.router');
 const memoriesRouter = require('./routes/memories.router');
 // const tasksRouter = require('./routes/tasks.router');
-// const remindersRouter = require('./routes/reminders.router');
+const remindersRouter = require('./routes/reminders.router');
 
 // UploaderS3Router added below
 const UploaderS3Router = require('react-dropzone-s3-uploader/s3router');
@@ -35,7 +35,7 @@ app.use(passport.session());
 app.use('/api/user', userRouter);
 app.use('/api/imageurl', imageUrlRouter);
 // app.use('/api/tasks', tasksRouter);
-// app.use('/api/reminders', remindersRouter);
+app.use('/api/reminders', remindersRouter);
 app.use('/api/ideas', ideasRouter);
 app.use('/api/memories', memoriesRouter);
 app.use('/api/category', categoryRouter);
