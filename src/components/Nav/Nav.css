@@ -27,11 +27,15 @@
   -moz-box-shadow: 0px 2px 2px #27272780; */
 }
 
+.exit {
+  color: white;
+}
+
 .nav-link {
   float: left;
   background-color: #161616;
   color: #ffffff;
-  padding: 34px 20px;
+  padding: 35px 20px;
   text-decoration: none;
   font-size: 20px;
   /* these last two make the logout button in

@@ -39,8 +39,8 @@ const styles = (theme) => ({
   },
   completedTableRow: {
     backgroundColor: '#53DD6C',
-    'border-top': '#ffffff solid 2px',
-    'border-bottom': '#ffffff solid 2px',
+    // 'border-top': '#ffffff solid 2px',
+    // 'border-bottom': '#ffffff solid 2px',
   },
   tableCellLeft: {
     font: '  500 13px Montserrat, sans-serif',
@@ -209,7 +209,7 @@ class TasksTable extends Component {
           }`}
         >
           <TableCell className={classes.tableCellLeft} align="left">
-            {JSON.stringify(this.props.task.complete)}
+            {/* {JSON.stringify(this.props.task.complete)} */}
 
             {/* {JSON.stringify(this.state.complete)} */}
             {this.props.task.complete ? (

@@ -27,6 +27,8 @@ import Fade from 'react-reveal/Fade';
 import SubjectIcon from '@material-ui/icons/Subject';
 import ReplayIcon from '@material-ui/icons/Replay';
 import CategoryIcon from '@material-ui/icons/Category';
+import Nav from '../Nav/Nav';
+import Footer from '../Footer/Footer';
 
 // Material UI styles
 const styles = (theme) => ({
@@ -54,7 +56,7 @@ const styles = (theme) => ({
     margin: '10px 0px 0px 0px',
     padding: '8px 8px 8px 10px',
     '&:hover': {
-      color: 'gold',
+      color: '#e53935',
       'background-color': '#161616',
     },
   },
@@ -315,61 +317,63 @@ class RemindersPage extends Component {
     const { classes } = this.props;
 
     return (
-      <div className={classes.allContainer}>
-        <a name="reminders">
-          <span className={classes.newViewContainer}>
-            {/* THE FORM */}
-            <div className={classes.newContainer}>
-              <Button
-                variant="contained"
-                className={classes.newOrAddReminderButton}
-                endIcon={<NotificationsIcon></NotificationsIcon>}
-                onClick={this.handleNewClick}
-              >
-                New
-              </Button>
-            </div>
-            <div className={classes.viewContainer}>
-              <Button
-                variant="contained"
-                className={classes.newOrAddReminderButton}
-                endIcon={<NotificationsIcon></NotificationsIcon>}
-                onClick={this.handleViewClick}
-              >
-                View
-              </Button>
-            </div>
-          </span>
-        </a>
-        {this.state.inputmode || this.state.editmode ? (
-          <Fade>
-            <div className={classes.formControlContainer}>
-              <FormControl className={classes.formControl}>
-                <div>
-                  <InputLabel>Name</InputLabel>
+      <span>
+        <Nav />
+        <div className={classes.allContainer}>
+          <a name="reminders">
+            <span className={classes.newViewContainer}>
+              {/* THE FORM */}
+              <div className={classes.newContainer}>
+                <Button
+                  variant="contained"
+                  className={classes.newOrAddReminderButton}
+                  endIcon={<NotificationsIcon></NotificationsIcon>}
+                  onClick={this.handleNewClick}
+                >
+                  New
+                </Button>
+              </div>
+              <div className={classes.viewContainer}>
+                <Button
+                  variant="contained"
+                  className={classes.newOrAddReminderButton}
+                  endIcon={<NotificationsIcon></NotificationsIcon>}
+                  onClick={this.handleViewClick}
+                >
+                  View
+                </Button>
+              </div>
+            </span>
+          </a>
+          {this.state.inputmode || this.state.editmode ? (
+            <Fade>
+              <div className={classes.formControlContainer}>
+                <FormControl className={classes.formControl}>
+                  <div>
+                    <InputLabel>Name</InputLabel>
+                    <Input
+                      className={classes.nameInput}
+                      multiline
+                      value={this.state.name}
+                      onChange={this.handleInputChangeFor('name')}
+                    />
+                    <FormHelperText>Required *</FormHelperText>
+                  </div>
+                </FormControl>
+                <FormControl className={classes.formControl}>
+                  <InputLabel>
+                    <SubjectIcon />
+                  </InputLabel>
                   <Input
-                    className={classes.nameInput}
+                    className={classes.descriptionInput}
                     multiline
-                    value={this.state.name}
-                    onChange={this.handleInputChangeFor('name')}
+                    rowsMax={10}
+                    value={this.state.description}
+                    onChange={this.handleInputChangeFor('description')}
                   />
-                  <FormHelperText>Required *</FormHelperText>
-                </div>
-              </FormControl>
-              <FormControl className={classes.formControl}>
-                <InputLabel>
-                  <SubjectIcon />
-                </InputLabel>
-                <Input
-                  className={classes.descriptionInput}
-                  multiline
-                  rowsMax={10}
-                  value={this.state.description}
-                  onChange={this.handleInputChangeFor('description')}
-                />
-                <FormHelperText></FormHelperText>
-              </FormControl>
-              {/* <FormControl className={classes.formControl}>
+                  <FormHelperText></FormHelperText>
+                </FormControl>
+                {/* <FormControl className={classes.formControl}>
                 <InputLabel>
                   <RoomIcon />
                 </InputLabel>
@@ -390,195 +394,204 @@ class RemindersPage extends Component {
                 />
                 <FormHelperText></FormHelperText>
               </FormControl> */}
-              <FormControl className={classes.formControl}>
-                <InputLabel className={classes.categorySelector}>
-                  <CategoryIcon />
-                </InputLabel>
-                <Select
-                  MenuProps={CategorySelectorProps}
-                  value={this.state.category_id}
-                  onChange={this.handleInputChangeFor('category_id')}
-                >
-                  {this.props.categories.map((category, index) => (
-                    <MenuItem key={index} value={category.id}>
-                      {category.name}
-                    </MenuItem>
-                  ))}
-                  {/* <MenuItem value={11}>New Category</MenuItem> */}
-                </Select>
-                <FormHelperText>
-                  Required *
-                  <span className={classes.invisibleText}>invisible text</span>
-                </FormHelperText>
-              </FormControl>
-
-              {/* <input id="searchTextField" type="text" size="50"></input> */}
-              <FormControl className={classes.linkFormControl}>
-                <InputLabel className={classes.linkInputField}>
-                  <LinkIcon />
-                </InputLabel>
-                <Input
-                  className={classes.linkInput}
-                  value={this.state.link}
-                  onChange={this.handleInputChangeFor('link')}
-                />
-              </FormControl>
-              <FormControl className={classes.formControl}>
-                <InputLabel className={classes.categorySelector}>
-                  <ReplayIcon />
-                </InputLabel>
-                <Select
-                  MenuProps={CategorySelectorProps}
-                  value={this.state.repeat}
-                  onChange={this.handleInputChangeFor('repeat')}
-                  // onChange={this.handleInputChangeFor('category_id')}
-                >
-                  <MenuItem disabled>Repeat</MenuItem>
-                  <MenuItem value={'Daily'}>Daily</MenuItem>
-                  <MenuItem value={'Weekly'}>Weekly</MenuItem>
-                  <MenuItem value={'Monthly'}>Monthly</MenuItem>
-                  <MenuItem value={'Yearly'}>Yearly</MenuItem>
-                </Select>
-                <FormHelperText>
-                  <span className={classes.invisibleText}>
-                    invisible text is right
-                  </span>
-                </FormHelperText>
-              </FormControl>
-              <FormControl className={classes.formControl}>
-                <InputLabel className={classes.dateLabel}>Date</InputLabel>
-                <TextField
-                  id="date"
-                  type="datetime-local"
-                  value={this.state.date}
-                  onChange={this.handleInputChangeFor('date')}
-                  defaultValue={this.state.date}
-                  className={classes.dateField}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </FormControl>
-              <FormControl className={classes.formControl}>
-                <InputLabel className={classes.dateLabel}> End Date</InputLabel>
-                <TextField
-                  id="date"
-                  // label="Date"
-                  type="datetime-local"
-                  value={this.state.end_date}
-                  onChange={this.handleInputChangeFor('end_date')}
-                  defaultValue={this.state.date}
-                  defaultValue={this.state.end_date}
-                  className={classes.dateField}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </FormControl>
-
-              <FormControl className={classes.formControl}>
-                {this.state.editmode ? (
-                  <Button
-                    variant="contained"
-                    onClick={this.handleSaveChangesClick}
-                    className={classes.newOrAddReminderButton}
-                    endIcon={<NotificationsIcon>Save</NotificationsIcon>}
+                <FormControl className={classes.formControl}>
+                  <InputLabel className={classes.categorySelector}>
+                    <CategoryIcon />
+                  </InputLabel>
+                  <Select
+                    MenuProps={CategorySelectorProps}
+                    value={this.state.category_id}
+                    onChange={this.handleInputChangeFor('category_id')}
                   >
-                    Save
-                  </Button>
+                    {this.props.categories.map((category, index) => (
+                      <MenuItem key={index} value={category.id}>
+                        {category.name}
+                      </MenuItem>
+                    ))}
+                    {/* <MenuItem value={11}>New Category</MenuItem> */}
+                  </Select>
+                  <FormHelperText>
+                    Required *
+                    <span className={classes.invisibleText}>
+                      invisible text
+                    </span>
+                  </FormHelperText>
+                </FormControl>
+
+                {/* <input id="searchTextField" type="text" size="50"></input> */}
+                <FormControl className={classes.linkFormControl}>
+                  <InputLabel className={classes.linkInputField}>
+                    <LinkIcon />
+                  </InputLabel>
+                  <Input
+                    className={classes.linkInput}
+                    value={this.state.link}
+                    onChange={this.handleInputChangeFor('link')}
+                  />
+                </FormControl>
+                <FormControl className={classes.formControl}>
+                  <InputLabel className={classes.categorySelector}>
+                    <ReplayIcon />
+                  </InputLabel>
+                  <Select
+                    MenuProps={CategorySelectorProps}
+                    value={this.state.repeat}
+                    onChange={this.handleInputChangeFor('repeat')}
+                    // onChange={this.handleInputChangeFor('category_id')}
+                  >
+                    <MenuItem disabled>Repeat</MenuItem>
+                    <MenuItem value={'Daily'}>Daily</MenuItem>
+                    <MenuItem value={'Weekly'}>Weekly</MenuItem>
+                    <MenuItem value={'Monthly'}>Monthly</MenuItem>
+                    <MenuItem value={'Yearly'}>Yearly</MenuItem>
+                  </Select>
+                  <FormHelperText>
+                    <span className={classes.invisibleText}>
+                      invisible text is right
+                    </span>
+                  </FormHelperText>
+                </FormControl>
+                <FormControl className={classes.formControl}>
+                  <InputLabel className={classes.dateLabel}>Date</InputLabel>
+                  <TextField
+                    id="date"
+                    type="datetime-local"
+                    value={this.state.date}
+                    onChange={this.handleInputChangeFor('date')}
+                    defaultValue={this.state.date}
+                    className={classes.dateField}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                  />
+                </FormControl>
+                <FormControl className={classes.formControl}>
+                  <InputLabel className={classes.dateLabel}>
+                    {' '}
+                    End Date
+                  </InputLabel>
+                  <TextField
+                    id="date"
+                    // label="Date"
+                    type="datetime-local"
+                    value={this.state.end_date}
+                    onChange={this.handleInputChangeFor('end_date')}
+                    defaultValue={this.state.date}
+                    defaultValue={this.state.end_date}
+                    className={classes.dateField}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                  />
+                </FormControl>
+
+                <FormControl className={classes.formControl}>
+                  {this.state.editmode ? (
+                    <Button
+                      variant="contained"
+                      onClick={this.handleSaveChangesClick}
+                      className={classes.newOrAddReminderButton}
+                      endIcon={<NotificationsIcon>Save</NotificationsIcon>}
+                    >
+                      Save
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="contained"
+                      onClick={this.handleAddReminderClick}
+                      className={classes.newOrAddReminderButton}
+                      endIcon={<NotificationsIcon>Add</NotificationsIcon>}
+                    >
+                      Add
+                    </Button>
+                  )}
+                </FormControl>
+              </div>
+            </Fade>
+          ) : (
+            <span></span>
+          )}
+          {/* THE TABLE */}
+
+          {this.state.viewmode ? (
+            <Fade bottom>
+              <div className={classes.tableContainer}>
+                {this.props.reminders === [] ? (
+                  'please wait..'
                 ) : (
-                  <Button
-                    variant="contained"
-                    onClick={this.handleAddReminderClick}
-                    className={classes.newOrAddReminderButton}
-                    endIcon={<NotificationsIcon>Add</NotificationsIcon>}
-                  >
-                    Add
-                  </Button>
+                  <Paper className={classes.root} elevation={3}>
+                    <Table className={classes.table}>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell className={classes.tableHeadCell}>
+                            Name
+                          </TableCell>
+                          <TableCell
+                            className={classes.tableHeadCell}
+                            align="left"
+                          >
+                            <SubjectIcon />
+                          </TableCell>
+                          <TableCell
+                            className={classes.tableHeadCell}
+                            align="left"
+                          >
+                            <CategoryIcon />{' '}
+                          </TableCell>
+                          <TableCell
+                            className={classes.tableHeadCell}
+                            align="left"
+                          >
+                            <LinkIcon />
+                          </TableCell>
+                          <TableCell
+                            className={classes.tableHeadCell}
+                            align="left"
+                          >
+                            <ReplayIcon />
+                          </TableCell>
+                          <TableCell
+                            className={classes.tableHeadCellLeft}
+                            align="left"
+                          >
+                            <CalendarTodayIcon />
+                          </TableCell>
+                          <TableCell
+                            className={classes.tableHeadEndCell}
+                            align="left"
+                          >
+                            <CalendarTodayIcon />
+                          </TableCell>
+                          <TableCell
+                            className={classes.tableHeadCellRight}
+                            align="left"
+                          >
+                            Actions
+                          </TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {this.props.reminders.map((reminder) => (
+                          <RemindersTable
+                            reminder={reminder}
+                            key={reminder.id}
+                            handleEditReminderClick={
+                              this.handleEditReminderClick
+                            }
+                          />
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </Paper>
                 )}
-              </FormControl>
-            </div>
-          </Fade>
-        ) : (
-          <span></span>
-        )}
-        {/* THE TABLE */}
-
-        {this.state.viewmode ? (
-          <Fade bottom>
-            <div className={classes.tableContainer}>
-              {this.props.reminders === [] ? (
-                'please wait..'
-              ) : (
-                <Paper className={classes.root} elevation={3}>
-                  <Table className={classes.table}>
-                    <TableHead>
-                      <TableRow>
-                        <TableCell className={classes.tableHeadCell}>
-                          Name
-                        </TableCell>
-                        <TableCell
-                          className={classes.tableHeadCell}
-                          align="left"
-                        >
-                          <SubjectIcon />
-                        </TableCell>
-                        <TableCell
-                          className={classes.tableHeadCell}
-                          align="left"
-                        >
-                          <CategoryIcon />{' '}
-                        </TableCell>
-                        <TableCell
-                          className={classes.tableHeadCell}
-                          align="left"
-                        >
-                          <LinkIcon />
-                        </TableCell>
-                        <TableCell
-                          className={classes.tableHeadCell}
-                          align="left"
-                        >
-                          <ReplayIcon />
-                        </TableCell>
-                        <TableCell
-                          className={classes.tableHeadCellLeft}
-                          align="left"
-                        >
-                          <CalendarTodayIcon />
-                        </TableCell>
-                        <TableCell
-                          className={classes.tableHeadEndCell}
-                          align="left"
-                        >
-                          <CalendarTodayIcon />
-                        </TableCell>
-                        <TableCell
-                          className={classes.tableHeadCellRight}
-                          align="left"
-                        >
-                          Actions
-                        </TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {this.props.reminders.map((reminder) => (
-                        <RemindersTable
-                          reminder={reminder}
-                          key={reminder.id}
-                          handleEditReminderClick={this.handleEditReminderClick}
-                        />
-                      ))}
-                    </TableBody>
-                  </Table>
-                </Paper>
-              )}
-            </div>
-          </Fade>
-        ) : (
-          <span></span>
-        )}
-      </div>
+              </div>
+            </Fade>
+          ) : (
+            <span></span>
+          )}
+        </div>
+        <Footer />
+      </span>
     );
   }
 }

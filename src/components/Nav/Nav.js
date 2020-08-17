@@ -15,7 +15,7 @@ import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import BubbleChartIcon from '@material-ui/icons/BubbleChart';
 import { withStyles } from '@material-ui/core';
 // import PieChartIcon from '@material-ui/icons/PieChart';
-import BarChartIcon from '@material-ui/icons/BarChart';
+// import BarChartIcon from '@material-ui/icons/BarChart';
 // import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 // import LockIcon from '@material-ui/icons/Lock';
 // import PersonIcon from '@material-ui/icons/Person';
@@ -77,13 +77,15 @@ const Nav = (props) => (
         and call this link 'Login / Register' if they are not */}
           {props.user.id ? 'Memories' : 'Memories'}
         </Link>
-        <Link className="nav-link" to="/statistics">
+
+        {/* <Link className="nav-link" to="/statistics">
           <BarChartIcon className={classes.linkIcon} />
           {/* Show this link if they are logged in or not,
         but call this link 'Home' if they are logged in,
         and call this link 'Login / Register' if they are not */}
-          {props.user.id ? 'Statistics' : 'Statistics'}
-        </Link>
+        {/* {props.user.id ? 'Statistics' : 'Statistics'}
+        </Link> */}
+
         {/* <Link className="nav-link" to="/home">
           <PersonIcon className={classes.linkIcon} />
 

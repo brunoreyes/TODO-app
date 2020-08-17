@@ -28,6 +28,8 @@ import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import Fade from 'react-reveal/Fade';
 import SubjectIcon from '@material-ui/icons/Subject';
 import CategoryIcon from '@material-ui/icons/Category';
+import Nav from '../Nav/Nav';
+import Footer from '../Footer/Footer';
 
 // Material UI styles
 const styles = (theme) => ({
@@ -369,122 +371,126 @@ class IdeasPage extends Component {
     const { classes } = this.props;
 
     return (
-      <div className={classes.allContainer}>
-        {/* <a name="ideas"> */}
-        <span className={classes.newViewContainer}>
-          {/* THE FORM */}
-          <div className={classes.newContainer}>
-            <Button
-              variant="contained"
-              className={classes.newOrAddIdeaButton}
-              endIcon={<EmojiObjectsIcon></EmojiObjectsIcon>}
-              onClick={this.handleNewClick}
-            >
-              New
-            </Button>
-          </div>
-          <div className={classes.viewContainer}>
-            <Button
-              variant="contained"
-              className={classes.newOrAddIdeaButton}
-              endIcon={<EmojiObjectsIcon></EmojiObjectsIcon>}
-              onClick={this.handleViewClick}
-            >
-              View
-            </Button>
-          </div>
-        </span>
-        {/* </a> */}
-        {this.state.inputmode || this.state.editmode ? (
-          <Fade>
-            <div className={classes.formControlContainer}>
-              <FormControl className={classes.formControl}>
-                <div>
-                  <InputLabel>Name</InputLabel>
+      <span>
+        <Nav />
+        <div className={classes.allContainer}>
+          {/* <a name="ideas"> */}
+          <span className={classes.newViewContainer}>
+            {/* THE FORM */}
+            <div className={classes.newContainer}>
+              <Button
+                variant="contained"
+                className={classes.newOrAddIdeaButton}
+                endIcon={<EmojiObjectsIcon></EmojiObjectsIcon>}
+                onClick={this.handleNewClick}
+              >
+                New
+              </Button>
+            </div>
+            <div className={classes.viewContainer}>
+              <Button
+                variant="contained"
+                className={classes.newOrAddIdeaButton}
+                endIcon={<EmojiObjectsIcon></EmojiObjectsIcon>}
+                onClick={this.handleViewClick}
+              >
+                View
+              </Button>
+            </div>
+          </span>
+          {/* </a> */}
+          {this.state.inputmode || this.state.editmode ? (
+            <Fade>
+              <div className={classes.formControlContainer}>
+                <FormControl className={classes.formControl}>
+                  <div>
+                    <InputLabel>Name</InputLabel>
+                    <Input
+                      multiline
+                      value={this.state.name}
+                      onChange={this.handleInputChangeFor('name')}
+                    />
+                    <FormHelperText>Required *</FormHelperText>
+                  </div>
+                </FormControl>
+                <FormControl className={classes.formControl}>
+                  <InputLabel>
+                    <SubjectIcon />
+                  </InputLabel>
                   <Input
+                    className={classes.descriptionInput}
                     multiline
-                    value={this.state.name}
-                    onChange={this.handleInputChangeFor('name')}
+                    rowsMax={10}
+                    value={this.state.description}
+                    onChange={this.handleInputChangeFor('description')}
                   />
                   <FormHelperText>Required *</FormHelperText>
-                </div>
-              </FormControl>
-              <FormControl className={classes.formControl}>
-                <InputLabel>
-                  <SubjectIcon />
-                </InputLabel>
-                <Input
-                  className={classes.descriptionInput}
-                  multiline
-                  rowsMax={10}
-                  value={this.state.description}
-                  onChange={this.handleInputChangeFor('description')}
-                />
-                <FormHelperText>Required *</FormHelperText>
-              </FormControl>
-              <FormControl className={classes.formControl}>
-                <InputLabel className={classes.categorySelector}>
-                  <CategoryIcon />
-                </InputLabel>
-                <Select
-                  MenuProps={CategorySelectorProps}
-                  value={this.state.category_id}
-                  onChange={this.handleInputChangeFor('category_id')}
-                >
-                  {this.props.categories.map((category, index) => (
-                    <MenuItem key={index} value={category.id}>
-                      {category.name}
-                    </MenuItem>
-                  ))}
-                  {/* <MenuItem value={11}>New Category</MenuItem> */}
-                </Select>
-                <FormHelperText>
-                  Required *
-                  <span className={classes.invisibleText}>
-                    invisible text is here
-                  </span>
-                </FormHelperText>
-              </FormControl>
-              <FormControl className={classes.formControl}>
-                <InputLabel className={classes.linkInputField}>
-                  <LinkIcon />
-                </InputLabel>
-                <Input
-                  className={classes.descriptionInput}
-                  value={this.state.link}
-                  onChange={this.handleInputChangeFor('link')}
-                />
-                <FormHelperText></FormHelperText>
-              </FormControl>
-              <FormControl className={classes.formControl}>
-                {/* <InputLabel>Image Url</InputLabel>
+                </FormControl>
+                <FormControl className={classes.formControl}>
+                  <InputLabel className={classes.categorySelector}>
+                    <CategoryIcon />
+                  </InputLabel>
+                  <Select
+                    MenuProps={CategorySelectorProps}
+                    value={this.state.category_id}
+                    onChange={this.handleInputChangeFor('category_id')}
+                  >
+                    {this.props.categories.map((category, index) => (
+                      <MenuItem key={index} value={category.id}>
+                        {category.name}
+                      </MenuItem>
+                    ))}
+                    {/* <MenuItem value={11}>New Category</MenuItem> */}
+                  </Select>
+                  <FormHelperText>
+                    Required *
+                    <span className={classes.invisibleText}>
+                      invisible text is here
+                    </span>
+                  </FormHelperText>
+                </FormControl>
+                <FormControl className={classes.formControl}>
+                  <InputLabel className={classes.linkInputField}>
+                    <LinkIcon />
+                  </InputLabel>
+                  <Input
+                    className={classes.descriptionInput}
+                    value={this.state.link}
+                    onChange={this.handleInputChangeFor('link')}
+                  />
+                  <FormHelperText></FormHelperText>
+                </FormControl>
+                <FormControl className={classes.formControl}>
+                  {/* <InputLabel>Image Url</InputLabel>
             <Input
               value={this.state.image_url}
               onChange={this.handleInputImageUrl}
             /> */}
-              </FormControl>
-              <FormControl className={classes.formControl}>
-                <ImageUpload handleFinishedUpload={this.handleFinishedUpload} />
-              </FormControl>
-              {this.state.favorited ? (
-                <FormControl className={classes.formControl}>
-                  <StarIcon
-                    onClick={this.handleFavoriteIdeaFormClick}
-                    value={this.state.favorited}
-                    className={classes.starIconForm}
-                  ></StarIcon>
                 </FormControl>
-              ) : (
                 <FormControl className={classes.formControl}>
-                  <StarIcon
-                    onClick={this.handleFavoriteIdeaFormClick}
-                    value={this.state.favorited}
-                    className={classes.blackstarIconForm}
-                  ></StarIcon>
+                  <ImageUpload
+                    handleFinishedUpload={this.handleFinishedUpload}
+                  />
                 </FormControl>
-              )}
+                {this.state.favorited ? (
+                  <FormControl className={classes.formControl}>
+                    <StarIcon
+                      onClick={this.handleFavoriteIdeaFormClick}
+                      value={this.state.favorited}
+                      className={classes.starIconForm}
+                    ></StarIcon>
+                  </FormControl>
+                ) : (
+                  <FormControl className={classes.formControl}>
+                    <StarIcon
+                      onClick={this.handleFavoriteIdeaFormClick}
+                      value={this.state.favorited}
+                      className={classes.blackstarIconForm}
+                    ></StarIcon>
+                  </FormControl>
+                )}
 
-              {/* <FormControl className={classes.formControl}>
+                {/* <FormControl className={classes.formControl}>
             <InputLabel className={classes.dateLabel}>Date</InputLabel>
             <TextField
               id="date"
@@ -500,115 +506,117 @@ class IdeasPage extends Component {
             />
           </FormControl> */}
 
-              <FormControl className={classes.formControl}>
-                {this.state.editmode ? (
-                  <Button
-                    // id={submitButton}
-                    variant="contained"
-                    onClick={this.handleSaveChangesClick}
-                    className={classes.newOrAddIdeaButton}
-                    endIcon={<EmojiObjectsIcon>Save</EmojiObjectsIcon>}
-                  >
-                    Save
-                  </Button>
+                <FormControl className={classes.formControl}>
+                  {this.state.editmode ? (
+                    <Button
+                      // id={submitButton}
+                      variant="contained"
+                      onClick={this.handleSaveChangesClick}
+                      className={classes.newOrAddIdeaButton}
+                      endIcon={<EmojiObjectsIcon>Save</EmojiObjectsIcon>}
+                    >
+                      Save
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="contained"
+                      onClick={this.handleAddIdeaClick}
+                      className={classes.newOrAddIdeaButton}
+                      endIcon={<EmojiObjectsIcon>Add</EmojiObjectsIcon>}
+                    >
+                      Add
+                    </Button>
+                  )}
+                </FormControl>
+              </div>
+            </Fade>
+          ) : (
+            <span></span>
+          )}
+          {/* THE TABLE */}
+
+          {this.state.viewmode ? (
+            <Fade bottom>
+              <div className={classes.tableContainer}>
+                {this.props.ideas === [] ? (
+                  'please wait..'
                 ) : (
-                  <Button
-                    variant="contained"
-                    onClick={this.handleAddIdeaClick}
-                    className={classes.newOrAddIdeaButton}
-                    endIcon={<EmojiObjectsIcon>Add</EmojiObjectsIcon>}
-                  >
-                    Add
-                  </Button>
+                  <Paper className={classes.root} elevation={3}>
+                    <Table className={classes.table}>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell
+                            className={classes.tableHeadCellLeft}
+                            align="left"
+                          >
+                            <CalendarTodayIcon />
+                          </TableCell>
+                          <TableCell className={classes.tableHeadCell}>
+                            Name
+                          </TableCell>
+                          <TableCell
+                            className={classes.tableHeadCell}
+                            align="left"
+                          >
+                            <SubjectIcon />
+                          </TableCell>
+                          <TableCell
+                            className={classes.tableHeadCell}
+                            align="left"
+                          >
+                            <CategoryIcon />
+                          </TableCell>
+                          <TableCell
+                            className={classes.tableHeadCell}
+                            align="left"
+                          >
+                            <LinkIcon />
+                          </TableCell>
+                          <TableCell
+                            className={classes.tableHeadCell}
+                            align="left"
+                          >
+                            <ImageIcon />
+                          </TableCell>
+
+                          <TableCell
+                            className={classes.tableHeadCell}
+                            align="left"
+                          >
+                            <StarIcon />
+                          </TableCell>
+
+                          <TableCell
+                            className={classes.tableHeadCellRight}
+                            align="left"
+                          >
+                            Actions
+                          </TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {this.props.ideas.map((idea) => (
+                          <IdeasTable
+                            idea={idea}
+                            key={idea.id}
+                            handleEditIdeaClick={this.handleEditIdeaClick}
+                            handleFavoritedIdeaClick={
+                              this.handleFavoritedIdeaClick
+                            }
+                          />
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </Paper>
                 )}
-              </FormControl>
-            </div>
-          </Fade>
-        ) : (
-          <span></span>
-        )}
-        {/* THE TABLE */}
-
-        {this.state.viewmode ? (
-          <Fade bottom>
-            <div className={classes.tableContainer}>
-              {this.props.ideas === [] ? (
-                'please wait..'
-              ) : (
-                <Paper className={classes.root} elevation={3}>
-                  <Table className={classes.table}>
-                    <TableHead>
-                      <TableRow>
-                        <TableCell
-                          className={classes.tableHeadCellLeft}
-                          align="left"
-                        >
-                          <CalendarTodayIcon />
-                        </TableCell>
-                        <TableCell className={classes.tableHeadCell}>
-                          Name
-                        </TableCell>
-                        <TableCell
-                          className={classes.tableHeadCell}
-                          align="left"
-                        >
-                          <SubjectIcon />
-                        </TableCell>
-                        <TableCell
-                          className={classes.tableHeadCell}
-                          align="left"
-                        >
-                          <CategoryIcon />
-                        </TableCell>
-                        <TableCell
-                          className={classes.tableHeadCell}
-                          align="left"
-                        >
-                          <LinkIcon />
-                        </TableCell>
-                        <TableCell
-                          className={classes.tableHeadCell}
-                          align="left"
-                        >
-                          <ImageIcon />
-                        </TableCell>
-
-                        <TableCell
-                          className={classes.tableHeadCell}
-                          align="left"
-                        >
-                          <StarIcon />
-                        </TableCell>
-
-                        <TableCell
-                          className={classes.tableHeadCellRight}
-                          align="left"
-                        >
-                          Actions
-                        </TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {this.props.ideas.map((idea) => (
-                        <IdeasTable
-                          idea={idea}
-                          key={idea.id}
-                          handleEditIdeaClick={this.handleEditIdeaClick}
-                          handleFavoritedIdeaClick={
-                            this.handleFavoritedIdeaClick
-                          }
-                        />
-                      ))}
-                    </TableBody>
-                  </Table>
-                </Paper>
-              )}
-            </div>
-          </Fade>
-        ) : (
-          <span></span>
-        )}
-      </div>
+              </div>
+            </Fade>
+          ) : (
+            <span></span>
+          )}
+        </div>
+        <Footer />
+      </span>
     );
   }
 }

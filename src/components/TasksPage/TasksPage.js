@@ -28,6 +28,8 @@ import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import SubjectIcon from '@material-ui/icons/Subject';
 import CategoryIcon from '@material-ui/icons/Category';
 import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
+import Nav from '../Nav/Nav';
+import Footer from '../Footer/Footer';
 
 // Material UI styles
 const styles = (theme) => ({
@@ -72,7 +74,7 @@ const styles = (theme) => ({
     margin: '10px 0px 0px 0px',
     padding: '8px 8px 8px 10px',
     '&:hover': {
-      color: 'gold',
+      color: '#53DD6C',
       'background-color': '#161616',
     },
   },
@@ -293,13 +295,13 @@ class TasksPage extends Component {
         description: this.state.description,
         image_url: this.state.image_url,
         category_id: this.state.category_id,
-        link: this.state.link,
-        date: this.state.date,
-        id: this.state.id,
-        due_date: this.state.due_date,
         priority: this.state.priority,
         duration: this.state.duration,
         complete: this.state.complete,
+        link: this.state.link,
+        date: this.state.date,
+        due_date: this.state.due_date,
+        id: this.state.id,
       };
       console.log('In saveChangesClicked, payload:', payload);
       this.props.dispatch({
@@ -387,84 +389,86 @@ class TasksPage extends Component {
     const { classes } = this.props;
 
     return (
-      <div className={classes.allContainer}>
-        <a name="tasks">
-          <span className={classes.newViewContainer}>
-            {/* THE FORM */}
-            <div className={classes.newContainer}>
-              <Button
-                variant="contained"
-                className={classes.newOrAddTaskButton}
-                endIcon={<CheckBoxIcon></CheckBoxIcon>}
-                onClick={this.handleNewClick}
-              >
-                New
-              </Button>
-            </div>
-            <div className={classes.viewContainer}>
-              <Button
-                variant="contained"
-                className={classes.newOrAddTaskButton}
-                endIcon={<CheckBoxIcon></CheckBoxIcon>}
-                onClick={this.handleViewClick}
-              >
-                View
-              </Button>
-            </div>
-          </span>
-        </a>
-        {this.state.inputmode || this.state.editmode ? (
-          <Fade>
-            <div className={classes.formControlContainer}>
-              <FormControl className={classes.formControl}>
-                <div>
-                  <InputLabel>Name</InputLabel>
+      <span>
+        <Nav />
+        <div className={classes.allContainer}>
+          <a name="tasks">
+            <span className={classes.newViewContainer}>
+              {/* THE FORM */}
+              <div className={classes.newContainer}>
+                <Button
+                  variant="contained"
+                  className={classes.newOrAddTaskButton}
+                  endIcon={<CheckBoxIcon></CheckBoxIcon>}
+                  onClick={this.handleNewClick}
+                >
+                  New
+                </Button>
+              </div>
+              <div className={classes.viewContainer}>
+                <Button
+                  variant="contained"
+                  className={classes.newOrAddTaskButton}
+                  endIcon={<CheckBoxIcon></CheckBoxIcon>}
+                  onClick={this.handleViewClick}
+                >
+                  View
+                </Button>
+              </div>
+            </span>
+          </a>
+          {this.state.inputmode || this.state.editmode ? (
+            <Fade>
+              <div className={classes.formControlContainer}>
+                <FormControl className={classes.formControl}>
+                  <div>
+                    <InputLabel>Name</InputLabel>
+                    <Input
+                      multiline
+                      value={this.state.name}
+                      onChange={this.handleInputChangeFor('name')}
+                    />
+                    <FormHelperText>Required *</FormHelperText>
+                  </div>
+                </FormControl>
+                <FormControl className={classes.formControl}>
+                  <InputLabel>
+                    <SubjectIcon />
+                  </InputLabel>
                   <Input
+                    className={classes.descriptionInput}
                     multiline
-                    value={this.state.name}
-                    onChange={this.handleInputChangeFor('name')}
+                    rowsMax={10}
+                    value={this.state.description}
+                    onChange={this.handleInputChangeFor('description')}
                   />
                   <FormHelperText>Required *</FormHelperText>
-                </div>
-              </FormControl>
-              <FormControl className={classes.formControl}>
-                <InputLabel>
-                  <SubjectIcon />
-                </InputLabel>
-                <Input
-                  className={classes.descriptionInput}
-                  multiline
-                  rowsMax={10}
-                  value={this.state.description}
-                  onChange={this.handleInputChangeFor('description')}
-                />
-                <FormHelperText>Required *</FormHelperText>
-              </FormControl>
-              <FormControl className={classes.formControl}>
-                <InputLabel className={classes.categorySelector}>
-                  <CategoryIcon />
-                </InputLabel>
-                <Select
-                  MenuProps={CategorySelectorProps}
-                  value={this.state.category_id}
-                  onChange={this.handleInputChangeFor('category_id')}
-                >
-                  {this.props.categories.map((category, index) => (
-                    <MenuItem key={index} value={category.id}>
-                      {category.name}
-                    </MenuItem>
-                  ))}
-                  {/* <MenuItem value={11}>New Category</MenuItem> */}
-                </Select>
-                <FormHelperText>
-                  Required *
-                  <span className={classes.invisibleText}>
-                    invisible text is
-                  </span>
-                </FormHelperText>
-              </FormControl>
+                </FormControl>
+                <FormControl className={classes.formControl}>
+                  <InputLabel className={classes.categorySelector}>
+                    <CategoryIcon />
+                  </InputLabel>
+                  <Select
+                    MenuProps={CategorySelectorProps}
+                    value={this.state.category_id}
+                    onChange={this.handleInputChangeFor('category_id')}
+                  >
+                    {this.props.categories.map((category, index) => (
+                      <MenuItem key={index} value={category.id}>
+                        {category.name}
+                      </MenuItem>
+                    ))}
+                    {/* <MenuItem value={11}>New Category</MenuItem> */}
+                  </Select>
+                  <FormHelperText>
+                    Required *
+                    <span className={classes.invisibleText}>
+                      invisible text is
+                    </span>
+                  </FormHelperText>
+                </FormControl>
 
-              {/* <FormControl className={classes.formControl}>
+                {/* <FormControl className={classes.formControl}>
                 <InputLabel>
                   <RoomIcon />
                 </InputLabel>
@@ -485,185 +489,191 @@ class TasksPage extends Component {
                 />
                 <FormHelperText></FormHelperText>
               </FormControl> */}
-              <FormControl className={classes.formControl}>
-                <InputLabel className={classes.linkInputLabel}>
-                  <LinkIcon />
-                </InputLabel>
-                <Input
-                  className={classes.linkInput}
-                  value={this.state.link}
-                  onChange={this.handleInputChangeFor('link')}
-                />
-                <FormHelperText></FormHelperText>
-              </FormControl>
-              <FormControl className={classes.formControl}></FormControl>
-              <FormControl className={classes.formControl}>
-                <ImageUpload handleFinishedUpload={this.handleFinishedUpload} />
-              </FormControl>
-              <FormControl className={classes.formControl}>
-                <InputLabel className={classes.categorySelector}>
-                  <PriorityHighIcon />
-                </InputLabel>
-                <Select
-                  MenuProps={CategorySelectorProps}
-                  value={this.state.priority}
-                  onChange={this.handleInputChangeFor('priority')}
-                >
-                  <MenuItem value={'Low'}>Low</MenuItem>
-                  <MenuItem value={'Medium'}>Medium</MenuItem>
-                  <MenuItem value={'High'}>High</MenuItem>
-                </Select>
-                <FormHelperText>
-                  <span className={classes.invisibleText}>
-                    invisible is the w
-                  </span>
-                </FormHelperText>
-              </FormControl>
-              <FormControl className={classes.formControl}>
-                <InputLabel className={classes.timeLabel}>Duration</InputLabel>
-                <TextField
-                  type="time"
-                  className={classes.timeInput}
-                  value={this.state.duration}
-                  onChange={this.handleInputChangeFor('duration')}
-                ></TextField>
-              </FormControl>
-              <FormControl className={classes.formControl}>
-                <InputLabel className={classes.dateLabel}>Due By</InputLabel>
-                <TextField
-                  id="date"
-                  type="datetime-local"
-                  value={this.state.due_date}
-                  onChange={this.handleInputChangeFor('due_date')}
-                  defaultValue={this.state.due_date}
-                  className={classes.dateField}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </FormControl>
-
-              <FormControl className={classes.formControl}>
-                {this.state.editmode ? (
-                  <Button
-                    // id={submitButton}
-                    variant="contained"
-                    onClick={this.handleSaveChangesClick}
-                    className={classes.newOrAddTaskButton}
-                    endIcon={<CheckBoxIcon>Save</CheckBoxIcon>}
+                <FormControl className={classes.formControl}>
+                  <InputLabel className={classes.linkInputLabel}>
+                    <LinkIcon />
+                  </InputLabel>
+                  <Input
+                    className={classes.linkInput}
+                    value={this.state.link}
+                    onChange={this.handleInputChangeFor('link')}
+                  />
+                  <FormHelperText></FormHelperText>
+                </FormControl>
+                <FormControl className={classes.formControl}></FormControl>
+                <FormControl className={classes.formControl}>
+                  <ImageUpload
+                    handleFinishedUpload={this.handleFinishedUpload}
+                  />
+                </FormControl>
+                <FormControl className={classes.formControl}>
+                  <InputLabel className={classes.categorySelector}>
+                    <PriorityHighIcon />
+                  </InputLabel>
+                  <Select
+                    MenuProps={CategorySelectorProps}
+                    value={this.state.priority}
+                    onChange={this.handleInputChangeFor('priority')}
                   >
-                    Save
-                  </Button>
+                    <MenuItem value={'Low'}>Low</MenuItem>
+                    <MenuItem value={'Medium'}>Medium</MenuItem>
+                    <MenuItem value={'High'}>High</MenuItem>
+                  </Select>
+                  <FormHelperText>
+                    <span className={classes.invisibleText}>
+                      invisible is the w
+                    </span>
+                  </FormHelperText>
+                </FormControl>
+                <FormControl className={classes.formControl}>
+                  <InputLabel className={classes.timeLabel}>
+                    Duration
+                  </InputLabel>
+                  <TextField
+                    type="time"
+                    className={classes.timeInput}
+                    value={this.state.duration}
+                    onChange={this.handleInputChangeFor('duration')}
+                  ></TextField>
+                </FormControl>
+                <FormControl className={classes.formControl}>
+                  <InputLabel className={classes.dateLabel}>Due By</InputLabel>
+                  <TextField
+                    id="date"
+                    type="datetime-local"
+                    value={this.state.due_date}
+                    onChange={this.handleInputChangeFor('due_date')}
+                    defaultValue={this.state.due_date}
+                    className={classes.dateField}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                  />
+                </FormControl>
+
+                <FormControl className={classes.formControl}>
+                  {this.state.editmode ? (
+                    <Button
+                      // id={submitButton}
+                      variant="contained"
+                      onClick={this.handleSaveChangesClick}
+                      className={classes.newOrAddTaskButton}
+                      endIcon={<CheckBoxIcon>Save</CheckBoxIcon>}
+                    >
+                      Save
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="contained"
+                      onClick={this.handleAddTaskClick}
+                      className={classes.newOrAddTaskButton}
+                      endIcon={<CheckBoxIcon>Add</CheckBoxIcon>}
+                    >
+                      Add
+                    </Button>
+                  )}
+                </FormControl>
+              </div>
+            </Fade>
+          ) : (
+            <span></span>
+          )}
+          {/* THE TABLE */}
+
+          {this.state.viewmode ? (
+            <Fade bottom>
+              <div className={classes.tableContainer}>
+                {this.props.tasks === [] ? (
+                  'please wait..'
                 ) : (
-                  <Button
-                    variant="contained"
-                    onClick={this.handleAddTaskClick}
-                    className={classes.newOrAddTaskButton}
-                    endIcon={<CheckBoxIcon>Add</CheckBoxIcon>}
-                  >
-                    Add
-                  </Button>
+                  <Paper className={classes.root} elevation={3}>
+                    <Table className={classes.table}>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell
+                            className={classes.tableHeadCellLeft}
+                            align="left"
+                          >
+                            {/* {JSON.stringify(this.state.complete)} */}
+                            <CheckBoxIcon />
+                          </TableCell>
+                          <TableCell className={classes.tableHeadCell}>
+                            Name
+                          </TableCell>
+                          <TableCell
+                            className={classes.tableHeadCell}
+                            align="left"
+                          >
+                            <SubjectIcon />
+                          </TableCell>
+                          <TableCell
+                            className={classes.tableHeadCell}
+                            align="left"
+                          >
+                            <CategoryIcon />
+                          </TableCell>
+                          <TableCell
+                            className={classes.tableHeadCell}
+                            align="left"
+                          >
+                            <LinkIcon />
+                          </TableCell>
+                          <TableCell
+                            className={classes.tableHeadCell}
+                            align="left"
+                          >
+                            <ImageIcon />
+                          </TableCell>
+                          <TableCell
+                            className={classes.tableHeadCell}
+                            align="left"
+                          >
+                            <PriorityHighIcon />
+                          </TableCell>
+                          <TableCell
+                            className={classes.tableHeadCell}
+                            align="left"
+                          >
+                            <AccessTimeIcon />
+                          </TableCell>
+                          <TableCell
+                            className={classes.tableHeadCellDate}
+                            align="left"
+                          >
+                            <CalendarTodayIcon />
+                          </TableCell>
+                          <TableCell
+                            className={classes.tableHeadCellRight}
+                            align="left"
+                          >
+                            Actions
+                          </TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {this.props.tasks.map((task) => (
+                          <TasksTable
+                            task={task}
+                            key={task.id}
+                            handleEditTaskClick={this.handleEditTaskClick}
+                            handleFavoritedTaskClick={
+                              this.handleFavoritedTaskClick
+                            }
+                            handleCheckboxChecked={this.handleCheckboxChecked}
+                          />
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </Paper>
                 )}
-              </FormControl>
-            </div>
-          </Fade>
-        ) : (
-          <span></span>
-        )}
-        {/* THE TABLE */}
-
-        {this.state.viewmode ? (
-          <Fade bottom>
-            <div className={classes.tableContainer}>
-              {this.props.tasks === [] ? (
-                'please wait..'
-              ) : (
-                <Paper className={classes.root} elevation={3}>
-                  <Table className={classes.table}>
-                    <TableHead>
-                      <TableRow>
-                        <TableCell
-                          className={classes.tableHeadCellLeft}
-                          align="left"
-                        >
-                          {JSON.stringify(this.state.complete)}
-                          <CheckBoxIcon />
-                        </TableCell>
-                        <TableCell className={classes.tableHeadCell}>
-                          Name
-                        </TableCell>
-                        <TableCell
-                          className={classes.tableHeadCell}
-                          align="left"
-                        >
-                          <SubjectIcon />
-                        </TableCell>
-                        <TableCell
-                          className={classes.tableHeadCell}
-                          align="left"
-                        >
-                          <CategoryIcon />
-                        </TableCell>
-                        <TableCell
-                          className={classes.tableHeadCell}
-                          align="left"
-                        >
-                          <LinkIcon />
-                        </TableCell>
-                        <TableCell
-                          className={classes.tableHeadCell}
-                          align="left"
-                        >
-                          <ImageIcon />
-                        </TableCell>
-                        <TableCell
-                          className={classes.tableHeadCell}
-                          align="left"
-                        >
-                          <PriorityHighIcon />
-                        </TableCell>
-                        <TableCell
-                          className={classes.tableHeadCell}
-                          align="left"
-                        >
-                          <AccessTimeIcon />
-                        </TableCell>
-                        <TableCell
-                          className={classes.tableHeadCellDate}
-                          align="left"
-                        >
-                          <CalendarTodayIcon />
-                        </TableCell>
-                        <TableCell
-                          className={classes.tableHeadCellRight}
-                          align="left"
-                        >
-                          Actions
-                        </TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {this.props.tasks.map((task) => (
-                        <TasksTable
-                          task={task}
-                          key={task.id}
-                          handleEditTaskClick={this.handleEditTaskClick}
-                          handleFavoritedTaskClick={
-                            this.handleFavoritedTaskClick
-                          }
-                          handleCheckboxChecked={this.handleCheckboxChecked}
-                        />
-                      ))}
-                    </TableBody>
-                  </Table>
-                </Paper>
-              )}
-            </div>
-          </Fade>
-        ) : (
-          <span></span>
-        )}
-      </div>
+              </div>
+            </Fade>
+          ) : (
+            <span></span>
+          )}
+        </div>
+        <Footer />
+      </span>
     );
   }
 }

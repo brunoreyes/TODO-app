@@ -20,6 +20,8 @@ import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import Fade from 'react-reveal/Fade';
 import BubbleChartIcon from '@material-ui/icons/BubbleChart';
 import SubjectIcon from '@material-ui/icons/Subject';
+import Nav from '../Nav/Nav';
+import Footer from '../Footer/Footer';
 
 // Material UI styles
 const styles = (theme) => ({
@@ -62,7 +64,7 @@ const styles = (theme) => ({
     margin: '10px 0px 0px 0px',
     padding: '8px 8px 8px 10px',
     '&:hover': {
-      color: 'gold',
+      color: '#33A1FD',
       'background-color': '#161616',
     },
   },
@@ -282,140 +284,142 @@ class MemoriesPage extends Component {
     const { classes } = this.props;
 
     return (
-      <div className={classes.allContainer}>
-        <a name="memories">
-          <span className={classes.newViewContainer}>
-            {/* THE FORM */}
-            <div className={classes.newContainer}>
-              <Button
-                variant="contained"
-                className={classes.newOrAddMemoryButton}
-                endIcon={<BubbleChartIcon></BubbleChartIcon>}
-                onClick={this.handleNewClick}
-              >
-                New
-              </Button>
-            </div>
-            <div className={classes.viewContainer}>
-              <Button
-                variant="contained"
-                className={classes.newOrAddMemoryButton}
-                endIcon={<BubbleChartIcon></BubbleChartIcon>}
-                onClick={this.handleViewClick}
-              >
-                View
-              </Button>
-            </div>
-          </span>
-        </a>
-        {this.state.inputmode || this.state.editmode ? (
-          <Fade>
-            <div className={classes.formControlContainer}>
-              <FormControl className={classes.formControl}>
-                <div>
-                  <InputLabel>Name</InputLabel>
+      <span>
+        <Nav />
+        <div className={classes.allContainer}>
+          <a name="memories">
+            <span className={classes.newViewContainer}>
+              {/* THE FORM */}
+              <div className={classes.newContainer}>
+                <Button
+                  variant="contained"
+                  className={classes.newOrAddMemoryButton}
+                  endIcon={<BubbleChartIcon></BubbleChartIcon>}
+                  onClick={this.handleNewClick}
+                >
+                  New
+                </Button>
+              </div>
+              <div className={classes.viewContainer}>
+                <Button
+                  variant="contained"
+                  className={classes.newOrAddMemoryButton}
+                  endIcon={<BubbleChartIcon></BubbleChartIcon>}
+                  onClick={this.handleViewClick}
+                >
+                  View
+                </Button>
+              </div>
+            </span>
+          </a>
+          {this.state.inputmode || this.state.editmode ? (
+            <Fade>
+              <div className={classes.formControlContainer}>
+                <FormControl className={classes.formControl}>
+                  <div>
+                    <InputLabel>Name</InputLabel>
+                    <Input
+                      multiline
+                      value={this.state.name}
+                      onChange={this.handleInputChangeFor('name')}
+                    />
+                    <FormHelperText>Required *</FormHelperText>
+                  </div>
+                </FormControl>
+                <FormControl className={classes.formControl}>
+                  <InputLabel>
+                    <SubjectIcon />
+                  </InputLabel>
                   <Input
+                    className={classes.descriptionInput}
                     multiline
-                    value={this.state.name}
-                    onChange={this.handleInputChangeFor('name')}
+                    rowsMax={15}
+                    value={this.state.description}
+                    onChange={this.handleInputChangeFor('description')}
                   />
                   <FormHelperText>Required *</FormHelperText>
-                </div>
-              </FormControl>
-              <FormControl className={classes.formControl}>
-                <InputLabel>
-                  <SubjectIcon />
-                </InputLabel>
-                <Input
-                  className={classes.descriptionInput}
-                  multiline
-                  rowsMax={15}
-                  value={this.state.description}
-                  onChange={this.handleInputChangeFor('description')}
-                />
-                <FormHelperText>Required *</FormHelperText>
-              </FormControl>
-
-              {this.state.favorited ? (
-                <FormControl className={classes.formControl}>
-                  <StarIcon
-                    onClick={this.handleFavoriteMemoryFormClick}
-                    value={this.state.favorited}
-                    className={classes.starIconForm}
-                  ></StarIcon>
                 </FormControl>
-              ) : (
-                <FormControl className={classes.formControl}>
-                  <StarIcon
-                    onClick={this.handleFavoriteMemoryFormClick}
-                    value={this.state.favorited}
-                    className={classes.blackstarIconForm}
-                  ></StarIcon>
-                </FormControl>
-              )}
 
-              <FormControl className={classes.formControl}>
-                {this.state.editmode ? (
-                  <Button
-                    // id={submitButton}
-                    variant="contained"
-                    onClick={this.handleSaveChangesClick}
-                    className={classes.newOrAddMemoryButton}
-                    endIcon={<BubbleChartIcon>Save</BubbleChartIcon>}
-                  >
-                    Save
-                  </Button>
+                {this.state.favorited ? (
+                  <FormControl className={classes.formControl}>
+                    <StarIcon
+                      onClick={this.handleFavoriteMemoryFormClick}
+                      value={this.state.favorited}
+                      className={classes.starIconForm}
+                    ></StarIcon>
+                  </FormControl>
                 ) : (
-                  <Button
-                    variant="contained"
-                    onClick={this.handleAddMemoryClick}
-                    className={classes.newOrAddMemoryButton}
-                    endIcon={<BubbleChartIcon>Add</BubbleChartIcon>}
-                  >
-                    Add
-                  </Button>
+                  <FormControl className={classes.formControl}>
+                    <StarIcon
+                      onClick={this.handleFavoriteMemoryFormClick}
+                      value={this.state.favorited}
+                      className={classes.blackstarIconForm}
+                    ></StarIcon>
+                  </FormControl>
                 )}
-              </FormControl>
-            </div>
-          </Fade>
-        ) : (
-          <span></span>
-        )}
-        {/* THE TABLE */}
 
-        {this.state.viewmode ? (
-          <Fade bottom>
-            <div className={classes.tableContainer}>
-              {this.props.memories === [] ? (
-                'please wait..'
-              ) : (
-                <Paper className={classes.root} elevation={3}>
-                  <Table className={classes.table}>
-                    <TableHead>
-                      <TableRow>
-                        <TableCell
-                          className={classes.tableHeadCellLeft}
-                          align="left"
-                        >
-                          <CalendarTodayIcon />
-                        </TableCell>
-                        <TableCell className={classes.tableHeadCell}>
-                          Name
-                        </TableCell>
-                        <TableCell
-                          className={classes.tableHeadCell}
-                          align="left"
-                        >
-                          <SubjectIcon />
-                        </TableCell>
-                        {/* <TableCell
+                <FormControl className={classes.formControl}>
+                  {this.state.editmode ? (
+                    <Button
+                      // id={submitButton}
+                      variant="contained"
+                      onClick={this.handleSaveChangesClick}
+                      className={classes.newOrAddMemoryButton}
+                      endIcon={<BubbleChartIcon>Save</BubbleChartIcon>}
+                    >
+                      Save
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="contained"
+                      onClick={this.handleAddMemoryClick}
+                      className={classes.newOrAddMemoryButton}
+                      endIcon={<BubbleChartIcon>Add</BubbleChartIcon>}
+                    >
+                      Add
+                    </Button>
+                  )}
+                </FormControl>
+              </div>
+            </Fade>
+          ) : (
+            <span></span>
+          )}
+          {/* THE TABLE */}
+
+          {this.state.viewmode ? (
+            <Fade bottom>
+              <div className={classes.tableContainer}>
+                {this.props.memories === [] ? (
+                  'please wait..'
+                ) : (
+                  <Paper className={classes.root} elevation={3}>
+                    <Table className={classes.table}>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell
+                            className={classes.tableHeadCellLeft}
+                            align="left"
+                          >
+                            <CalendarTodayIcon />
+                          </TableCell>
+                          <TableCell className={classes.tableHeadCell}>
+                            Name
+                          </TableCell>
+                          <TableCell
+                            className={classes.tableHeadCell}
+                            align="left"
+                          >
+                            <SubjectIcon />
+                          </TableCell>
+                          {/* <TableCell
                           className={classes.tableHeadCell}
                           align="left"
                         >
                           Category
                         </TableCell> */}
 
-                        {/* <TableCell
+                          {/* <TableCell
                           className={classes.tableHeadCell}
                           align="left"
                         >
@@ -428,42 +432,44 @@ class MemoriesPage extends Component {
                           <ImageIcon />
                         </TableCell> */}
 
-                        <TableCell
-                          className={classes.tableHeadCell}
-                          align="left"
-                        >
-                          <StarIcon />
-                        </TableCell>
+                          <TableCell
+                            className={classes.tableHeadCell}
+                            align="left"
+                          >
+                            <StarIcon />
+                          </TableCell>
 
-                        <TableCell
-                          className={classes.tableHeadCellRight}
-                          align="left"
-                        >
-                          Actions
-                        </TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {this.props.memories.map((memory) => (
-                        <MemoriesTable
-                          memory={memory}
-                          key={memory.id}
-                          handleEditMemoryClick={this.handleEditMemoryClick}
-                          handleFavoritedMemoryClick={
-                            this.handleFavoritedMemoryClick
-                          }
-                        />
-                      ))}
-                    </TableBody>
-                  </Table>
-                </Paper>
-              )}
-            </div>
-          </Fade>
-        ) : (
-          <span></span>
-        )}
-      </div>
+                          <TableCell
+                            className={classes.tableHeadCellRight}
+                            align="left"
+                          >
+                            Actions
+                          </TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {this.props.memories.map((memory) => (
+                          <MemoriesTable
+                            memory={memory}
+                            key={memory.id}
+                            handleEditMemoryClick={this.handleEditMemoryClick}
+                            handleFavoritedMemoryClick={
+                              this.handleFavoritedMemoryClick
+                            }
+                          />
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </Paper>
+                )}
+              </div>
+            </Fade>
+          ) : (
+            <span></span>
+          )}
+        </div>
+        <Footer />
+      </span>
     );
   }
 }
