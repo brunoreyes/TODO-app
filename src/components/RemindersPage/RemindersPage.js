@@ -18,13 +18,15 @@ import {
   Button,
   // IconButton,
 } from '@material-ui/core';
-import StarIcon from '@material-ui/icons/Star';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import RemindersTable from './RemindersTable/RemindersTable';
 import LinkIcon from '@material-ui/icons/Link';
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import Fade from 'react-reveal/Fade';
-import RoomIcon from '@material-ui/icons/Room';
+// import RoomIcon from '@material-ui/icons/Room';
+import SubjectIcon from '@material-ui/icons/Subject';
+import ReplayIcon from '@material-ui/icons/Replay';
+import CategoryIcon from '@material-ui/icons/Category';
 
 // Material UI styles
 const styles = (theme) => ({
@@ -144,7 +146,7 @@ const CategorySelectorProps = {
   PaperProps: {
     style: {
       maxHeight: CategorySelectorHeight * 3.4 + CategorySelectorPaddingTop,
-      width: 140,
+      width: 110,
     },
   },
 };
@@ -153,7 +155,6 @@ class RemindersPage extends Component {
   componentDidMount() {
     this.props.dispatch({ type: 'FETCH_REMINDERS' });
     this.props.dispatch({ type: 'FETCH_CATEGORIES' });
-    this.props.dispatch({ type: 'FETCH_FAVORITE' });
   }
 
   state = {
@@ -282,6 +283,7 @@ class RemindersPage extends Component {
         date: this.state.date,
         end_date: this.state.end_date,
         id: this.state.id,
+        repeat: this.state.repeat,
       };
       console.log('In saveChangesClicked, payload:', payload);
       this.props.dispatch({
@@ -355,7 +357,9 @@ class RemindersPage extends Component {
                 </div>
               </FormControl>
               <FormControl className={classes.formControl}>
-                <InputLabel>Description</InputLabel>
+                <InputLabel>
+                  <SubjectIcon />
+                </InputLabel>
                 <Input
                   className={classes.descriptionInput}
                   multiline
@@ -388,7 +392,7 @@ class RemindersPage extends Component {
               </FormControl> */}
               <FormControl className={classes.formControl}>
                 <InputLabel className={classes.categorySelector}>
-                  Category
+                  <CategoryIcon />
                 </InputLabel>
                 <Select
                   MenuProps={CategorySelectorProps}
@@ -407,26 +411,7 @@ class RemindersPage extends Component {
                   <span className={classes.invisibleText}>invisible text</span>
                 </FormHelperText>
               </FormControl>
-              <FormControl className={classes.formControl}>
-                <InputLabel className={classes.categorySelector}>
-                  Repeat
-                </InputLabel>
-                <Select
-                  MenuProps={CategorySelectorProps}
-                  value={this.state.repeat}
-                  // onChange={this.handleInputChangeFor('category_id')}
-                >
-                  <MenuItem disabled>Repeat</MenuItem>
-                  <MenuItem value={'Daily'}>Daily</MenuItem>
-                  <MenuItem value={'Weekly'}>Weekly</MenuItem>
-                  <MenuItem value={'Monthly'}>Monthly</MenuItem>
-                  <MenuItem value={'Yearly'}>Yearly</MenuItem>
-                </Select>
-                <FormHelperText>
-                  Required *
-                  <span className={classes.invisibleText}>invisible text</span>
-                </FormHelperText>
-              </FormControl>
+
               {/* <input id="searchTextField" type="text" size="50"></input> */}
               <FormControl className={classes.linkFormControl}>
                 <InputLabel className={classes.linkInputField}>
@@ -437,6 +422,28 @@ class RemindersPage extends Component {
                   value={this.state.link}
                   onChange={this.handleInputChangeFor('link')}
                 />
+              </FormControl>
+              <FormControl className={classes.formControl}>
+                <InputLabel className={classes.categorySelector}>
+                  <ReplayIcon />
+                </InputLabel>
+                <Select
+                  MenuProps={CategorySelectorProps}
+                  value={this.state.repeat}
+                  onChange={this.handleInputChangeFor('repeat')}
+                  // onChange={this.handleInputChangeFor('category_id')}
+                >
+                  <MenuItem disabled>Repeat</MenuItem>
+                  <MenuItem value={'Daily'}>Daily</MenuItem>
+                  <MenuItem value={'Weekly'}>Weekly</MenuItem>
+                  <MenuItem value={'Monthly'}>Monthly</MenuItem>
+                  <MenuItem value={'Yearly'}>Yearly</MenuItem>
+                </Select>
+                <FormHelperText>
+                  <span className={classes.invisibleText}>
+                    invisible text is right
+                  </span>
+                </FormHelperText>
               </FormControl>
               <FormControl className={classes.formControl}>
                 <InputLabel className={classes.dateLabel}>Date</InputLabel>
@@ -507,6 +514,33 @@ class RemindersPage extends Component {
                   <Table className={classes.table}>
                     <TableHead>
                       <TableRow>
+                        <TableCell className={classes.tableHeadCell}>
+                          Name
+                        </TableCell>
+                        <TableCell
+                          className={classes.tableHeadCell}
+                          align="left"
+                        >
+                          <SubjectIcon />
+                        </TableCell>
+                        <TableCell
+                          className={classes.tableHeadCell}
+                          align="left"
+                        >
+                          <CategoryIcon />{' '}
+                        </TableCell>
+                        <TableCell
+                          className={classes.tableHeadCell}
+                          align="left"
+                        >
+                          <LinkIcon />
+                        </TableCell>
+                        <TableCell
+                          className={classes.tableHeadCell}
+                          align="left"
+                        >
+                          <ReplayIcon />
+                        </TableCell>
                         <TableCell
                           className={classes.tableHeadCellLeft}
                           align="left"
@@ -519,28 +553,6 @@ class RemindersPage extends Component {
                         >
                           <CalendarTodayIcon />
                         </TableCell>
-                        <TableCell className={classes.tableHeadCell}>
-                          Name
-                        </TableCell>
-                        <TableCell
-                          className={classes.tableHeadCell}
-                          align="left"
-                        >
-                          Description
-                        </TableCell>
-                        <TableCell
-                          className={classes.tableHeadCell}
-                          align="left"
-                        >
-                          Category
-                        </TableCell>
-                        <TableCell
-                          className={classes.tableHeadCell}
-                          align="left"
-                        >
-                          <LinkIcon />
-                        </TableCell>
-
                         <TableCell
                           className={classes.tableHeadCellRight}
                           align="left"

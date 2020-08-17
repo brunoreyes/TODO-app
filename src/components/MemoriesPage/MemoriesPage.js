@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
-import ImageUpload from '../ImageUpload/ImageUpload';
 import {
   withStyles,
   Table,
@@ -20,6 +19,7 @@ import MemoriesTable from './MemoriesTable/MemoriesTable';
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import Fade from 'react-reveal/Fade';
 import BubbleChartIcon from '@material-ui/icons/BubbleChart';
+import SubjectIcon from '@material-ui/icons/Subject';
 
 // Material UI styles
 const styles = (theme) => ({
@@ -323,7 +323,9 @@ class MemoriesPage extends Component {
                 </div>
               </FormControl>
               <FormControl className={classes.formControl}>
-                <InputLabel>Description</InputLabel>
+                <InputLabel>
+                  <SubjectIcon />
+                </InputLabel>
                 <Input
                   className={classes.descriptionInput}
                   multiline
@@ -404,7 +406,7 @@ class MemoriesPage extends Component {
                           className={classes.tableHeadCell}
                           align="left"
                         >
-                          Description
+                          <SubjectIcon />
                         </TableCell>
                         {/* <TableCell
                           className={classes.tableHeadCell}

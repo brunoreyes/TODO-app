@@ -9,8 +9,6 @@ import {
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import StarIcon from '@material-ui/icons/Star';
-import LinkIcon from '@material-ui/icons/Link';
-import ImageIcon from '@material-ui/icons/Image';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 // import BubbleChartIcon from '@material-ui/icons/BubbleChart';

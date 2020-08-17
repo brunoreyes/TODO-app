@@ -8,13 +8,11 @@ import {
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-import StarIcon from '@material-ui/icons/Star';
 import LinkIcon from '@material-ui/icons/Link';
 import ImageIcon from '@material-ui/icons/Image';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Checkbox from '@material-ui/core/Checkbox';
-// import BubbleChartIcon from '@material-ui/icons/BubbleChart';
 
 const styles = (theme) => ({
   allContainer: {},
@@ -39,6 +37,11 @@ const styles = (theme) => ({
   collapseTableRow: {
     backgroundColor: '#f9f9f9',
   },
+  completedTableRow: {
+    backgroundColor: '#53DD6C',
+    'border-top': '#ffffff solid 2px',
+    'border-bottom': '#ffffff solid 2px',
+  },
   tableCellLeft: {
     font: '  500 13px Montserrat, sans-serif',
     'text-transform': 'capitalize',
@@ -46,6 +49,11 @@ const styles = (theme) => ({
   },
   tableCell: {
     font: '  500 13px Montserrat, sans-serif',
+    'text-transform': 'capitalize',
+    padding: '10px 0px 10px 18px',
+  },
+  tableCellName: {
+    font: '  500 15px Montserrat, sans-serif',
     'text-transform': 'capitalize',
     padding: '10px 0px 10px 18px',
   },
@@ -100,6 +108,12 @@ const styles = (theme) => ({
       color: '#fba333',
     },
   },
+  checkBoxIcon: {
+    color: '#161616',
+  },
+  checkBoxIconChecked: {
+    color: '#161616',
+  },
   editIconLink: {
     '&:hover': {
       color: '#fba333',
@@ -115,7 +129,6 @@ const styles = (theme) => ({
     },
   },
   tableImage: {
-    // border: '#ffffff solid 2px',
     width: '300px',
     // 'box-shadow': 'inset 0px 0px 0px 0px #FFFFFF',
     backgroundColor: 'white',
@@ -144,8 +157,9 @@ class TasksTable extends Component {
   };
 
   state = {
-    editmode: false,
-    viewmoremode: false,
+    editMode: false,
+    viewMoreMode: false,
+    finishedMode: false,
   };
 
   handleEditTaskClickOnTable = () => {
@@ -165,6 +179,19 @@ class TasksTable extends Component {
     });
   };
 
+  handleCheckBoxCheckedTable = () => {
+    this.setState({
+      finishedMode: !this.state.finishedMode,
+    });
+    // console.log(
+    //   'checkbox was checked, finishedMode state switched to:',
+    //   this.state.finishedMode
+    // );
+  };
+
+  //   console.log(new Date(Date.fromString('09.05.2012', {order: 'DMY'})));
+  // Wed May 09 2012 00:00:00 GMT+0300 (EEST)
+
   render() {
     const { classes } = this.props;
     return (
@@ -176,25 +203,38 @@ class TasksTable extends Component {
           className={`${
             this.state.viewmoremode
               ? classes.collapseTableRow
+              : classes.tableRow && this.props.task.complete
+              ? classes.completedTableRow
               : classes.tableRow
           }`}
         >
           <TableCell className={classes.tableCellLeft} align="left">
-            <Checkbox
-            // checked={this.state.checkedG}
-            // onChange={this.handleChange('checkedG')}
-            // value="checkedG"
-            // classes={{
-            //   root: classes.root,
-            //   checked: classes.checked,
-            // }}
-            />
+            {JSON.stringify(this.props.task.complete)}
+
+            {/* {JSON.stringify(this.state.complete)} */}
+            {this.props.task.complete ? (
+              <Checkbox
+                color="white"
+                checked
+                className={classes.checkBoxIcon}
+                onClick={() => {
+                  this.props.handleCheckboxChecked(this.props.task);
+                  this.handleCheckBoxCheckedTable();
+                }}
+              />
+            ) : (
+              <Checkbox
+                color="white"
+                className={classes.checkBoxIcon}
+                onClick={() => {
+                  this.props.handleCheckboxChecked(this.props.task);
+                  this.handleCheckBoxCheckedTable();
+                }}
+              />
+            )}
           </TableCell>
 
-          <TableCell className={classes.tableCell} align="left">
-            {this.props.task.date.split('T')[0]}
-          </TableCell>
-          <TableCell className={classes.tableCell}>
+          <TableCell className={classes.tableCellName}>
             {this.props.task.name}
           </TableCell>
           <TableCell className={classes.tableCellDescription} align="left">
@@ -245,13 +285,23 @@ class TasksTable extends Component {
               <span></span>
             )}
           </TableCell>
+          <TableCell className={classes.tableCell} align="left">
+            {this.props.task.priority}
+          </TableCell>
+          <TableCell className={classes.tableCell} align="left">
+            {/* {this.props.task.duration} */}
+            {/* {this.props.task.duration.splice(':00')[0]} */}
+            {this.props.task.duration.slice(0, -3)}
+          </TableCell>
+          <TableCell className={classes.tableCell} align="left">
+            {/* {Date(this.props.task.due_date).split('GMT')[0].slice(0, -4)} */}
+            {/* {this.props.task.due_date} */}
+            {this.props.task.due_date.split(':00.00')[0].replace('T', ' ')}
+          </TableCell>
           {/* Here we get an error saying the star or 
           SVG icon cannot appear as a child of tr */}
           {this.state.viewmoremode ? (
-            <ExpandMoreIcon
-              className={classes.collapseIcon}
-              onClick={this.handleCollapsedClick}
-            />
+            <ExpandMoreIcon onClick={this.handleCollapsedClick} />
           ) : (
             <ExpandLessIcon
               className={classes.uncollapseIcon}
@@ -260,10 +310,7 @@ class TasksTable extends Component {
           )}
           <a href="#tasks" className={classes.editIconLink}>
             <EditIcon
-              onClick={() => {
-                this.props.handleEditTaskClick(this.props.task);
-                this.handleEditTaskClickOnTable();
-              }}
+              onClick={() => this.props.handleEditTaskClick(this.props.task)}
               className={classes.editIcon}
             ></EditIcon>
           </a>

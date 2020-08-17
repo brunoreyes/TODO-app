@@ -26,6 +26,8 @@ import LinkIcon from '@material-ui/icons/Link';
 import ImageIcon from '@material-ui/icons/Image';
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import Fade from 'react-reveal/Fade';
+import SubjectIcon from '@material-ui/icons/Subject';
+import CategoryIcon from '@material-ui/icons/Category';
 
 // Material UI styles
 const styles = (theme) => ({
@@ -161,7 +163,7 @@ class IdeasPage extends Component {
   componentDidMount() {
     this.props.dispatch({ type: 'FETCH_IDEAS' });
     this.props.dispatch({ type: 'FETCH_CATEGORIES' });
-    this.props.dispatch({ type: 'FETCH_FAVORITE' });
+    // this.props.dispatch({ type: 'FETCH_FAVORITE' });
   }
 
   state = {
@@ -172,6 +174,8 @@ class IdeasPage extends Component {
     category: '',
     link: '',
     date: '',
+    due_date: '',
+    duration: '',
     favorited: false,
     editmode: false,
     inputmode: false,
@@ -265,10 +269,7 @@ class IdeasPage extends Component {
       type: 'CHANGE_FAVORITE_STATUS_IDEA',
       payload: payload,
     });
-    console.log(
-      'in favoritedIdeaClick, this.state.favorited:',
-      this.state.favorited
-    );
+    console.log('in favoritedIdeaClick, this.state.favorited:', idea.favorited);
   };
 
   handleAddIdeaClick = () => {
@@ -369,31 +370,31 @@ class IdeasPage extends Component {
 
     return (
       <div className={classes.allContainer}>
-        <a name="ideas">
-          <span className={classes.newViewContainer}>
-            {/* THE FORM */}
-            <div className={classes.newContainer}>
-              <Button
-                variant="contained"
-                className={classes.newOrAddIdeaButton}
-                endIcon={<EmojiObjectsIcon></EmojiObjectsIcon>}
-                onClick={this.handleNewClick}
-              >
-                New
-              </Button>
-            </div>
-            <div className={classes.viewContainer}>
-              <Button
-                variant="contained"
-                className={classes.newOrAddIdeaButton}
-                endIcon={<EmojiObjectsIcon></EmojiObjectsIcon>}
-                onClick={this.handleViewClick}
-              >
-                View
-              </Button>
-            </div>
-          </span>
-        </a>
+        {/* <a name="ideas"> */}
+        <span className={classes.newViewContainer}>
+          {/* THE FORM */}
+          <div className={classes.newContainer}>
+            <Button
+              variant="contained"
+              className={classes.newOrAddIdeaButton}
+              endIcon={<EmojiObjectsIcon></EmojiObjectsIcon>}
+              onClick={this.handleNewClick}
+            >
+              New
+            </Button>
+          </div>
+          <div className={classes.viewContainer}>
+            <Button
+              variant="contained"
+              className={classes.newOrAddIdeaButton}
+              endIcon={<EmojiObjectsIcon></EmojiObjectsIcon>}
+              onClick={this.handleViewClick}
+            >
+              View
+            </Button>
+          </div>
+        </span>
+        {/* </a> */}
         {this.state.inputmode || this.state.editmode ? (
           <Fade>
             <div className={classes.formControlContainer}>
@@ -409,7 +410,9 @@ class IdeasPage extends Component {
                 </div>
               </FormControl>
               <FormControl className={classes.formControl}>
-                <InputLabel>Description</InputLabel>
+                <InputLabel>
+                  <SubjectIcon />
+                </InputLabel>
                 <Input
                   className={classes.descriptionInput}
                   multiline
@@ -421,7 +424,7 @@ class IdeasPage extends Component {
               </FormControl>
               <FormControl className={classes.formControl}>
                 <InputLabel className={classes.categorySelector}>
-                  Category
+                  <CategoryIcon />
                 </InputLabel>
                 <Select
                   MenuProps={CategorySelectorProps}
@@ -461,14 +464,7 @@ class IdeasPage extends Component {
             /> */}
               </FormControl>
               <FormControl className={classes.formControl}>
-                <Button
-                  variant="contained"
-                  className={classes.uploadImageButton}
-                >
-                  <ImageUpload
-                    handleFinishedUpload={this.handleFinishedUpload}
-                  />
-                </Button>
+                <ImageUpload handleFinishedUpload={this.handleFinishedUpload} />
               </FormControl>
               {this.state.favorited ? (
                 <FormControl className={classes.formControl}>
@@ -556,13 +552,13 @@ class IdeasPage extends Component {
                           className={classes.tableHeadCell}
                           align="left"
                         >
-                          Description
+                          <SubjectIcon />
                         </TableCell>
                         <TableCell
                           className={classes.tableHeadCell}
                           align="left"
                         >
-                          Category
+                          <CategoryIcon />
                         </TableCell>
                         <TableCell
                           className={classes.tableHeadCell}

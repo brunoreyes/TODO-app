@@ -15,6 +15,7 @@ const categoryRouter = require('./routes/category.router');
 const favoriteRouter = require('./routes/favorite.router');
 const memoriesRouter = require('./routes/memories.router');
 const tasksRouter = require('./routes/tasks.router');
+const completeRouter = require('./routes/complete.router');
 const remindersRouter = require('./routes/reminders.router');
 
 // UploaderS3Router added below
@@ -40,7 +41,7 @@ app.use('/api/ideas', ideasRouter);
 app.use('/api/memories', memoriesRouter);
 app.use('/api/category', categoryRouter);
 app.use('/api/favorite', favoriteRouter);
-
+app.use('/api/complete', completeRouter);
 // AWS S3 image upload
 app.use(
   '/s3',

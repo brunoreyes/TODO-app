@@ -9,6 +9,7 @@ import favoriteSaga from './favoriteSaga';
 import memoriesSaga from './memoriesSaga';
 import remindersSaga from './remindersSaga';
 import tasksSaga from './tasksSaga';
+import completeSaga from './completeSaga';
 
 // rootSaga is the primary saga.
 // It bundles up all of the other sagas so our project can use them.
@@ -29,5 +30,6 @@ export default function* rootSaga() {
     memoriesSaga(),
     remindersSaga(),
     tasksSaga(),
+    completeSaga(),
   ]);
 }

@@ -8,12 +8,9 @@ import {
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-import StarIcon from '@material-ui/icons/Star';
 import LinkIcon from '@material-ui/icons/Link';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-// import BubbleChartIcon from '@material-ui/icons/BubbleChart';
-// import EmojiObjectsIcon from '@material-ui/icons/EmojiObjects';
 
 const styles = (theme) => ({
   allContainer: {},
@@ -162,7 +159,7 @@ class RemindersTable extends Component {
   };
 
   timeStampConversion = () => {
-    let s = `${this.props.reminder.date}`;
+    let s = `${this.props.reminder.end_date}`;
     let d = new Date(Date.parse(s));
     console.log('d', d);
   };
@@ -181,16 +178,6 @@ class RemindersTable extends Component {
               : classes.tableRow
           }`}
         >
-          <TableCell className={classes.tableCellLeft} align="left">
-            {/* {/* {this.props.reminder.date.split('T')[0]} */}
-            {/* {this.props.reminder.date.split(':00.00')[0]} */}
-            {Date(this.props.reminder.date).split('GMT')[0].slice(0, -4)}
-            {Date(this.props.reminder.date).split('GMT')[0].slice(0, -4)}
-          </TableCell>
-          <TableCell className={classes.tableCellLeft} align="left">
-            {/* {this.props.reminder.end_date.split('T')[0]} */}
-            {this.props.reminder.end_date.split(':00.00')[0]}
-          </TableCell>
           <TableCell className={classes.tableCell}>
             {this.props.reminder.name}
           </TableCell>
@@ -217,6 +204,17 @@ class RemindersTable extends Component {
                 onClick={this.handleLinkClick}
               />
             )}
+          </TableCell>
+          <TableCell className={classes.tableCell} align="left">
+            {this.props.reminder.repeat}
+          </TableCell>
+          <TableCell className={classes.tableCellLeft} align="left">
+            {/* This only defaults to todays date */}
+            {/* {Date(this.props.reminder.date).split('GMT')[0].slice(0, -4)} */}
+            {this.props.reminder.date.split(':00.00')[0].replace('T', ' ')}
+          </TableCell>
+          <TableCell className={classes.tableCellLeft} align="left">
+            {this.props.reminder.end_date.split(':00.00')[0].replace('T', ' ')}
           </TableCell>
           {/* Here we get an error saying the star or 
           SVG icon cannot appear as a child of tr */}

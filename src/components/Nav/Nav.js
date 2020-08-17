@@ -16,9 +16,9 @@ import BubbleChartIcon from '@material-ui/icons/BubbleChart';
 import { withStyles } from '@material-ui/core';
 // import PieChartIcon from '@material-ui/icons/PieChart';
 import BarChartIcon from '@material-ui/icons/BarChart';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import LockIcon from '@material-ui/icons/Lock';
-import PersonIcon from '@material-ui/icons/Person';
+// import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+// import LockIcon from '@material-ui/icons/Lock';
+// import PersonIcon from '@material-ui/icons/Person';
 const styles = (theme) => ({
   titleIcon: {
     color: 'white',

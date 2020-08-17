@@ -13,7 +13,7 @@ router.get('/', rejectUnauthenticated, (req, res) => {
   const displayQuery = `SELECT "tasks".*, "category"."name" AS "category" FROM "tasks"
 JOIN "category" on "tasks"."category_id" = "category"."id"
 WHERE user_id=$1
- ORDER BY "date" DESC;`;
+ ORDER BY "due_date" ASC;`;
   const queryValues = [req.user.id];
   console.log(`req.user.id:`, req.user.id);
 

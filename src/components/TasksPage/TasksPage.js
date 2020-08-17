@@ -17,18 +17,17 @@ import {
   MenuItem,
   TextField,
   Button,
-  // IconButton,
 } from '@material-ui/core';
-import StarIcon from '@material-ui/icons/Star';
-import CheckBoxIcon from '@material-ui/icons/EmojiObjects';
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import TasksTable from './TasksTable/TasksTable';
 import LinkIcon from '@material-ui/icons/Link';
 import ImageIcon from '@material-ui/icons/Image';
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import Fade from 'react-reveal/Fade';
-
-// import RoomIcon from '@material-ui/icons/Room';
-import TimeInput from 'material-ui-time-picker';
+import AccessTimeIcon from '@material-ui/icons/AccessTime';
+import SubjectIcon from '@material-ui/icons/Subject';
+import CategoryIcon from '@material-ui/icons/Category';
+import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
 
 // Material UI styles
 const styles = (theme) => ({
@@ -51,6 +50,8 @@ const styles = (theme) => ({
     display: 'flex',
     'justify-content': 'center',
   },
+  timeLabel: { marginBottom: '80px' },
+  timeIconForm: { 'font-size': '25px', marginBottom: '80px' },
   newContainer: {
     width: 'auto',
     display: 'inline-block',
@@ -75,19 +76,18 @@ const styles = (theme) => ({
       'background-color': '#161616',
     },
   },
-  // dateField: {
-  //   marginTop: '15px',
-  // },
+  dateField: {
+    marginTop: '15px',
+    width: '220px',
+  },
   descriptionInput: { width: '250px' },
-  categorySelector: { marginTop: '0px' },
-  linkInputField: { marginTop: '-5px' },
-  uploadImageButton: {
-    padding: '0px 11px 0px 13px',
-    'background-color': '#161616',
-    margin: '10px 0px 50px 0px',
-    '&:hover': {
-      'background-color': '#161616',
-    },
+  categorySelector: { marginTop: '0px', width: '30px' },
+  linkInputLabel: { marginTop: '-5px' },
+  linkInput: { width: '100px', marginRight: '-25px' },
+  timeInput: {
+    color: '#161616',
+    width: '110px',
+    marginTop: '15px',
   },
   starIconForm: {
     'font-size': '40px',
@@ -137,8 +137,12 @@ const styles = (theme) => ({
     color: 'white',
     padding: '18px 0% 18px -1%',
     'background-color': '#161616',
-    // position: 'sticky',
-    // top: 0,
+  },
+  tableHeadCellDate: {
+    font: '500 16px Montserrat, sans-serif',
+    color: '#ff3d00',
+    padding: '18px 0% 18px -1%',
+    'background-color': '#161616',
   },
   tableHeadCellRight: {
     font: '500 16px Montserrat, sans-serif',
@@ -155,16 +159,14 @@ const CategorySelectorProps = {
   PaperProps: {
     style: {
       maxHeight: CategorySelectorHeight * 3.4 + CategorySelectorPaddingTop,
-      width: 150,
+      width: 90,
     },
   },
 };
-
 class TasksPage extends Component {
   componentDidMount() {
     this.props.dispatch({ type: 'FETCH_TASKS' });
     this.props.dispatch({ type: 'FETCH_CATEGORIES' });
-    this.props.dispatch({ type: 'FETCH_FAVORITE' });
   }
 
   state = {
@@ -174,12 +176,13 @@ class TasksPage extends Component {
     category_id: '',
     category: '',
     link: '',
-    date: '',
-    favorited: false,
+    due_date: '',
+    complete: false,
     editmode: false,
     inputmode: false,
     readyToSendMode: true,
     viewmode: false,
+    priority: '',
   };
 
   // Changing the date to today
@@ -194,6 +197,7 @@ class TasksPage extends Component {
         today.getDate();
     this.state = {
       date: date,
+      due_date: date,
     };
   }
 
@@ -230,28 +234,12 @@ class TasksPage extends Component {
       date: task.date,
       editmode: !task.editmode,
       user_id: task.user_id,
-      favorited: task.favorited,
+      due_date: task.due_date,
+      priority: task.priority,
+      duration: task.duration,
+      complete: task.complete,
     });
     console.log('edit was clicked! Task state:', task);
-  };
-
-  handleFavoritedTaskClick = (task) => {
-    const payload = {
-      favorited: !task.favorited,
-      id: task.id,
-    };
-    this.setState({
-      favorited: !task.favorited,
-      id: task.id,
-    });
-    this.props.dispatch({
-      type: 'CHANGE_FAVORITE_STATUS_TASK',
-      payload: payload,
-    });
-    console.log(
-      'in favoritedTaskClick, this.state.favorited:',
-      this.state.favorited
-    );
   };
 
   handleAddTaskClick = () => {
@@ -269,7 +257,10 @@ class TasksPage extends Component {
         category_id: this.state.category_id,
         link: this.state.link,
         date: this.state.date,
-        favorited: this.state.favorited,
+        due_date: this.state.due_date,
+        priority: this.state.priority,
+        duration: this.state.duration,
+        complete: this.state.complete,
       };
       console.log('in addTask with payload:', payload);
       this.props.dispatch({ type: 'ADD_TASK', payload: payload });
@@ -281,7 +272,9 @@ class TasksPage extends Component {
         category_id: '',
         category: '',
         link: '',
-        favorited: false,
+        due_date: '',
+        priority: '',
+        duration: '',
       });
     }
   };
@@ -302,8 +295,11 @@ class TasksPage extends Component {
         category_id: this.state.category_id,
         link: this.state.link,
         date: this.state.date,
-        favorited: this.state.favorited,
         id: this.state.id,
+        due_date: this.state.due_date,
+        priority: this.state.priority,
+        duration: this.state.duration,
+        complete: this.state.complete,
       };
       console.log('In saveChangesClicked, payload:', payload);
       this.props.dispatch({
@@ -318,7 +314,8 @@ class TasksPage extends Component {
         category_id: '',
         category: '',
         link: '',
-        favorited: false,
+        // due_date: '',
+        priority: '',
       });
       this.props.dispatch({ type: 'FETCH_TASKS' });
     }
@@ -339,11 +336,50 @@ class TasksPage extends Component {
     });
   };
 
-  // General Click Handler for Name, Description, Catagory, Link & Date
-  handleInputChangeFor = (propertyName) => (event) => {
+  // handleCheckboxChecked = (task) => {
+  //   const payload = {
+  //     name: task.name,
+  //     description: task.description,
+  //     link: task.link,
+  //     image_url: task.image_url,
+  //     priority: task.priority,
+  //     priority: task.priority,
+  //     complete: !task.complete,
+  //     repeat: task.repeat,
+  //     due_date: task.due_date,
+  //     streak_count: task.streak_count,
+  //     category_id: task.category_id,
+  //     date: task.date,
+  //   };
+  //   // this.setState({
+  //   //   complete: !task.complete,
+  //   // });
+  //   this.props.dispatch({
+  //     type: 'UPDATE_TASK',
+  //     payload: payload,
+  //   });
+  //   console.log('in handleCheckboxChecked, idea.complete:', task.complete);
+  // };
+
+  handleCheckboxChecked = (task) => {
+    const payload = {
+      complete: !task.complete,
+      id: task.id,
+    };
     this.setState({
-      [propertyName]: event.target.value,
+      complete: !task.complete,
+      id: task.id,
     });
+    this.props.dispatch({
+      type: 'CHANGE_COMPLETE_STATUS_TASK',
+      payload: payload,
+    });
+    console.log('in handleCheckboxChecked, idea.complete:', task.complete);
+  };
+
+  // General Click Handler for Name, Description, Catagory, Link & Date, Due Date, Priority,Time
+  handleInputChangeFor = (propertyName) => (event) => {
+    this.setState({ [propertyName]: event.target.value });
     console.log(`in handleInputChangeFor ${propertyName}:`, event.target.value);
   };
 
@@ -392,7 +428,9 @@ class TasksPage extends Component {
                 </div>
               </FormControl>
               <FormControl className={classes.formControl}>
-                <InputLabel>Description</InputLabel>
+                <InputLabel>
+                  <SubjectIcon />
+                </InputLabel>
                 <Input
                   className={classes.descriptionInput}
                   multiline
@@ -404,7 +442,7 @@ class TasksPage extends Component {
               </FormControl>
               <FormControl className={classes.formControl}>
                 <InputLabel className={classes.categorySelector}>
-                  Category
+                  <CategoryIcon />
                 </InputLabel>
                 <Select
                   MenuProps={CategorySelectorProps}
@@ -421,28 +459,11 @@ class TasksPage extends Component {
                 <FormHelperText>
                   Required *
                   <span className={classes.invisibleText}>
-                    invisible text is here
+                    invisible text is
                   </span>
                 </FormHelperText>
               </FormControl>
-              <FormControl className={classes.formControl}>
-                <InputLabel className={classes.categorySelector}>
-                  Priority
-                </InputLabel>
-                <Select
-                  MenuProps={CategorySelectorProps}
-                  value={this.state.priority}
-                  // onChange={this.handleInputChangeFor('category_id')}
-                >
-                  <MenuItem value={'Daily'}>Low</MenuItem>
-                  <MenuItem value={'Weekly'}>Medium</MenuItem>
-                  <MenuItem value={'Monthly'}>High</MenuItem>
-                </Select>
-                <FormHelperText>
-                  Required *
-                  <span className={classes.invisibleText}>invisible text</span>
-                </FormHelperText>
-              </FormControl>
+
               {/* <FormControl className={classes.formControl}>
                 <InputLabel>
                   <RoomIcon />
@@ -465,53 +486,56 @@ class TasksPage extends Component {
                 <FormHelperText></FormHelperText>
               </FormControl> */}
               <FormControl className={classes.formControl}>
-                <InputLabel className={classes.linkInputField}>
+                <InputLabel className={classes.linkInputLabel}>
                   <LinkIcon />
                 </InputLabel>
                 <Input
-                  className={classes.descriptionInput}
+                  className={classes.linkInput}
                   value={this.state.link}
                   onChange={this.handleInputChangeFor('link')}
                 />
                 <FormHelperText></FormHelperText>
               </FormControl>
+              <FormControl className={classes.formControl}></FormControl>
               <FormControl className={classes.formControl}>
-                {/* <InputLabel>Image Url</InputLabel>
-            <Input
-              value={this.state.image_url}
-              onChange={this.handleInputImageUrl}
-            /> */}
+                <ImageUpload handleFinishedUpload={this.handleFinishedUpload} />
               </FormControl>
               <FormControl className={classes.formControl}>
-                <Button
-                  variant="contained"
-                  className={classes.uploadImageButton}
+                <InputLabel className={classes.categorySelector}>
+                  <PriorityHighIcon />
+                </InputLabel>
+                <Select
+                  MenuProps={CategorySelectorProps}
+                  value={this.state.priority}
+                  onChange={this.handleInputChangeFor('priority')}
                 >
-                  <ImageUpload
-                    handleFinishedUpload={this.handleFinishedUpload}
-                  />
-                </Button>
+                  <MenuItem value={'Low'}>Low</MenuItem>
+                  <MenuItem value={'Medium'}>Medium</MenuItem>
+                  <MenuItem value={'High'}>High</MenuItem>
+                </Select>
+                <FormHelperText>
+                  <span className={classes.invisibleText}>
+                    invisible is the w
+                  </span>
+                </FormHelperText>
               </FormControl>
               <FormControl className={classes.formControl}>
-                <InputLabel className={classes.dateLabel}> Duration</InputLabel>
-
-                <TimeInput
-                  mode="24h"
-                  okLabel="Duration"
-                  // value={this.state.time}
-                  // onChange={(time) => this.handleChange(time)}
-                />
+                <InputLabel className={classes.timeLabel}>Duration</InputLabel>
+                <TextField
+                  type="time"
+                  className={classes.timeInput}
+                  value={this.state.duration}
+                  onChange={this.handleInputChangeFor('duration')}
+                ></TextField>
               </FormControl>
               <FormControl className={classes.formControl}>
-                <InputLabel className={classes.dateLabel}> Due Date</InputLabel>
+                <InputLabel className={classes.dateLabel}>Due By</InputLabel>
                 <TextField
                   id="date"
-                  // label="Date"
                   type="datetime-local"
-                  value={this.state.end_date}
-                  onChange={this.handleInputChangeFor('end_date')}
-                  defaultValue={this.state.date}
-                  defaultValue={this.state.end_date}
+                  value={this.state.due_date}
+                  onChange={this.handleInputChangeFor('due_date')}
+                  defaultValue={this.state.due_date}
                   className={classes.dateField}
                   InputLabelProps={{
                     shrink: true,
@@ -562,13 +586,8 @@ class TasksPage extends Component {
                           className={classes.tableHeadCellLeft}
                           align="left"
                         >
+                          {JSON.stringify(this.state.complete)}
                           <CheckBoxIcon />
-                        </TableCell>
-                        <TableCell
-                          className={classes.tableHeadCell}
-                          align="left"
-                        >
-                          <CalendarTodayIcon />
                         </TableCell>
                         <TableCell className={classes.tableHeadCell}>
                           Name
@@ -577,13 +596,13 @@ class TasksPage extends Component {
                           className={classes.tableHeadCell}
                           align="left"
                         >
-                          Description
+                          <SubjectIcon />
                         </TableCell>
                         <TableCell
                           className={classes.tableHeadCell}
                           align="left"
                         >
-                          Category
+                          <CategoryIcon />
                         </TableCell>
                         <TableCell
                           className={classes.tableHeadCell}
@@ -597,7 +616,24 @@ class TasksPage extends Component {
                         >
                           <ImageIcon />
                         </TableCell>
-
+                        <TableCell
+                          className={classes.tableHeadCell}
+                          align="left"
+                        >
+                          <PriorityHighIcon />
+                        </TableCell>
+                        <TableCell
+                          className={classes.tableHeadCell}
+                          align="left"
+                        >
+                          <AccessTimeIcon />
+                        </TableCell>
+                        <TableCell
+                          className={classes.tableHeadCellDate}
+                          align="left"
+                        >
+                          <CalendarTodayIcon />
+                        </TableCell>
                         <TableCell
                           className={classes.tableHeadCellRight}
                           align="left"
@@ -615,6 +651,7 @@ class TasksPage extends Component {
                           handleFavoritedTaskClick={
                             this.handleFavoritedTaskClick
                           }
+                          handleCheckboxChecked={this.handleCheckboxChecked}
                         />
                       ))}
                     </TableBody>
