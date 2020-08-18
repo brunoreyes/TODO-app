@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import LogOutButton from '../LogOutButton/LogOutButton';
+// import LogOutButton from '../LogOutButton/LogOutButton';
 import './UserPage.css';
 import Nav from '../Nav/Nav';
 import Footer from '../Footer/Footer';
@@ -21,7 +21,6 @@ const styles = () => ({
     'background-color': '#53DD6C',
     '&:hover': {
       'background-color': '#161616',
-      // border: '#161616 solid 1px',
     },
     flexGrow: 1,
     height: 860,
@@ -30,7 +29,6 @@ const styles = () => ({
     'background-color': '#e53935',
     '&:hover': {
       'background-color': '#161616',
-      // border: '#161616 solid 1px',
     },
     flexGrow: 1,
     height: 860,
@@ -39,7 +37,6 @@ const styles = () => ({
     'background-color': 'gold',
     '&:hover': {
       'background-color': '#161616',
-      // border: '#161616 solid 1px',
     },
     flexGrow: 1,
     height: 860,
@@ -48,7 +45,6 @@ const styles = () => ({
     'background-color': '#33A1FD',
     '&:hover': {
       'background-color': '#161616',
-      // border: '#161616 solid 1px',
     },
     flexGrow: 1,
     height: 860,
@@ -56,89 +52,52 @@ const styles = () => ({
   blackKey: { 'background-color': '#fff', flexGrow: 1, height: 860 },
   checkboxIcon: {
     color: '#161616',
-    // justify: 'center',
-    // 'text-align': 'center',
     alignContent: 'center',
     alignItems: 'center',
-    // width: 'auto',
     width: '100%',
-    // height: '100%',
-    // 'text-align': 'center',
     margin: '90px auto 20px auto',
-    // border: '#161616 solid 1px',
-    // display: 'inline-block',
     'font-size': '500px',
     '&:hover': {
       color: '#53DD6C',
-      // border: '#161616 solid 1px',
     },
-    // display: 'block',
   },
   lightbulbIcon: {
     color: '#161616',
-    // justify: 'center',
-    // 'text-align': 'center',
     alignContent: 'center',
     alignItems: 'center',
-    // width: 'auto',
     width: '100%',
-    // height: '100%',
-    // 'text-align': 'center',
     margin: '90px auto 20px auto',
-    // border: '#161616 solid 1px',
-    // display: 'inline-block',
     'font-size': '500px',
     '&:hover': {
       color: 'gold',
-      // border: '#161616 solid 1px',
     },
-    // display: 'block',
   },
   bellIcon: {
     color: '#161616',
-    // justify: 'center',
-    // 'text-align': 'center',
     alignContent: 'center',
     alignItems: 'center',
-    // width: 'auto',
     width: '100%',
-    // height: '100%',
-    // 'text-align': 'center',
     margin: '90px auto 20px auto',
-    // border: '#161616 solid 1px',
-    // display: 'inline-block',
     'font-size': '500px',
     '&:hover': {
       color: '#e53935',
-      // border: '#161616 solid 1px',
     },
-    // display: 'block',
   },
   bubbleIcon: {
     color: '#161616',
-    // justify: 'center',
-    // 'text-align': 'center',
     alignContent: 'center',
     alignItems: 'center',
-    // width: 'auto',
     width: '100%',
-    // height: '100%',
-    // 'text-align': 'center',
     margin: '90px auto 20px auto',
-    // border: '#161616 solid 1px',
-    // display: 'inline-block',
     'font-size': '500px',
     '&:hover': {
       color: '#33A1FD',
-      // border: '#161616 solid 1px',
     },
-    // display: 'block',
   },
   welcome: {
     'text-align': 'center',
     margin: '0px 0px 0px 0px',
     font: '500 25px Montserrat, sans-serif',
-    // color: '#161616',
   },
 });
 class UserPage extends Component {

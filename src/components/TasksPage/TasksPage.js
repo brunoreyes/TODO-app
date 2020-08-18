@@ -131,7 +131,7 @@ const styles = (theme) => ({
     // font: font-weight font-size/line-height font-variant, font-stylefont
     font: 'small-caps 500 16px Montserrat, sans-serif',
     color: 'white',
-    padding: '18px 0% 18px 1%',
+    padding: '18px 10% 18px 1.5%',
     'background-color': '#161616',
   },
   tableHeadCell: {
@@ -149,7 +149,7 @@ const styles = (theme) => ({
   tableHeadCellRight: {
     font: '500 16px Montserrat, sans-serif',
     color: 'white',
-    padding: '18px 0px 18px 0%',
+    padding: '18px 0px 18px 1%',
     'background-color': '#161616',
   },
 });
@@ -299,8 +299,8 @@ class TasksPage extends Component {
         duration: this.state.duration,
         complete: this.state.complete,
         link: this.state.link,
-        date: this.state.date,
         due_date: this.state.due_date,
+        date: this.state.date,
         id: this.state.id,
       };
       console.log('In saveChangesClicked, payload:', payload);
@@ -337,31 +337,6 @@ class TasksPage extends Component {
       image_url: info.fileUrl,
     });
   };
-
-  // handleCheckboxChecked = (task) => {
-  //   const payload = {
-  //     name: task.name,
-  //     description: task.description,
-  //     link: task.link,
-  //     image_url: task.image_url,
-  //     priority: task.priority,
-  //     priority: task.priority,
-  //     complete: !task.complete,
-  //     repeat: task.repeat,
-  //     due_date: task.due_date,
-  //     streak_count: task.streak_count,
-  //     category_id: task.category_id,
-  //     date: task.date,
-  //   };
-  //   // this.setState({
-  //   //   complete: !task.complete,
-  //   // });
-  //   this.props.dispatch({
-  //     type: 'UPDATE_TASK',
-  //     payload: payload,
-  //   });
-  //   console.log('in handleCheckboxChecked, idea.complete:', task.complete);
-  // };
 
   handleCheckboxChecked = (task) => {
     const payload = {

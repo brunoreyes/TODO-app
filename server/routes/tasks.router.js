@@ -13,7 +13,7 @@ router.get('/', rejectUnauthenticated, (req, res) => {
   const displayQuery = `SELECT "tasks".*, "category"."name" AS "category" FROM "tasks"
 JOIN "category" on "tasks"."category_id" = "category"."id"
 WHERE user_id=$1
- ORDER BY "due_date" ASC;`;
+ ORDER BY "due_date" DESC;`;
   const queryValues = [req.user.id];
   console.log(`req.user.id:`, req.user.id);
 
@@ -109,7 +109,7 @@ router.put('/:id', rejectUnauthenticated, (req, res) => {
     req.body.streak_count,
     req.body.category_id,
     req.body.date,
-    req.user.id,
+    req.params.id,
   ];
 
   pool

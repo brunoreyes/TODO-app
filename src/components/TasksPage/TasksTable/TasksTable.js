@@ -87,7 +87,7 @@ const styles = (theme) => ({
   },
   collapseIcon: {
     'font-size': '30px',
-    padding: '17px 10px 0px 1px',
+    padding: '17px 10px 0px 10px',
     '&:hover': {
       color: '#1669aa',
     },
@@ -110,9 +110,11 @@ const styles = (theme) => ({
   },
   checkBoxIcon: {
     color: '#161616',
+    padding: '0px 0px 0px 0px',
   },
   checkBoxIconChecked: {
     color: '#161616',
+    padding: '0px 0px 0px 0px',
   },
   editIconLink: {
     '&:hover': {
@@ -123,7 +125,7 @@ const styles = (theme) => ({
   deleteIcon: {
     'margin-bottom': '5px',
     'font-size': '20px',
-    // padding: '0px 15px 0px 0px',
+    padding: '0px 15px 0px 0px',
     '&:hover': {
       color: '#e53935',
     },
