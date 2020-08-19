@@ -16,17 +16,17 @@ I created an application that allows users to:
 
 ## Screen Shots
 
-![Log In](/Users/brunoreyes/Desktop/Prime/Tier3/w14/TODO/public/images/login.png)
+![Log In](https://tinyurl.com/y2h564ht)
 
-![Landing](/Users/brunoreyes/Desktop/Prime/Tier3/w14/TODO/public/images/landing.png)
+![Landing](https://tinyurl.com/yxh6afn9)
 
-![New Idea](/Users/brunoreyes/Desktop/Prime/Tier3/w14/TODO/public/images/new idea.png)
+![New Idea](https://tinyurl.com/yxgquwcs)
 
-![Editing](/Users/brunoreyes/Desktop/Prime/Tier3/w14/TODO/public/images/editing an idea.png)
+![Editing](https://tinyurl.com/y4bdnsxy)
 
-![Checked](/Users/brunoreyes/Desktop/Prime/Tier3/w14/TODO/public/images/checked.png)
+![Checked](https://tinyurl.com/y3kfn4wf)
 
-![Expanded](/Users/brunoreyes/Desktop/Prime/Tier3/w14/TODO/public/images/expand.png)
+![Expanded](https://tinyurl.com/y4g63zje)
 
 ## Prerequisites
 
