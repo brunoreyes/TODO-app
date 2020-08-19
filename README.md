@@ -4,13 +4,13 @@
 
 I created an application that allows users to:
 
-- create, read, update, and delete tasks, reminders, ideas & memories (TRIM).
-- fill out customizable forms that take into account due dates, durtations, categories, priority and more!
-- view entries in a table format with an option to expand and view lengthy text and full images
-- Has an option to review feedback and if changes need to be made, users can update their info.
-- When feedback has been submitted, send & store the submission in a database.
-- Implement Material UI for buttons & input fields.
-- Pauses & guides a user's flow to fill out portions of the form that are incomplete.
+- Create, read, update, and delete tasks, reminders, ideas & memories (TRIM).
+- Fill out customizable forms that take into account due dates, durtations, categories, priority and more!
+- View entries in a table format with an option to expand and view lengthy text and full images
+- Edit previous entries to update information, dates and more!
+- When feedan entry has been submitted, send & store the submission in a database.
+- Intuitively navigate through a sound user expereince.
+- Search through entries by date, category, priority, and name.
 
 ### Duration: 2 Weeks
 
