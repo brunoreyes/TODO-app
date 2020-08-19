@@ -16,15 +16,27 @@ I created an application that allows users to:
 
 ## Screen Shots
 
+### Login
+
 ![Log In](https://tinyurl.com/y2h564ht)
+
+### Landing
 
 ![Landing](https://tinyurl.com/yxh6afn9)
 
+### Adding New Idea
+
 ![New Idea](https://tinyurl.com/yxgquwcs)
+
+### Editing Memory
 
 ![Editing](https://tinyurl.com/y4bdnsxy)
 
+### Checking off a Task
+
 ![Checked](https://tinyurl.com/y3kfn4wf)
+
+### Expanding a table row
 
 ![Expanded](https://tinyurl.com/y4g63zje)
 
