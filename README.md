@@ -1,115 +1,77 @@
-# Prime Project
-This version uses React, Redux, Express, Passport, and PostgreSQL (a full list of dependencies can be found in `package.json`).
+# TODO
 
-We **STRONGLY** recommend following these instructions carefully. It's a lot, and will take some time to set up, but your life will be much easier this way in the long run.
+## Project Description
 
-## Download (Don't Clone) This Repository
+I created an application that allows users to:
 
-* Don't Fork or Clone. Instead, click the `Clone or Download` button and select `Download Zip`.
-* Unzip the project and start with the code in that folder.
-* Create a new GitHub project and push this code to the new repository.
+- create, read, update, and delete tasks, reminders, ideas & memories (TRIM).
+- fill out customizable forms that take into account due dates, durtations, categories, priority and more!
+- view entries in a table format with an option to expand and view lengthy text and full images
+- Has an option to review feedback and if changes need to be made, users can update their info.
+- When feedback has been submitted, send & store the submission in a database.
+- Implement Material UI for buttons & input fields.
+- Pauses & guides a user's flow to fill out portions of the form that are incomplete.
+
+### Duration: 2 Weeks
+
+## Screen Shots
+
+![Log In](/Users/brunoreyes/Desktop/Prime/Tier3/w14/TODO/public/images/login.png)
+
+![Landing](/Users/brunoreyes/Desktop/Prime/Tier3/w14/TODO/public/images/landing.png)
+
+![New Idea](/Users/brunoreyes/Desktop/Prime/Tier3/w14/TODO/public/images/new idea.png)
+
+![Editing](/Users/brunoreyes/Desktop/Prime/Tier3/w14/TODO/public/images/editing an idea.png)
+
+![Checked](/Users/brunoreyes/Desktop/Prime/Tier3/w14/TODO/public/images/checked.png)
+
+![Expanded](/Users/brunoreyes/Desktop/Prime/Tier3/w14/TODO/public/images/expand.png)
 
 ## Prerequisites
 
-Before you get started, make sure you have the following software installed on your computer:
+- Create an SQL Database
+- Set Up a Server
+- Install Nodemon and Node.js
 
-- [Node.js](https://nodejs.org/en/)
-- [PostrgeSQL](https://www.postgresql.org/)
-- [Nodemon](https://nodemon.io/)
+## Installation
 
-## Create database and table
+    1. Create a database using SQL
+    2. Open up your editor of choice and run:
+    - npm install
+    - npm install redux react-redux redux-logger react-router-dom
+    - npm install @material-ui/core, @material-ui/icons, react-reveal
 
-Create a new database called `prime_app` and create a `user` table:
+    3. Run npm run server in your terminal
+    4. Run npm run client in your terminal
 
-```SQL
-CREATE TABLE "user" (
-    "id" SERIAL PRIMARY KEY,
-    "username" VARCHAR (80) UNIQUE NOT NULL,
-    "password" VARCHAR (1000) NOT NULL
-);
-```
+## Usage
 
-If you would like to name your database something else, you will need to change `prime_app` to the name of your new database name in `server/modules/pool.js`
+1. Create a task, reminder, idea or memory by filling out customized forms and pressing the 'add' button to add the task, reminder, idea or memory to your table below.
+2. Be able to go back and change answers using 'edit button' button.
+3. Store task, reminder, idea and memory submissions into a database.
+4. Be able to check off tasks, notify users of upcoming reminders and task, favorite ideas and memories and add images and lengthy text.
 
-## Development Setup Instructions
+## Built With
 
-* Run `npm install`
-* Create a `.env` file at the root of the project and paste this line into the file:
-    ```
-    SERVER_SESSION_SECRET=superDuperSecret
-    ```
-    While you're in your new `.env` file, take the time to replace `superDuperSecret` with some long random string like `25POUbVtx6RKVNWszd9ERB9Bb6` to keep your application secure. Here's a site that can help you: [https://passwordsgenerator.net/](https://passwordsgenerator.net/). If you don't do this step, create a secret with less than eight characters, or leave it as `superDuperSecret`, you will get a warning.
-* Start postgres if not running already by using `brew services start postgresql`
-* Run `npm run server`
-* Run `npm run client`
-* Navigate to `localhost:3000`
+- Node.Js
+- Express
+- React
+- JavaScript
+- SQL
+- CSS
+- Redux
+- Sagas
+- Axios
+- Passport
+- AWS S3 Image Uploader
+- Material UI
+- Postman
 
-## Debugging
+## Acknowledgement
 
-To debug, you will need to run the client-side separately from the server. Start the client by running the command `npm run client`. Start the debugging server by selecting the Debug button.
+Thanks to the Paxos Cohort and special thanks to Carl Wilcoxon for critical feedback on database architecture.
 
-![VSCode Toolbar](documentation/images/vscode-toolbar.png)
+## Support
 
-Then make sure `Launch Program` is selected from the dropdown, then click the green play arrow.
-
-![VSCode Debug Bar](documentation/images/vscode-debug-bar.png)
-
-
-## Testing Routes with Postman
-
-To use Postman with this repo, you will need to set up requests in Postman to register a user and login a user at a minimum. 
-
-Keep in mind that once you using the login route, Postman will manage your session cookie for you just like a browser, ensuring it is sent with each subsequent request. If you delete the `localhost` cookie in Postman, it will effectively log you out.
-
-1. Start the server - `npm run server`
-2. [Import the sample routes JSON file](./PostmanPrimeSoloRoutes.json) by clicking `Import` in Postman. Select the file.
-3. Click `Collections` and `Send` the following three calls in order:
-    1. `POST /api/user/register` registers a new user, see body to change username/password
-    2. `POST /api/user/login` will login a user, see body to change username/password
-    3. `GET /api/user` will get user information, by default it's not very much
-
-After running the login route above, you can try any other route you've created that requires a logged in user!
-
-
-## Production Build
-
-Before pushing to Heroku, run `npm run build` in terminal. This will create a build folder that contains the code Heroku will be pointed at. You can test this build by typing `npm start`. Keep in mind that `npm start` will let you preview the production build but will **not** auto update.
-
-* Start postgres if not running already by using `brew services start postgresql`
-* Run `npm start`
-* Navigate to `localhost:5000`
-
-## Lay of the Land
-
-* `src/` contains the React application
-* `public/` contains static assets for the client-side
-* `build/` after you build the project, contains the transpiled code from `src/` and `public/` that will be viewed on the production site
-* `server/` contains the Express App
-
-This code is also heavily commented. We recommend reading through the comments, getting a lay of the land, and becoming comfortable with how the code works before you start making too many changes. If you're wondering where to start, consider reading through component file comments in the following order:
-
-* src/components
-  * App/App
-  * Footer/Footer
-  * Nav/Nav
-  * AboutPage/AboutPage
-  * InfoPage/InfoPage
-  * UserPage/UserPage
-  * LoginPage/LoginPage
-  * RegisterPage/RegisterPage
-  * LogOutButton/LogOutButton
-  * ProtectedRoute/ProtectedRoute
-
-## Deployment
-
-1. Create a new Heroku project
-1. Link the Heroku project to the project GitHub Repo
-1. Create an Heroku Postgres database
-1. Connect to the Heroku Postgres database from Postico
-1. Create the necessary tables
-1. Add an environment variable for `SERVER_SESSION_SECRET` with a nice random string for security
-1. In the deploy section, select manual deploy
-
-## Update Documentation
-
-Customize this ReadMe and the code comments in this project to read less like a starter repo and more like a project. Here is an example: https://gist.github.com/PurpleBooth/109311bb0361f32d87a2
+If you have any suggestions or questions, please email me at bruno619reyes@gmail.com . I enjoy getting to meet new people so feel free to reach out.
