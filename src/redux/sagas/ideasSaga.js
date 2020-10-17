@@ -1,6 +1,7 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
 
+//Display ideas
 function* getIdeas() {
   try {
     const config = {
@@ -19,7 +20,7 @@ function* getIdeas() {
     console.log('Trouble getting ideas to display', error);
   }
 }
-// update user input changes
+// update user inputted changes to an idea
 function* editIdea(action) {
   try {
     // Make sure to debug one at a time, comment out all but one
@@ -40,9 +41,6 @@ function* addIdea(action) {
   try {
     yield axios.post('/api/ideas', action.payload);
     console.log('response from /api/ideas post', action.payload);
-    // console.log(action.payload);
-
-    //call refresh of Get Data list
     yield put({ type: 'FETCH_IDEAS' });
   } catch (error) {
     console.log('Error with user logout:', error);
@@ -51,7 +49,6 @@ function* addIdea(action) {
 
 function* deleteIdea(action) {
   try {
-    // const response =
     yield axios.delete(`/api/ideas/${action.payload}`);
     console.log('response from /api/ideas delete', action.payload);
     //call refresh of Get Data list

@@ -29,6 +29,7 @@ class ImageUpload extends Component {
     };
     const s3Url = 'http://brunobucket.s3.amazonaws.com';
 
+    // here we are returning the uploader which has the image icon embedded into it.
     return (
       <DropzoneS3Uploader
         children={<ImageIcon style={imageIcon} />}

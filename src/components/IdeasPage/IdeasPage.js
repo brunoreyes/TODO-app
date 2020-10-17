@@ -15,9 +15,7 @@ import {
   FormHelperText,
   Select,
   MenuItem,
-  // TextField,
   Button,
-  // IconButton,
 } from '@material-ui/core';
 import StarIcon from '@material-ui/icons/Star';
 import EmojiObjectsIcon from '@material-ui/icons/EmojiObjects';
@@ -76,9 +74,6 @@ const styles = (theme) => ({
       'background-color': '#161616',
     },
   },
-  // dateField: {
-  //   marginTop: '15px',
-  // },
   descriptionInput: { width: '250px' },
   categorySelector: { marginTop: '0px' },
   linkInputField: { marginTop: '-5px' },
@@ -165,7 +160,6 @@ class IdeasPage extends Component {
   componentDidMount() {
     this.props.dispatch({ type: 'FETCH_IDEAS' });
     this.props.dispatch({ type: 'FETCH_CATEGORIES' });
-    // this.props.dispatch({ type: 'FETCH_FAVORITE' });
   }
 
   state = {
@@ -178,7 +172,7 @@ class IdeasPage extends Component {
     date: '',
     due_date: '',
     duration: '',
-    favorited: false,
+    favorited: false, //toggle state to show if item is favorited or not
     editmode: false,
     inputmode: false,
     readyToSendMode: true,

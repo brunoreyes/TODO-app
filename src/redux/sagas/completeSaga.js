@@ -1,6 +1,7 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
 
+// Here is how a checkbox is checked and the task row is highlighted green
 function* completeTask(action) {
   try {
     // Make sure to debug one at a time, comment out all but one

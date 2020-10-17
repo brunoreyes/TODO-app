@@ -443,27 +443,6 @@ class TasksPage extends Component {
                   </FormHelperText>
                 </FormControl>
 
-                {/* <FormControl className={classes.formControl}>
-                <InputLabel>
-                  <RoomIcon />
-                </InputLabel>
-                <Input
-                  className={classes.descriptionInput}
-                  multiline
-                  type="text"
-                  size="50"
-                  id="searchTextField"
-                  // ref={autoCompleteRef}
-                  // onChange={(event) => setQuery(event.target.value)}
-                  // placeholder="Enter a City"
-                  // value={query}
-                  onClick={this.handleLocationClick}
-                  // rowsMax={3}
-                  // value={this.state.description}
-                  // onChange={this.handleInputChangeFor('description')}
-                />
-                <FormHelperText></FormHelperText>
-              </FormControl> */}
                 <FormControl className={classes.formControl}>
                   <InputLabel className={classes.linkInputLabel}>
                     <LinkIcon />

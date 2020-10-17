@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 
-// loginMessage holds the string that will display
+// the variable loginMessage holds the string that will display
 // on the login screen if there's an error
 const loginMessage = (state = '', action) => {
   switch (action.type) {

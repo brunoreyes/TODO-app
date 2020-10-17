@@ -1,6 +1,7 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
 
+
 function* favoriteIdea(action) {
   try {
     // Make sure to debug one at a time, comment out all but one

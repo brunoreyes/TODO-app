@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { takeLatest } from 'redux-saga/effects';
 
-// worker Saga: will be fired on "FETCH_USER" actions
+// HEre we postImageUrl if there was one to capture
 function* postImageUrl(action) {
   try {
     const config = {
@@ -13,11 +13,10 @@ function* postImageUrl(action) {
       imageUrl: action.payload,
     };
     console.log('data:', data, 'config:', config);
-
     const response = yield axios.post('/api/imageurl', data, config);
     console.log(response);
 
-    //   After post comes back successful do a get
+    // After post comes back successful do a get
   } catch (error) {
     console.log('Image URL post failed:', error);
   }
